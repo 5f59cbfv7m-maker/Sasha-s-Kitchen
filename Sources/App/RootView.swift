@@ -9,6 +9,8 @@ struct RootView: View {
     /// без ручных нажатий:
     ///   xcrun simctl launch <device> com.kirillrychkov.FridgeOracle -startTab recipes
     @State private var selection: TabID = .initial
+    /// Заставка при холодном старте; при возврате из фона не показывается.
+    @State private var showIntro = !IntroView.isSkipped
 
     enum TabID: String, CaseIterable {
         case fridge, shopping, recipes, log, settings
@@ -64,5 +66,11 @@ struct RootView: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+        .overlay {
+            if showIntro {
+                IntroView { withAnimation(.easeOut(duration: 0.45)) { showIntro = false } }
+                    .transition(.opacity)
+            }
+        }
     }
 }
