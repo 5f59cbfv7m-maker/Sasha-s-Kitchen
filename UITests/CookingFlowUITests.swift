@@ -3,6 +3,10 @@ import XCTest
 /// Сквозная проверка главного сценария: открыть рецепт, приготовить, увидеть
 /// уменьшившийся остаток. Заодно снимает экраны, до которых нельзя добраться
 /// без нажатий, и складывает PNG в контейнер раннера.
+///
+/// XCUIApplication и XCUIElement с Xcode 27 помечены @MainActor, поэтому
+/// класс тоже на главном акторе — иначе каждый вызов даёт предупреждение.
+@MainActor
 final class CookingFlowUITests: XCTestCase {
 
     override func setUp() {
@@ -14,7 +18,7 @@ final class CookingFlowUITests: XCTestCase {
         // вкладки под шеврон «ещё», и до них не дотянуться прямым запросом.
         XCUIDevice.shared.orientation = .landscapeLeft
         let app = XCUIApplication()
-        app.launchArguments += ["-startTab", tab]
+        app.launchArguments += ["-startTab", tab, "-resetData", "YES"]
         app.launch()
         return app
     }
@@ -47,8 +51,7 @@ final class CookingFlowUITests: XCTestCase {
     /// В свёрнутой панели вкладка — Button, в развёрнутом боковом меню — Cell,
     /// и у «Для покупки» к подписи приклеен счётчик («Для покупки, 10»).
     private func tap(_ name: String, in app: XCUIApplication, timeout: TimeInterval) -> Bool {
-        // NSPredicate не Sendable, а таргет собран без изоляции по умолчанию.
-        nonisolated(unsafe) let predicate = NSPredicate(
+        let predicate = NSPredicate(
             format: "label == %@ OR label BEGINSWITH %@", name, name + ",")
         let deadline = Date().addingTimeInterval(timeout)
         repeat {

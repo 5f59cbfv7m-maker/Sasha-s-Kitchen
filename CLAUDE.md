@@ -61,6 +61,13 @@ xcodebuild -project FridgeOracle.xcodeproj -scheme FridgeOracle \
 `Sequence.total` в `Nutrition.swift`), тоже должно быть помечено `nonisolated`.
 UI-тесты собираются с `SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated` — `XCTestCase`
 объявляет `init` и `setUp` неизолированными, и переопределить их иначе нельзя.
+С Xcode 27 `XCUIApplication`/`XCUIElement` помечены `@MainActor`, поэтому сам
+класс теста помечен `@MainActor` — иначе каждый вызов даёт предупреждение.
+
+**База переживает переустановку приложения на симуляторе.** Тест готовки
+списывает молоко, омлет перестаёт быть «готовым», уезжает вниз сетки и
+пропадает из дерева доступности — второй прогон на том же симуляторе падал.
+Поэтому UI-тесты запускают приложение с `-resetData YES` (см. ниже).
 
 **`String.hashValue` солится на каждый запуск процесса.** Для цветов, картинок и
 любых «стабильных» выборок использовать `stableHash` из `Support/Formatters.swift`,
@@ -98,13 +105,14 @@ UI-тесты собираются с `SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolat
 ## Отладочная лазейка
 
 `-startTab <fridge|shopping|recipes|log|settings>` в аргументах запуска
-открывает приложение сразу на нужной вкладке:
+открывает приложение сразу на нужной вкладке, `-resetData YES` — стирает базу
+и раскладывает стартовые данные заново:
 
 ```bash
 xcrun simctl launch <udid> com.kirillrychkov.FridgeOracle -startTab recipes
 ```
 
-Нужна для скриншотов и UI-тестов; в обычной работе ключ никем не выставляется.
+Нужны для скриншотов и UI-тестов; в обычной работе ключи никем не выставляются.
 
 ## Расхождение с исходными данными
 
