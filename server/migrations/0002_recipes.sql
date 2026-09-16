@@ -254,10 +254,17 @@ CREATE INDEX recipes_feed_new_idx ON recipes (published_at DESC, id DESC)
 CREATE INDEX recipes_feed_popular_idx ON recipes (import_count DESC, id DESC)
     WHERE status = 'published' AND deleted_at IS NULL;
 
-CREATE INDEX recipes_feed_rating_idx ON recipes (rating_avg DESC NULLS LAST, rating_count DESC, id DESC)
+-- Keyset pagination compares (sort_key, id) as a row, so both columns must sort
+-- in the SAME direction or the comparison stops matching the index.
+-- "Top rated" ranks only recipes that actually have ratings, which also keeps
+-- rating_avg non-NULL and the cursor comparison total.
+CREATE INDEX recipes_feed_rating_idx ON recipes (rating_avg DESC, id DESC)
+    WHERE status = 'published' AND deleted_at IS NULL AND rating_count > 0;
+
+CREATE INDEX recipes_feed_quick_idx ON recipes (cook_time_minutes ASC, id ASC)
     WHERE status = 'published' AND deleted_at IS NULL;
 
-CREATE INDEX recipes_feed_quick_idx ON recipes (cook_time_minutes ASC, id DESC)
+CREATE INDEX recipes_feed_light_idx ON recipes (kcal_per_serving ASC, id ASC)
     WHERE status = 'published' AND deleted_at IS NULL;
 
 CREATE INDEX recipes_search_idx ON recipes USING gin (search_vector)
