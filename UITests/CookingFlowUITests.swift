@@ -13,12 +13,14 @@ final class CookingFlowUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    private func launch(tab: String) -> XCUIApplication {
+    private func launch(tab: String, intro: Bool = false) -> XCUIApplication {
         // Ландшафт: в портрете на 11" панель вкладок сворачивает последние
         // вкладки под шеврон «ещё», и до них не дотянуться прямым запросом.
         XCUIDevice.shared.orientation = .landscapeLeft
         let app = XCUIApplication()
         app.launchArguments += ["-startTab", tab, "-resetData", "YES"]
+        // Заставка перехватывает тапы, поэтому сценарии идут без неё.
+        if !intro { app.launchArguments += ["-skipIntro", "YES"] }
         app.launch()
         return app
     }
@@ -120,6 +122,16 @@ final class CookingFlowUITests: XCTestCase {
                           "приложение упало на вкладке «\(tab)»")
         }
         save(app, as: "ui-06-settings")
+    }
+
+    func testIntroPlaysAndGivesWayToApp() {
+        let app = launch(tab: "fridge", intro: true)
+        let intro = app.buttons["Заставка Sasha’s Kitchen"]
+        XCTAssertTrue(intro.waitForExistence(timeout: 20), "заставка не показалась")
+        save(app, as: "ui-08-intro")
+        XCTAssertTrue(intro.waitForNonExistence(timeout: 10), "заставка не ушла сама")
+        XCTAssertTrue(app.buttons["Добавить продукт"].firstMatch.waitForExistence(timeout: 5),
+                      "после заставки нет холодильника")
     }
 
     func testAddProductFormOpens() {

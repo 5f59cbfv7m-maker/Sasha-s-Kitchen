@@ -17,7 +17,7 @@ xcodebuild -project FridgeOracle.xcodeproj -scheme FridgeOracle \
 ```
 
 `DEVELOPER_DIR` нужен, пока `xcode-select` указывает на Command Line Tools.
-**32 модульных теста в 6 наборах и 3 UI-теста должны проходить** до того, как
+**32 модульных теста в 6 наборах и 4 UI-теста должны проходить** до того, как
 изменение считается готовым. В выводе искать `Test run with`: xcodebuild топит
 результат в шуме, а `CoreData: error:` при запуске тестов — безобидный лог
 создания контейнера, а не сбой.
@@ -106,7 +106,8 @@ UI-тесты собираются с `SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolat
 
 `-startTab <fridge|shopping|recipes|log|settings>` в аргументах запуска
 открывает приложение сразу на нужной вкладке, `-resetData YES` — стирает базу
-и раскладывает стартовые данные заново:
+и раскладывает стартовые данные заново, `-skipIntro YES` — убирает заставку
+(она перехватывает тапы, поэтому UI-тесты запускаются с ним):
 
 ```bash
 xcrun simctl launch <udid> com.kirillrychkov.FridgeOracle -startTab recipes
