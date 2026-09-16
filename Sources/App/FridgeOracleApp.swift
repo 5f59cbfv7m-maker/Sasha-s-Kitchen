@@ -13,7 +13,14 @@ struct FridgeOracleApp: App {
         } catch {
             fatalError("Не удалось открыть базу SwiftData: \(error)")
         }
-        SeedLoader.loadIfNeeded(into: container.mainContext)
+        // `-resetData YES` в аргументах запуска стирает базу и раскладывает
+        // стартовые данные заново — UI-тестам нужен одинаковый холодильник
+        // на каждом прогоне, а база переживает переустановку приложения.
+        if UserDefaults.standard.bool(forKey: "resetData") {
+            SeedLoader.reset(container.mainContext)
+        } else {
+            SeedLoader.loadIfNeeded(into: container.mainContext)
+        }
         Feedback.shared.warmUp()
     }
 

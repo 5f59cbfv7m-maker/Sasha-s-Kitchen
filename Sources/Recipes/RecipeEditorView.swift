@@ -55,9 +55,11 @@ struct RecipeEditorView: View {
                             .clipShape(.rect(cornerRadius: 12))
                             .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
                     }
+                    // Замыкание-подпись у PhotosPicker — @Sendable (SDK iOS 27),
+                    // поэтому состояние вью в него не тащим.
+                    let pickerTitle = photoData == nil ? "Выбрать фото" : "Заменить фото"
                     PhotosPicker(selection: $photoItem, matching: .images) {
-                        Label(photoData == nil ? "Выбрать фото" : "Заменить фото",
-                              systemImage: "photo.on.rectangle")
+                        Label(pickerTitle, systemImage: "photo.on.rectangle")
                     }
                     if photoData != nil {
                         Button(role: .destructive) {
