@@ -267,3 +267,34 @@ func appendRange(where []string, a *argset, column string, r Range) []string {
 	}
 	return where
 }
+
+// buildOne fetches a single card by id or slug, reusing the same projection and
+// visibility rules as the feed so a detail page can never show something the
+// listing would have hidden.
+func buildOne(idOrSlug, viewerID string) (string, []any) {
+	a := &argset{}
+	key := a.next(idOrSlug)
+
+	where := []string{
+		"r.status = 'published'",
+		"r.deleted_at IS NULL",
+		"u.status = 'active'",
+		// A uuid cast on a non-uuid string raises, so the id arm is guarded by
+		// a shape test rather than relying on the planner's evaluation order.
+		fmt.Sprintf("(r.slug = %s OR (%s ~ '^[0-9a-fA-F-]{36}$' AND r.id = %s::uuid))",
+			key, key, key),
+	}
+	if viewerID != "" {
+		where = append(where, fmt.Sprintf(
+			"NOT EXISTS (SELECT 1 FROM user_blocks b WHERE b.blocker_id = %s AND b.blocked_id = r.author_id)",
+			a.next(viewerID)))
+	}
+
+	return fmt.Sprintf(`
+    SELECT %s,
+           0::real AS rank
+      FROM recipes r
+      JOIN users u ON u.id = r.author_id%s
+     WHERE %s
+     LIMIT 1`, selectColumns, heroJoin, strings.Join(where, "\n       AND ")), a.vals
+}

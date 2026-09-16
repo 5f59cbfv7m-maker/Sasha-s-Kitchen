@@ -117,3 +117,11 @@ func DecodeJSON(w http.ResponseWriter, r *http.Request, dst any, maxBytes int64)
 	}
 	return nil
 }
+
+// LogWarn records a non-fatal failure: work that did not succeed but must not
+// fail the request, such as a metric write.
+func LogWarn(r *http.Request, msg string, err error) {
+	slog.WarnContext(r.Context(), msg,
+		slog.String("path", r.URL.Path),
+		slog.Any("error", err))
+}

@@ -306,3 +306,28 @@ func uuidString(u pgtype.UUID) string {
 	}
 	return string(out)
 }
+
+// ListOne returns a single card by id or slug, or nil when it is not visible to
+// this viewer. It shares buildOne's projection with the feed so detail and
+// listing can never disagree about visibility.
+func (r *Repo) ListOne(ctx context.Context, _ Query, idOrSlug, viewerID string) (*Card, error) {
+	sql, args := buildOne(idOrSlug, viewerID)
+
+	rows, err := r.pool.Query(ctx, sql, args...)
+	if err != nil {
+		return nil, fmt.Errorf("search: list one: %w", err)
+	}
+	defer rows.Close()
+
+	if !rows.Next() {
+		if err := rows.Err(); err != nil {
+			return nil, fmt.Errorf("search: list one: %w", err)
+		}
+		return nil, nil
+	}
+	card, err := scanCard(rows, r.media)
+	if err != nil {
+		return nil, err
+	}
+	return &card, nil
+}
