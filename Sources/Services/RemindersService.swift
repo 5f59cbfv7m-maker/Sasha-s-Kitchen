@@ -17,7 +17,7 @@ final class RemindersService {
         var errorDescription: String? {
             switch self {
             case .accessDenied:
-                "Нет доступа к Напоминаниям. Разрешите его в Настройках → Оракул холодильника."
+                "Нет доступа к Напоминаниям. Разрешите его в Настройках → Sasha’s Kitchen."
             case .noSource:
                 "Не нашёлся ни один аккаунт Напоминаний, куда можно записать список."
             case .underlying(let message):
