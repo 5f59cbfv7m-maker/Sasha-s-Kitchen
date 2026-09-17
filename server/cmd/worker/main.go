@@ -1,0 +1,88 @@
+// Command worker drains the background job queue: media transcoding today,
+// whatever else is queued later.
+//
+// It is a separate process from the API because transcoding is CPU-bound and
+// must not compete with request handling. Scale it independently by running
+// more copies; the queue claims with FOR UPDATE SKIP LOCKED, so several
+// workers never take the same job.
+package main
+
+import (
+	"context"
+	"log/slog"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/config"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/media"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/objstore"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/observability"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
+)
+
+func main() {
+	if err := run(); err != nil {
+		slog.Error("fatal", slog.Any("error", err))
+		os.Exit(1)
+	}
+}
+
+func run() error {
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	cfg, err := config.Load()
+	if err != nil {
+		return err
+	}
+	logger := observability.NewLogger(cfg.Env, os.Getenv("LOG_LEVEL"))
+	slog.SetDefault(logger)
+
+	pool, err := postgres.NewPool(ctx, cfg.Postgres)
+	if err != nil {
+		return err
+	}
+	defer pool.Close()
+
+	blobs, err := objstore.New(cfg.Storage)
+	if err != nil {
+		// Unlike the API, the worker has nothing useful to do without storage.
+		return err
+	}
+
+	// The worker id lands in jobs.locked_by, so a stuck job can be traced back
+	// to the process that claimed it.
+	id, _ := os.Hostname()
+	if id == "" {
+		id = "worker"
+	}
+	if pid := os.Getpid(); pid > 0 {
+		id = id + "-" + itoa(pid)
+	}
+
+	w := media.NewWorker(id, media.NewRepo(pool), blobs, media.NewQueue(pool),
+		&media.FFmpegTranscoder{}, logger)
+
+	logger.Info("worker started", slog.String("id", id), slog.String("env", cfg.Env))
+	if err := w.Run(ctx); err != nil {
+		return err
+	}
+	logger.Info("worker stopped cleanly")
+	return nil
+}
+
+// itoa avoids pulling strconv in for one conversion.
+func itoa(n int) string {
+	if n == 0 {
+		return "0"
+	}
+	var buf [20]byte
+	i := len(buf)
+	for n > 0 {
+		i--
+		buf[i] = byte('0' + n%10)
+		n /= 10
+	}
+	return string(buf[i:])
+}

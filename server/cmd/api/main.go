@@ -12,10 +12,13 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/auth"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/bundle"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/cache"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/config"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/httpx"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/media"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/objstore"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/observability"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/search"
@@ -55,11 +58,31 @@ func run() error {
 	}
 
 	redis := cache.New(ctx, cfg.Redis)
-	media := cdnResolver{base: strings.TrimRight(cfg.Storage.PublicCDN, "/")}
 
-	searchRepo := search.NewRepo(pool, media)
-	storeRepo := storefront.NewRepo(pool, searchRepo, media)
+	// Object storage is optional in development: without S3 credentials the
+	// API still serves the storefront, it just cannot accept uploads.
+	blobs, err := objstore.New(cfg.Storage)
+	if err != nil {
+		logger.Warn("object storage unavailable; media uploads disabled",
+			slog.Any("error", err))
+		blobs = nil
+	}
+
+	var mediaURLs search.MediaURLResolver = cdnResolver{
+		base: strings.TrimRight(cfg.Storage.PublicCDN, "/"),
+	}
+	if blobs != nil {
+		mediaURLs = blobs
+	}
+
+	searchRepo := search.NewRepo(pool, mediaURLs)
+	storeRepo := storefront.NewRepo(pool, searchRepo, mediaURLs)
 	bundleRepo := bundle.NewRepo(pool)
+
+	authRepo := auth.NewRepo(pool)
+	authSvc := auth.NewService(authRepo, cfg.Auth, auth.ServiceOptions{})
+	authenticator := auth.NewAuthenticator(authSvc.Tokens(), authRepo)
+	authHandlers := auth.NewHandlers(authSvc, authenticator)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
@@ -79,15 +102,32 @@ func run() error {
 		_, _ = w.Write([]byte("ready"))
 	})
 
-	// TODO(auth): replace with auth.UserFrom once the auth package lands. Until
-	// then every caller is anonymous, which is correct for a read-only preview.
-	viewer := func(*http.Request) string { return "" }
+	// The storefront is browsable anonymously, so identity is attached when a
+	// token is present and the request proceeds regardless when it is not.
+	viewer := func(r *http.Request) string {
+		if id, ok := auth.UserFrom(r.Context()); ok {
+			return id.UserID.String()
+		}
+		return ""
+	}
 
+	authHandlers.Routes(mux)
 	api := storefront.NewAPI(pool, searchRepo, storeRepo, bundleRepo, redis, viewer, cfg.FeedCacheTTL)
 	api.Routes(mux)
 
+	if blobs != nil {
+		mediaRepo := media.NewRepo(pool)
+		mediaAPI := media.NewAPI(
+			media.NewService(mediaRepo, blobs, media.NewQueue(pool)), mediaRepo, blobs)
+		mediaAPI.Routes(mux)
+	}
+
 	handler := httpx.Chain(mux,
 		httpx.RequestID(),
+		// Optional auth runs outermost so every downstream handler sees an
+		// identity when one was supplied, without ever rejecting an
+		// anonymous caller.
+		authenticator.Optional(),
 		httpx.Recover(logger),
 		httpx.AccessLog(logger),
 		httpx.SecurityHeaders(),
