@@ -110,6 +110,23 @@ func (r *Repo) Front(ctx context.Context, viewerID string, perShelf int) (Front,
 	}
 
 	front := Front{Shelves: []Shelf{}}
+
+	// "New from authors you follow" leads the page when it has anything in it.
+	// It is the shelf that makes following worth doing, so it goes above the
+	// editorial ones rather than below.
+	if viewerID != "" {
+		items, err := r.search.ListFollowed(ctx, viewerID, 3, perShelf)
+		if err != nil {
+			return Front{}, fmt.Errorf("storefront: followed shelf: %w", err)
+		}
+		if len(items) > 0 {
+			front.Shelves = append(front.Shelves, Shelf{
+				Slug: "following", Title: "Новое у тех, на кого вы подписаны",
+				Kind: "shelf", Items: items,
+			})
+		}
+	}
+
 	for _, c := range collections {
 		q := search.Query{
 			Access:       search.AccessAny,

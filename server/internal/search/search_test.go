@@ -321,3 +321,105 @@ func contains(haystack []string, needle string) bool {
 	}
 	return false
 }
+
+// TestListFollowedCapsPerAuthor: the shelf exists to show what the people you
+// follow have been cooking, so one prolific author must not fill it. The cap is
+// also what keeps the query fast -- without it the plan reads every recipe by
+// every followed author and sorts the lot.
+func TestListFollowedCapsPerAuthor(t *testing.T) {
+	pool := testPool(t)
+	seedFixtures(t, pool)
+	repo := NewRepo(pool, stubResolver{})
+	ctx := context.Background()
+
+	var anna, boris, reader string
+	if err := pool.QueryRow(ctx, `SELECT id::text FROM users WHERE handle='chef_anna'`).Scan(&anna); err != nil {
+		t.Fatalf("anna: %v", err)
+	}
+	if err := pool.QueryRow(ctx, `SELECT id::text FROM users WHERE handle='chef_boris'`).Scan(&boris); err != nil {
+		t.Fatalf("boris: %v", err)
+	}
+	if err := pool.QueryRow(ctx, `
+		INSERT INTO users (handle, display_name) VALUES ('follower_one','Подписчик')
+		RETURNING id::text`).Scan(&reader); err != nil {
+		t.Fatalf("reader: %v", err)
+	}
+	for _, author := range []string{anna, boris} {
+		if _, err := pool.Exec(ctx,
+			`INSERT INTO follows (follower_id, author_id) VALUES ($1::uuid, $2::uuid)`,
+			reader, author); err != nil {
+			t.Fatalf("follow: %v", err)
+		}
+	}
+
+	items, err := repo.ListFollowed(ctx, reader, 1, 20)
+	if err != nil {
+		t.Fatalf("ListFollowed: %v", err)
+	}
+	perAuthor := map[string]int{}
+	for _, c := range items {
+		perAuthor[c.Author.Handle]++
+	}
+	for handle, n := range perAuthor {
+		if n > 1 {
+			t.Errorf("%s contributed %d recipes despite a cap of 1", handle, n)
+		}
+	}
+	if len(perAuthor) < 2 {
+		t.Errorf("shelf covers %d authors, want both followed ones", len(perAuthor))
+	}
+
+	// Someone who follows nobody gets an empty shelf, not everyone's recipes.
+	var stranger string
+	if err := pool.QueryRow(ctx, `
+		INSERT INTO users (handle, display_name) VALUES ('follows_nobody','Никого')
+		RETURNING id::text`).Scan(&stranger); err != nil {
+		t.Fatalf("stranger: %v", err)
+	}
+	empty, err := repo.ListFollowed(ctx, stranger, 3, 20)
+	if err != nil {
+		t.Fatalf("ListFollowed: %v", err)
+	}
+	if len(empty) != 0 {
+		t.Errorf("a reader following nobody got %d recipes", len(empty))
+	}
+}
+
+// TestListFollowedHonoursBlocks: blocking must silence an author everywhere,
+// including a shelf built from an older subscription.
+func TestListFollowedHonoursBlocks(t *testing.T) {
+	pool := testPool(t)
+	seedFixtures(t, pool)
+	repo := NewRepo(pool, stubResolver{})
+	ctx := context.Background()
+
+	var anna, reader string
+	if err := pool.QueryRow(ctx, `SELECT id::text FROM users WHERE handle='chef_anna'`).Scan(&anna); err != nil {
+		t.Fatalf("anna: %v", err)
+	}
+	if err := pool.QueryRow(ctx, `
+		INSERT INTO users (handle, display_name) VALUES ('blocker_one','Блокирующий')
+		RETURNING id::text`).Scan(&reader); err != nil {
+		t.Fatalf("reader: %v", err)
+	}
+	if _, err := pool.Exec(ctx,
+		`INSERT INTO follows (follower_id, author_id) VALUES ($1::uuid, $2::uuid)`,
+		reader, anna); err != nil {
+		t.Fatalf("follow: %v", err)
+	}
+	if _, err := pool.Exec(ctx,
+		`INSERT INTO user_blocks (blocker_id, blocked_id) VALUES ($1::uuid, $2::uuid)`,
+		reader, anna); err != nil {
+		t.Fatalf("block: %v", err)
+	}
+
+	items, err := repo.ListFollowed(ctx, reader, 3, 20)
+	if err != nil {
+		t.Fatalf("ListFollowed: %v", err)
+	}
+	for _, c := range items {
+		if c.Author.Handle == "chef_anna" {
+			t.Error("a blocked author still appears in the following shelf")
+		}
+	}
+}

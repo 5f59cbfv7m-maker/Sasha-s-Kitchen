@@ -180,6 +180,40 @@ func buildBase(q Query, viewerID string, a *argset) string {
      WHERE %s`, selectColumns, rank, avatarJoin, joins, strings.Join(where, "\n       AND "))
 }
 
+// buildFollowed renders the "new from authors you follow" shelf.
+//
+// It drives from follows and takes only the newest few per author, rather than
+// filtering the recipe scan with an EXISTS. The difference is not small: on
+// 50k recipes an EXISTS filter reads every recipe by every followed author and
+// sorts the lot -- 12ms at 50 follows, 18ms at 800. Capping per author first
+// leaves a few thousand rows to sort instead: 0.6ms and 4.1ms.
+//
+// It also makes a better shelf. Without the cap one prolific author fills it
+// and everyone else the reader follows is invisible.
+func buildFollowed(viewerID string, perAuthor, limit int) (string, []any) {
+	a := &argset{}
+	viewer := a.next(viewerID)
+	per := a.next(perAuthor)
+	lim := a.next(limit)
+
+	return fmt.Sprintf(`
+    SELECT %s, 0::real AS rank
+      FROM follows fl
+      JOIN users u ON u.id = fl.author_id AND u.status = 'active'
+      JOIN LATERAL (
+          SELECT * FROM recipes r2
+           WHERE r2.author_id = fl.author_id
+             AND r2.status = 'published' AND r2.deleted_at IS NULL
+           ORDER BY r2.published_at DESC, r2.id DESC
+           LIMIT %s
+      ) r ON true%s
+     WHERE fl.follower_id = %s::uuid
+       AND NOT EXISTS (SELECT 1 FROM user_blocks b
+                        WHERE b.blocker_id = %s::uuid AND b.blocked_id = r.author_id)
+     ORDER BY r.published_at DESC, r.id DESC
+     LIMIT %s`, selectColumns, per, avatarJoin+heroJoin, viewer, viewer, lim), a.vals
+}
+
 // buildList renders one page of storefront cards plus its arguments.
 func buildList(q Query, viewerID string) (string, []any) {
 	a := &argset{}

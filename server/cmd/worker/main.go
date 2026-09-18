@@ -70,8 +70,14 @@ func run() error {
 	// Every kind of background work registers here. A kind with no handler is
 	// failed rather than silently completed, so a deploy missing a worker shows
 	// up in the dead letters instead of quietly losing work.
+	mediaRepo := media.NewRepo(pool)
 	runner.Handle(media.JobKindTranscode,
-		media.NewWorker(media.NewRepo(pool), blobs, &media.FFmpegTranscoder{}, logger).Handler())
+		media.NewWorker(mediaRepo, blobs, &media.FFmpegTranscoder{}, logger).Handler())
+
+	// Nothing else in the service ever deletes from storage, so this is the
+	// only thing standing between the store and paying for every byte forever.
+	runner.Handle(media.JobKindGC, media.NewCollector(mediaRepo, blobs, logger).Handler())
+	runner.Every(media.JobKindGC, 6*time.Hour, map[string]string{})
 
 	// The leaderboard is recomputed daily, not hourly: a badge that flickers
 	// between refreshes looks broken, and nothing about a 30-day window moves

@@ -98,6 +98,10 @@ type Query struct {
 	// recipes_author_feed_idx, whose leading column is author_id.
 	AuthorID     string
 	AuthorHandle string
+	// FollowedBy keeps only recipes by authors this user follows. It is set by
+	// the storefront, never parsed from the query string: it is meaningless
+	// for anyone but the viewer themselves.
+	FollowedBy   string
 	CollectionID string
 
 	Sort   SortMode

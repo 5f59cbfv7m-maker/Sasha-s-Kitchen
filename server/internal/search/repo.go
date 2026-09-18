@@ -144,6 +144,30 @@ func (r *Repo) List(ctx context.Context, q Query, viewerID string) (Page, error)
 	return page, nil
 }
 
+// ListFollowed returns the newest recipes from authors this viewer follows,
+// capped per author so one prolific author cannot fill the shelf.
+func (r *Repo) ListFollowed(ctx context.Context, viewerID string, perAuthor, limit int) ([]Card, error) {
+	if perAuthor <= 0 {
+		perAuthor = 3
+	}
+	sql, args := buildFollowed(viewerID, perAuthor, limit)
+	rows, err := r.pool.Query(ctx, sql, args...)
+	if err != nil {
+		return nil, fmt.Errorf("search: followed: %w", err)
+	}
+	defer rows.Close()
+
+	out := []Card{}
+	for rows.Next() {
+		c, err := scanCard(rows, r.media)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, c)
+	}
+	return out, rows.Err()
+}
+
 // Facets counts the current result set per filter value.
 func (r *Repo) Facets(ctx context.Context, q Query, viewerID string) (Facets, error) {
 	sql, args := buildFacets(q, viewerID)
