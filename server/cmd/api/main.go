@@ -14,6 +14,7 @@ import (
 
 	"github.com/google/uuid"
 
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/admin"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/auth"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/author"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/bundle"
@@ -143,7 +144,18 @@ func run() error {
 	author.NewAPI(author.NewRepo(pool, searchRepo, mediaURLs), searchRepo, postsRepo, viewer).Routes(mux)
 
 	// The author's own workspace: profile, drafts and publishing.
-	studio.NewAPI(studio.NewRepo(pool, postsRepo, moderation.NewRepo(pool)), caller).Routes(mux)
+	modRepo := moderation.NewRepo(pool)
+	studio.NewAPI(studio.NewRepo(pool, postsRepo, modRepo), caller).Routes(mux)
+
+	// The moderator surface. internal/moderation has had these tools since the
+	// first schema and registered no routes, so none of them could be reached.
+	admin.NewAPI(modRepo, func(r *http.Request) (uuid.UUID, bool) {
+		id, ok := auth.UserFrom(r.Context())
+		if !ok || !id.IsAdmin {
+			return uuid.UUID{}, false
+		}
+		return id.UserID, true
+	}).Routes(mux)
 
 	if blobs != nil {
 		mediaRepo := media.NewRepo(pool)
