@@ -2,20 +2,14 @@ package search
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"io"
-	"log/slog"
 	"net/url"
-	"os"
-	"strings"
 	"testing"
 	"time"
 
-	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/testdb"
 )
 
 // testPool returns a pool onto this package's OWN database.
@@ -29,86 +23,11 @@ import (
 // Tests skip cleanly when DATABASE_URL is unset, so `go test ./...` still works
 // on a machine without Postgres.
 func testPool(t *testing.T) *pgxpool.Pool {
-	t.Helper()
-	dsn := os.Getenv("DATABASE_URL")
-	if dsn == "" {
-		t.Skip("DATABASE_URL not set; skipping database-backed test")
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-	defer cancel()
-
-	testDSN, err := provisionDB(ctx, dsn, "search")
-	if err != nil {
-		t.Fatalf("provision test database: %v", err)
-	}
-
-	pool, err := pgxpool.New(ctx, testDSN)
-	if err != nil {
-		t.Fatalf("connect: %v", err)
-	}
-	if err := pool.Ping(ctx); err != nil {
-		t.Fatalf("ping: %v", err)
-	}
-	t.Cleanup(pool.Close)
-	return pool
+	return testdb.Pool(t, "search")
 }
 
 // provisionDB creates "<database>_<suffix>" if absent and brings its schema up
 // to date, returning a DSN pointing at it.
-func provisionDB(ctx context.Context, dsn, suffix string) (string, error) {
-	u, err := url.Parse(dsn)
-	if err != nil {
-		return "", fmt.Errorf("parse DATABASE_URL: %w", err)
-	}
-	base := strings.TrimPrefix(u.Path, "/")
-	if base == "" {
-		return "", errors.New("DATABASE_URL has no database name")
-	}
-	target := base + "_" + suffix
-
-	// CREATE DATABASE cannot run inside a transaction or from the database
-	// being created, so it is issued over a separate connection to the
-	// maintenance database.
-	admin := *u
-	admin.Path = "/postgres"
-	conn, err := pgx.Connect(ctx, admin.String())
-	if err != nil {
-		return "", fmt.Errorf("connect to maintenance database: %w", err)
-	}
-	defer conn.Close(context.WithoutCancel(ctx))
-
-	var exists bool
-	if err := conn.QueryRow(ctx,
-		`SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = $1)`, target).Scan(&exists); err != nil {
-		return "", fmt.Errorf("check database: %w", err)
-	}
-	if !exists {
-		// The name is derived from our own DSN, never from user input, and
-		// pgx cannot parameterise a DDL identifier.
-		if _, err := conn.Exec(ctx, `CREATE DATABASE "`+target+`"`); err != nil {
-			// A parallel package may have won the race; that is fine.
-			if !strings.Contains(err.Error(), "already exists") {
-				return "", fmt.Errorf("create database: %w", err)
-			}
-		}
-	}
-
-	out := *u
-	out.Path = "/" + target
-	testDSN := out.String()
-
-	pool, err := pgxpool.New(ctx, testDSN)
-	if err != nil {
-		return "", fmt.Errorf("connect to test database: %w", err)
-	}
-	defer pool.Close()
-	if err := postgres.Migrate(ctx, pool,
-		slog.New(slog.NewTextHandler(io.Discard, &slog.HandlerOptions{Level: slog.LevelError}))); err != nil {
-		return "", fmt.Errorf("migrate test database: %w", err)
-	}
-	return testDSN, nil
-}
-
 // stubResolver stands in for the CDN so tests assert on stable strings.
 type stubResolver struct{}
 

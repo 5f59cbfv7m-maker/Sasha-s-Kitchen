@@ -5,60 +5,23 @@ import (
 	"errors"
 	"io"
 	"log/slog"
-	"net/url"
-	"os"
 	"strings"
 	"sync/atomic"
 	"testing"
 	"time"
 
-	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/testdb"
 )
 
 func testPool(t *testing.T) *pgxpool.Pool {
-	t.Helper()
-	dsn := os.Getenv("DATABASE_URL")
-	if dsn == "" {
-		t.Skip("DATABASE_URL not set; skipping database-backed test")
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-	defer cancel()
-
-	u, err := url.Parse(dsn)
-	if err != nil {
-		t.Fatalf("parse DATABASE_URL: %v", err)
-	}
-	target := strings.TrimPrefix(u.Path, "/") + "_jobs"
-
-	admin := *u
-	admin.Path = "/postgres"
-	conn, err := pgx.Connect(ctx, admin.String())
-	if err != nil {
-		t.Fatalf("connect to maintenance database: %v", err)
-	}
-	defer conn.Close(context.WithoutCancel(ctx))
-	if _, err := conn.Exec(ctx, `CREATE DATABASE "`+target+`"`); err != nil &&
-		!strings.Contains(err.Error(), "already exists") {
-		t.Fatalf("create database: %v", err)
-	}
-
-	out := *u
-	out.Path = "/" + target
-	pool, err := pgxpool.New(ctx, out.String())
-	if err != nil {
-		t.Fatalf("connect: %v", err)
-	}
-	quiet := slog.New(slog.NewTextHandler(io.Discard, &slog.HandlerOptions{Level: slog.LevelError}))
-	if err := postgres.Migrate(ctx, pool, quiet); err != nil {
-		t.Fatalf("migrate: %v", err)
-	}
-	if _, err := pool.Exec(ctx, `DELETE FROM jobs`); err != nil {
+	pool := testdb.Pool(t, "jobs")
+	// The jobs table outlives a test run, and a leftover queued row would be
+	// claimed by the next test's ProcessBatch instead of its own.
+	if _, err := pool.Exec(context.Background(), `DELETE FROM jobs`); err != nil {
 		t.Fatalf("clear queue: %v", err)
 	}
-	t.Cleanup(pool.Close)
 	return pool
 }
 

@@ -3,28 +3,17 @@ package moderation
 import (
 	"context"
 	"errors"
-	"os"
 	"strconv"
 	"testing"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/testdb"
 )
 
 func testPool(t *testing.T) *pgxpool.Pool {
-	t.Helper()
-	dsn := os.Getenv("DATABASE_URL")
-	if dsn == "" {
-		t.Skip("DATABASE_URL not set; skipping database-backed test")
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	pool, err := pgxpool.New(ctx, dsn)
-	if err != nil {
-		t.Fatalf("connect: %v", err)
-	}
-	t.Cleanup(pool.Close)
-	return pool
+	return testdb.Pool(t, "moderation")
 }
 
 // scenario creates an isolated author, moderator and draft recipe, and removes

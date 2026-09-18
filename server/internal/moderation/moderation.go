@@ -171,7 +171,18 @@ func (r *Repo) Submit(ctx context.Context, recipeID, authorID string) error {
 	if tag.RowsAffected() == 0 {
 		return ErrNotFound
 	}
-	return r.logEvent(ctx, recipeID, authorID, "submitted", "")
+	return r.logEvent(ctx, "recipe", recipeID, authorID, authorID, "submitted", "")
+}
+
+// authorOfRecipe is needed because a moderator acting on someone else's recipe
+// still has to record whose it was.
+func (r *Repo) authorOfRecipe(ctx context.Context, recipeID string) (string, error) {
+	var author string
+	if err := r.pool.QueryRow(ctx,
+		`SELECT author_id::text FROM recipes WHERE id = $1::uuid`, recipeID).Scan(&author); err != nil {
+		return "", fmt.Errorf("moderation: read recipe author: %w", err)
+	}
+	return author, nil
 }
 
 // QueueItem is one row of the moderator's work list.
@@ -231,7 +242,11 @@ func (r *Repo) Approve(ctx context.Context, recipeID, moderatorID string) error 
 	if tag.RowsAffected() == 0 {
 		return ErrBadState
 	}
-	return r.logEvent(ctx, recipeID, moderatorID, "approved", "")
+	author, err := r.authorOfRecipe(ctx, recipeID)
+	if err != nil {
+		return err
+	}
+	return r.logEvent(ctx, "recipe", recipeID, author, moderatorID, "approved", "")
 }
 
 // Reject sends a recipe back to its author with a reason.
@@ -246,7 +261,11 @@ func (r *Repo) Reject(ctx context.Context, recipeID, moderatorID, reason string)
 	if tag.RowsAffected() == 0 {
 		return ErrBadState
 	}
-	return r.logEvent(ctx, recipeID, moderatorID, "rejected", reason)
+	author, err := r.authorOfRecipe(ctx, recipeID)
+	if err != nil {
+		return err
+	}
+	return r.logEvent(ctx, "recipe", recipeID, author, moderatorID, "rejected", reason)
 }
 
 // Takedown removes already-published content. Unlike Reject it applies to a
@@ -277,8 +296,9 @@ func (r *Repo) Takedown(ctx context.Context, recipeID, moderatorID, reason strin
 		return fmt.Errorf("moderation: resolve reports: %w", err)
 	}
 	if _, err := tx.Exec(ctx, `
-		INSERT INTO moderation_events (recipe_id, actor_id, action, note)
-		VALUES ($1::uuid, $2::uuid, 'takedown', nullif($3,''))`,
+		INSERT INTO moderation_events (target_type, target_id, user_id, actor_id, action, note)
+		SELECT 'recipe', r.id, r.author_id, $2::uuid, 'takedown', nullif($3,'')
+		  FROM recipes r WHERE r.id = $1::uuid`,
 		recipeID, moderatorID, reason); err != nil {
 		return fmt.Errorf("moderation: log takedown: %w", err)
 	}
@@ -310,8 +330,8 @@ func (r *Repo) Suspend(ctx context.Context, userID, moderatorID, reason string) 
 		return fmt.Errorf("moderation: revoke sessions: %w", err)
 	}
 	if _, err := tx.Exec(ctx, `
-		INSERT INTO moderation_events (user_id, actor_id, action, note)
-		VALUES ($1::uuid, $2::uuid, 'suspended', nullif($3,''))`,
+		INSERT INTO moderation_events (target_type, target_id, user_id, actor_id, action, note)
+		VALUES ('user', $1::uuid, $1::uuid, $2::uuid, 'suspended', nullif($3,''))`,
 		userID, moderatorID, reason); err != nil {
 		return fmt.Errorf("moderation: log suspend: %w", err)
 	}
@@ -337,14 +357,25 @@ func (r *Repo) ResolveReport(ctx context.Context, reportID, moderatorID, status,
 	return nil
 }
 
-func (r *Repo) logEvent(ctx context.Context, recipeID, actorID, action, note string) error {
+// logEvent appends to the moderation audit log.
+//
+// ownerID is the author of the content, not the person acting. It used to be
+// left NULL, which made the log unable to answer "how much has this author
+// published today" -- the question every publication quota is built on.
+func (r *Repo) logEvent(ctx context.Context, targetType, targetID, ownerID, actorID, action, note string) error {
 	if _, err := r.pool.Exec(ctx, `
-		INSERT INTO moderation_events (recipe_id, actor_id, action, note)
-		VALUES ($1::uuid, nullif($2,'')::uuid, $3, nullif($4,''))`,
-		recipeID, actorID, action, note); err != nil {
+		INSERT INTO moderation_events (target_type, target_id, user_id, actor_id, action, note)
+		VALUES ($1, $2::uuid, nullif($3,'')::uuid, nullif($4,'')::uuid, $5, nullif($6,''))`,
+		targetType, targetID, ownerID, actorID, action, note); err != nil {
 		return fmt.Errorf("moderation: log event: %w", err)
 	}
 	return nil
+}
+
+// LogEvent records a moderation transition from another package, so the publish
+// path in internal/studio writes to the same audit log as the moderator tools.
+func (r *Repo) LogEvent(ctx context.Context, targetType, targetID, ownerID, actorID, action, note string) error {
+	return r.logEvent(ctx, targetType, targetID, ownerID, actorID, action, note)
 }
 
 // ensure pgx is referenced for error helpers used by callers of this package.

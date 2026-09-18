@@ -2,23 +2,16 @@ package author
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"io"
-	"log/slog"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
-	"os"
-	"strings"
 	"testing"
-	"time"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/testdb"
+
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/posts"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/search"
 )
@@ -26,74 +19,7 @@ import (
 // testPool gives this package its own database, as internal/search does: these
 // tests TRUNCATE, and `go test ./...` runs packages in parallel.
 func testPool(t *testing.T) *pgxpool.Pool {
-	t.Helper()
-	dsn := os.Getenv("DATABASE_URL")
-	if dsn == "" {
-		t.Skip("DATABASE_URL not set; skipping database-backed test")
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-	defer cancel()
-
-	testDSN, err := provisionDB(ctx, dsn, "author")
-	if err != nil {
-		t.Fatalf("provision test database: %v", err)
-	}
-	pool, err := pgxpool.New(ctx, testDSN)
-	if err != nil {
-		t.Fatalf("connect: %v", err)
-	}
-	if err := pool.Ping(ctx); err != nil {
-		t.Fatalf("ping: %v", err)
-	}
-	t.Cleanup(pool.Close)
-	return pool
-}
-
-func provisionDB(ctx context.Context, dsn, suffix string) (string, error) {
-	u, err := url.Parse(dsn)
-	if err != nil {
-		return "", fmt.Errorf("parse DATABASE_URL: %w", err)
-	}
-	base := strings.TrimPrefix(u.Path, "/")
-	if base == "" {
-		return "", errors.New("DATABASE_URL has no database name")
-	}
-	target := base + "_" + suffix
-
-	admin := *u
-	admin.Path = "/postgres"
-	conn, err := pgx.Connect(ctx, admin.String())
-	if err != nil {
-		return "", fmt.Errorf("connect to maintenance database: %w", err)
-	}
-	defer conn.Close(context.WithoutCancel(ctx))
-
-	var exists bool
-	if err := conn.QueryRow(ctx,
-		`SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = $1)`, target).Scan(&exists); err != nil {
-		return "", fmt.Errorf("check database: %w", err)
-	}
-	if !exists {
-		if _, err := conn.Exec(ctx, `CREATE DATABASE "`+target+`"`); err != nil {
-			if !strings.Contains(err.Error(), "already exists") {
-				return "", fmt.Errorf("create database: %w", err)
-			}
-		}
-	}
-	out := *u
-	out.Path = "/" + target
-	testDSN := out.String()
-
-	pool, err := pgxpool.New(ctx, testDSN)
-	if err != nil {
-		return "", fmt.Errorf("connect to test database: %w", err)
-	}
-	defer pool.Close()
-	quiet := slog.New(slog.NewTextHandler(io.Discard, &slog.HandlerOptions{Level: slog.LevelError}))
-	if err := postgres.Migrate(ctx, pool, quiet); err != nil {
-		return "", fmt.Errorf("migrate test database: %w", err)
-	}
-	return testDSN, nil
+	return testdb.Pool(t, "author")
 }
 
 // stubResolver stands in for the CDN, as in internal/search.
