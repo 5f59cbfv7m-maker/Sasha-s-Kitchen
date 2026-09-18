@@ -15,6 +15,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/auth"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/author"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/bundle"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/cache"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/config"
@@ -131,6 +132,10 @@ func run() error {
 	// Reporting and blocking. The storefront has always filtered listings by
 	// user_blocks; until now there was no way for anyone to create one.
 	social.NewAPI(moderation.NewRepo(pool), caller).Routes(mux)
+
+	// Author pages. The recipe shelf runs through searchRepo, so an author's
+	// listing shares its filters, cursors and block rules with the storefront.
+	author.NewAPI(author.NewRepo(pool, searchRepo, mediaURLs), searchRepo, viewer).Routes(mux)
 
 	if blobs != nil {
 		mediaRepo := media.NewRepo(pool)

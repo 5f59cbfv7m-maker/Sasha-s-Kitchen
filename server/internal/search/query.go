@@ -83,8 +83,12 @@ type Query struct {
 	Pantry     []string
 	CanCookNow bool
 
-	Access       AccessFilter
-	HasVideo     *bool
+	Access   AccessFilter
+	HasVideo *bool
+	// AuthorID is set by handlers that already resolved the author, and takes
+	// precedence over AuthorHandle. It is what lets the author page use
+	// recipes_author_feed_idx, whose leading column is author_id.
+	AuthorID     string
 	AuthorHandle string
 	CollectionID string
 

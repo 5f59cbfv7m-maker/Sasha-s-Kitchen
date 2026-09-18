@@ -27,9 +27,16 @@ const selectColumns = `
         r.kcal_per_serving, r.protein_per_serving, r.fat_per_serving, r.carbs_per_serving,
         r.has_video, r.import_count, r.favorite_count,
         r.rating_avg, r.rating_count, r.published_at, r.diet_slugs,
-        u.handle AS author_handle, u.display_name AS author_name,
+        u.id AS author_id, u.handle AS author_handle, u.display_name AS author_name,
+        u.verified_at IS NOT NULL AS author_verified, av.storage_key AS author_avatar_key,
         hero.media_id, hero.kind AS media_kind, hero.poster_key, hero.hls_key,
         hero.storage_key, hero.blurhash, hero.width, hero.height`
+
+// avatarJoin resolves the author's avatar. It is a plain left join on a
+// primary key rather than another LATERAL: there is at most one avatar per
+// author and the row is almost always already in cache.
+const avatarJoin = `
+    LEFT JOIN media_assets av ON av.id = u.avatar_media_id AND av.status = 'ready'`
 
 // heroJoin picks one display asset per card, preferring an explicit hero and
 // then the author's ordering. LATERAL ... LIMIT 1 keeps this at one index hit
@@ -136,7 +143,13 @@ func buildBase(q Query, viewerID string, a *argset) string {
 	if q.HasVideo != nil {
 		where = append(where, fmt.Sprintf("r.has_video = %s", a.next(*q.HasVideo)))
 	}
-	if q.AuthorHandle != "" {
+	// Filtering by id rather than handle is what lets the planner drive the
+	// whole author page off recipes_author_feed_idx: the index leads with
+	// author_id, and a predicate on the joined users table gives it no equality
+	// to anchor on. Handlers resolve the handle once, up front.
+	if q.AuthorID != "" {
+		where = append(where, fmt.Sprintf("r.author_id = %s::uuid", a.next(q.AuthorID)))
+	} else if q.AuthorHandle != "" {
 		where = append(where, fmt.Sprintf("u.handle = %s", a.next(q.AuthorHandle)))
 	}
 	if viewerID != "" {
@@ -161,8 +174,8 @@ func buildBase(q Query, viewerID string, a *argset) string {
     SELECT %s,
            %s AS rank
       FROM recipes r
-      JOIN users u ON u.id = r.author_id%s
-     WHERE %s`, selectColumns, rank, joins, strings.Join(where, "\n       AND "))
+      JOIN users u ON u.id = r.author_id%s%s
+     WHERE %s`, selectColumns, rank, avatarJoin, joins, strings.Join(where, "\n       AND "))
 }
 
 // buildList renders one page of storefront cards plus its arguments.
@@ -294,7 +307,7 @@ func buildOne(idOrSlug, viewerID string) (string, []any) {
     SELECT %s,
            0::real AS rank
       FROM recipes r
-      JOIN users u ON u.id = r.author_id%s
+      JOIN users u ON u.id = r.author_id%s%s
      WHERE %s
-     LIMIT 1`, selectColumns, heroJoin, strings.Join(where, "\n       AND ")), a.vals
+     LIMIT 1`, selectColumns, avatarJoin, heroJoin, strings.Join(where, "\n       AND ")), a.vals
 }

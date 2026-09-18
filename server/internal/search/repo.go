@@ -37,10 +37,15 @@ type Nutrition struct {
 	Carbs   float64 `json:"carbs"`
 }
 
-// Author is the minimal byline a card needs.
+// Author is the byline a card needs, and the tap target that leads to the
+// author's page. The id is what the client follows; the handle is what it
+// shows and what a shared link carries.
 type Author struct {
-	Handle string `json:"handle"`
-	Name   string `json:"name"`
+	ID        string `json:"id"`
+	Handle    string `json:"handle"`
+	Name      string `json:"name"`
+	AvatarURL string `json:"avatar_url,omitempty"`
+	Verified  bool   `json:"verified,omitempty"`
 }
 
 // Price is present only on paid listings.
@@ -220,6 +225,8 @@ func scanCard(row rowScanner, media MediaURLResolver) (Card, error) {
 		priceMinor pgtype.Int4
 		currency   pgtype.Text
 		rating     pgtype.Numeric
+		authorID   pgtype.UUID
+		avatarKey  pgtype.Text
 		mediaID    pgtype.UUID
 		mediaKind  pgtype.Text
 		posterKey  pgtype.Text
@@ -238,7 +245,7 @@ func scanCard(row rowScanner, media MediaURLResolver) (Card, error) {
 		&c.Nutrition.Kcal, &c.Nutrition.Protein, &c.Nutrition.Fat, &c.Nutrition.Carbs,
 		&c.HasVideo, &c.ImportCount, &c.FavoriteCount,
 		&rating, &c.RatingCount, &c.PublishedAt, &c.Diets,
-		&c.Author.Handle, &c.Author.Name,
+		&authorID, &c.Author.Handle, &c.Author.Name, &c.Author.Verified, &avatarKey,
 		&mediaID, &mediaKind, &posterKey, &hlsKey,
 		&storageKey, &blurhash, &width, &height,
 		&c.rank,
@@ -247,6 +254,10 @@ func scanCard(row rowScanner, media MediaURLResolver) (Card, error) {
 	}
 
 	c.ID = uuidString(id)
+	c.Author.ID = uuidString(authorID)
+	if avatarKey.Valid {
+		c.Author.AvatarURL = media.PublicURL(avatarKey.String)
+	}
 	if c.Diets == nil {
 		c.Diets = []string{}
 	}
