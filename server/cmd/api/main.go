@@ -26,6 +26,7 @@ import (
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/objstore"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/observability"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/posts"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/search"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/social"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/storefront"
@@ -136,7 +137,9 @@ func run() error {
 
 	// Author pages. The recipe shelf runs through searchRepo, so an author's
 	// listing shares its filters, cursors and block rules with the storefront.
-	author.NewAPI(author.NewRepo(pool, searchRepo, mediaURLs), searchRepo, viewer).Routes(mux)
+	postsRepo := posts.NewRepo(pool, searchRepo, mediaURLs)
+	posts.NewAPI(postsRepo, viewer).Routes(mux)
+	author.NewAPI(author.NewRepo(pool, searchRepo, mediaURLs), searchRepo, postsRepo, viewer).Routes(mux)
 
 	if blobs != nil {
 		mediaRepo := media.NewRepo(pool)

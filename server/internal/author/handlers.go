@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/httpx"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/posts"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/search"
 )
 
@@ -19,19 +20,22 @@ type ViewerFunc func(*http.Request) string
 type API struct {
 	repo   *Repo
 	search *search.Repo
+	posts  *posts.Repo
 	viewer ViewerFunc
 }
 
-func NewAPI(repo *Repo, s *search.Repo, viewer ViewerFunc) *API {
+func NewAPI(repo *Repo, s *search.Repo, p *posts.Repo, viewer ViewerFunc) *API {
 	if viewer == nil {
 		viewer = func(*http.Request) string { return "" }
 	}
-	return &API{repo: repo, search: s, viewer: viewer}
+	return &API{repo: repo, search: s, posts: p, viewer: viewer}
 }
 
 func (a *API) Routes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /v1/authors/{handle}", a.handleProfile)
 	mux.HandleFunc("GET /v1/authors/{handle}/recipes", a.handleRecipes)
+	mux.HandleFunc("GET /v1/authors/{handle}/posts", a.handlePosts)
+	mux.HandleFunc("GET /v1/authors/{handle}/shorts", a.handleShorts)
 	mux.HandleFunc("PUT /v1/authors/{handle}/follow", a.handleFollow)
 	mux.HandleFunc("DELETE /v1/authors/{handle}/follow", a.handleUnfollow)
 }
@@ -78,6 +82,45 @@ func (a *API) handleRecipes(w http.ResponseWriter, r *http.Request) {
 	q.AuthorHandle = ""
 
 	page, err := a.search.List(r.Context(), q, viewer)
+	if err != nil {
+		httpx.Respond(w, r, err)
+		return
+	}
+	if viewer != "" {
+		w.Header().Set("Cache-Control", "private, no-store")
+	}
+	httpx.JSONWithETag(w, r, http.StatusOK, page)
+}
+
+// handlePosts and handleShorts are the author's blog and shorts tabs. Both go
+// through internal/posts so an author-scoped list and the global feed share
+// one query path.
+func (a *API) handlePosts(w http.ResponseWriter, r *http.Request) {
+	a.listPosts(w, r, posts.KindArticle, false)
+}
+
+func (a *API) handleShorts(w http.ResponseWriter, r *http.Request) {
+	// On an author's own page a short is listed even while its video is still
+	// transcoding, unlike the global feed: the author knows what they posted
+	// and a missing thumbnail there is informative rather than broken.
+	a.listPosts(w, r, posts.KindShort, false)
+}
+
+func (a *API) listPosts(w http.ResponseWriter, r *http.Request, kind string, requireVideo bool) {
+	viewer := a.viewer(r)
+	id, ok := a.resolve(w, r)
+	if !ok {
+		return
+	}
+	opts, err := posts.ParseFeedFor(r, kind)
+	if err != nil {
+		httpx.Respond(w, r, err)
+		return
+	}
+	opts.AuthorID = id
+	opts.RequireVideoReady = requireVideo
+
+	page, err := a.posts.List(r.Context(), opts, viewer)
 	if err != nil {
 		httpx.Respond(w, r, err)
 		return

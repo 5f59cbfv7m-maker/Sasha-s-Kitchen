@@ -19,6 +19,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/posts"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/search"
 )
 
@@ -104,6 +105,7 @@ type rig struct {
 	pool   *pgxpool.Pool
 	repo   *Repo
 	search *search.Repo
+	posts  *posts.Repo
 	anna   string // author with recipes
 	boris  string // another author
 	reader string // plain reader
@@ -116,14 +118,15 @@ func newRig(t *testing.T) *rig {
 
 	if _, err := pool.Exec(ctx, `
 		TRUNCATE users, recipes, media_assets, recipe_media, follows,
-		         user_blocks, user_handle_history, user_stats
+		         user_blocks, user_handle_history, user_stats, posts
 		RESTART IDENTITY CASCADE`); err != nil {
 		t.Fatalf("truncate: %v", err)
 	}
 
 	searchRepo := search.NewRepo(pool, stubResolver{})
 	r := &rig{pool: pool, search: searchRepo,
-		repo: NewRepo(pool, searchRepo, stubResolver{})}
+		posts: posts.NewRepo(pool, searchRepo, stubResolver{}),
+		repo:  NewRepo(pool, searchRepo, stubResolver{})}
 
 	r.anna = r.user(t, "chef_anna", "Анна", true)
 	r.boris = r.user(t, "chef_boris", "Борис", true)
@@ -161,7 +164,7 @@ func (r *rig) recipe(t *testing.T, authorID, slug, title string) string {
 
 func (r *rig) handler(viewer string) http.Handler {
 	mux := http.NewServeMux()
-	NewAPI(r.repo, r.search, func(*http.Request) string { return viewer }).Routes(mux)
+	NewAPI(r.repo, r.search, r.posts, func(*http.Request) string { return viewer }).Routes(mux)
 	return mux
 }
 
