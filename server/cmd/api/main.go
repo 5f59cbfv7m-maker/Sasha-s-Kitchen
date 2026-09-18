@@ -19,6 +19,7 @@ import (
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/author"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/bundle"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/cache"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/comments"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/config"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/httpx"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/jobs"
@@ -141,6 +142,7 @@ func run() error {
 	// listing shares its filters, cursors and block rules with the storefront.
 	postsRepo := posts.NewRepo(pool, searchRepo, mediaURLs)
 	posts.NewAPI(postsRepo, viewer).Routes(mux)
+	comments.NewAPI(comments.NewRepo(pool, mediaURLs), viewer).Routes(mux)
 	author.NewAPI(author.NewRepo(pool, searchRepo, mediaURLs), searchRepo, postsRepo, viewer).Routes(mux)
 
 	// The author's own workspace: profile, drafts and publishing.
