@@ -30,6 +30,7 @@ import (
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/search"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/social"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/storefront"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/studio"
 )
 
 func main() {
@@ -140,6 +141,9 @@ func run() error {
 	postsRepo := posts.NewRepo(pool, searchRepo, mediaURLs)
 	posts.NewAPI(postsRepo, viewer).Routes(mux)
 	author.NewAPI(author.NewRepo(pool, searchRepo, mediaURLs), searchRepo, postsRepo, viewer).Routes(mux)
+
+	// The author's own workspace: profile, drafts and publishing.
+	studio.NewAPI(studio.NewRepo(pool, postsRepo, moderation.NewRepo(pool)), caller).Routes(mux)
 
 	if blobs != nil {
 		mediaRepo := media.NewRepo(pool)
