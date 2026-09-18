@@ -7,6 +7,8 @@ import (
 
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
+
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/paging"
 )
 
 // MediaURLResolver turns a storage key into a URL a client can fetch, normally
@@ -188,8 +190,8 @@ func (r *Repo) Facets(ctx context.Context, q Query, viewerID string) (Facets, er
 
 // cursorFor builds the keyset position from the last row of a page. It must
 // stay in step with orderBy and keysetPredicate.
-func cursorFor(sort SortMode, last Card) Cursor {
-	c := Cursor{Sort: sort, ID: last.ID}
+func cursorFor(sort SortMode, last Card) paging.Cursor {
+	c := paging.Cursor{Sort: string(sort), ID: last.ID}
 	switch sort {
 	case SortRelevance:
 		c.Num = last.rank

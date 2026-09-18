@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/jobs"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/objstore"
 )
 
@@ -30,10 +31,10 @@ var (
 type Service struct {
 	repo  *Repo
 	store objstore.Store
-	queue *Queue
+	queue *jobs.Queue
 }
 
-func NewService(repo *Repo, store objstore.Store, queue *Queue) *Service {
+func NewService(repo *Repo, store objstore.Store, queue *jobs.Queue) *Service {
 	return &Service{repo: repo, store: store, queue: queue}
 }
 
@@ -146,7 +147,7 @@ func (s *Service) CompleteUpload(ctx context.Context, assetID, callerID uuid.UUI
 		// Dedupe key makes a double completion enqueue one job, not two.
 		if _, err := s.queue.Enqueue(ctx, JobKindTranscode,
 			TranscodePayload{AssetID: asset.ID},
-			WithDedupeKey("transcode:"+asset.ID.String())); err != nil {
+			jobs.WithDedupeKey("transcode:"+asset.ID.String())); err != nil {
 			return Asset{}, fmt.Errorf("media: enqueue transcode: %w", err)
 		}
 	}

@@ -15,6 +15,7 @@ import (
 	"syscall"
 
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/config"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/jobs"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/media"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/objstore"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/observability"
@@ -61,11 +62,17 @@ func run() error {
 		id = id + "-" + itoa(pid)
 	}
 
-	w := media.NewWorker(id, media.NewRepo(pool), blobs, media.NewQueue(pool),
-		&media.FFmpegTranscoder{}, logger)
+	queue := jobs.NewQueue(pool)
+	runner := jobs.NewRunner(id, queue, logger)
+
+	// Every kind of background work registers here. A kind with no handler is
+	// failed rather than silently completed, so a deploy missing a worker shows
+	// up in the dead letters instead of quietly losing work.
+	runner.Handle(media.JobKindTranscode,
+		media.NewWorker(media.NewRepo(pool), blobs, &media.FFmpegTranscoder{}, logger).Handler())
 
 	logger.Info("worker started", slog.String("id", id), slog.String("env", cfg.Env))
-	if err := w.Run(ctx); err != nil {
+	if err := runner.Run(ctx); err != nil {
 		return err
 	}
 	logger.Info("worker stopped cleanly")

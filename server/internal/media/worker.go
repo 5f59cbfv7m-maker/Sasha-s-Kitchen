@@ -3,114 +3,43 @@ package media
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"log/slog"
 	"os"
 	"path/filepath"
-	"time"
 
 	"github.com/google/uuid"
 
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/jobs"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/objstore"
 )
 
-// Worker drains the transcode queue.
+// JobKindTranscode is the jobs.kind value this package's handler answers to.
+const JobKindTranscode = "media.transcode"
+
+// Worker turns media assets into their derivatives. Claiming, retrying and
+// scheduling belong to internal/jobs; this type only knows how to transcode.
 type Worker struct {
-	id         string
 	repo       *Repo
 	store      objstore.Store
-	queue      *Queue
 	transcoder Transcoder
 	logger     *slog.Logger
-
-	// Batch is how many jobs to claim per poll; PollInterval is the idle wait.
-	Batch        int
-	PollInterval time.Duration
-	// StaleAfter is how long a claimed job may sit before the sweeper frees it,
-	// which is how a worker killed mid-job releases its work.
-	StaleAfter time.Duration
 }
 
-func NewWorker(id string, repo *Repo, store objstore.Store, queue *Queue,
+func NewWorker(repo *Repo, store objstore.Store,
 	transcoder Transcoder, logger *slog.Logger) *Worker {
-	return &Worker{
-		id: id, repo: repo, store: store, queue: queue,
-		transcoder: transcoder, logger: logger,
-		Batch: 2, PollInterval: 2 * time.Second, StaleAfter: 30 * time.Minute,
-	}
+	return &Worker{repo: repo, store: store, transcoder: transcoder, logger: logger}
 }
 
-// Run drains the queue until ctx is cancelled.
-func (w *Worker) Run(ctx context.Context) error {
-	sweep := time.NewTicker(w.StaleAfter / 2)
-	defer sweep.Stop()
-
-	for {
-		select {
-		case <-ctx.Done():
-			return nil
-		case <-sweep.C:
-			if n, err := w.queue.SweepStale(ctx, w.StaleAfter); err != nil {
-				w.logger.Error("sweep stale jobs", slog.Any("error", err))
-			} else if n > 0 {
-				w.logger.Warn("released stale jobs", slog.Int64("count", n))
-			}
-		default:
+// Handler adapts this worker to the job runner.
+func (w *Worker) Handler() jobs.Handler {
+	return func(ctx context.Context, job jobs.Job) error {
+		var payload TranscodePayload
+		if err := json.Unmarshal(job.Payload, &payload); err != nil {
+			return fmt.Errorf("media: bad payload: %w", err)
 		}
-
-		n, err := w.ProcessBatch(ctx)
-		if err != nil {
-			if errors.Is(err, context.Canceled) {
-				return nil
-			}
-			w.logger.Error("process batch", slog.Any("error", err))
-		}
-		if n == 0 {
-			select {
-			case <-ctx.Done():
-				return nil
-			case <-time.After(w.PollInterval):
-			}
-		}
-	}
-}
-
-// ProcessBatch claims and runs up to Batch jobs, returning how many ran.
-func (w *Worker) ProcessBatch(ctx context.Context) (int, error) {
-	jobs, err := w.queue.Claim(ctx, w.id, w.Batch)
-	if err != nil {
-		return 0, err
-	}
-	for _, job := range jobs {
-		w.runJob(ctx, job)
-	}
-	return len(jobs), nil
-}
-
-func (w *Worker) runJob(ctx context.Context, job Job) {
-	log := w.logger.With(slog.Int64("job_id", job.ID), slog.String("kind", job.Kind))
-
-	if job.Kind != JobKindTranscode {
-		// Nothing can handle it; failing it is better than silently completing.
-		_ = w.queue.Fail(ctx, job.ID, fmt.Errorf("media: unknown job kind %q", job.Kind))
-		return
-	}
-	var payload TranscodePayload
-	if err := json.Unmarshal(job.Payload, &payload); err != nil {
-		_ = w.queue.Fail(ctx, job.ID, fmt.Errorf("media: bad payload: %w", err))
-		return
-	}
-
-	if err := w.Transcode(ctx, payload.AssetID); err != nil {
-		log.Error("transcode failed",
-			slog.String("asset_id", payload.AssetID.String()), slog.Any("error", err))
-		_ = w.queue.Fail(ctx, job.ID, err)
-		return
-	}
-	if err := w.queue.Complete(ctx, job.ID); err != nil {
-		log.Error("complete job", slog.Any("error", err))
+		return w.Transcode(ctx, payload.AssetID)
 	}
 }
 

@@ -20,6 +20,7 @@ import (
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/cache"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/config"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/httpx"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/jobs"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/media"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/moderation"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/objstore"
@@ -140,7 +141,7 @@ func run() error {
 	if blobs != nil {
 		mediaRepo := media.NewRepo(pool)
 		mediaAPI := media.NewAPI(
-			media.NewService(mediaRepo, blobs, media.NewQueue(pool)), mediaRepo, blobs, caller)
+			media.NewService(mediaRepo, blobs, jobs.NewQueue(pool)), mediaRepo, blobs, caller)
 		mediaAPI.Routes(mux)
 	}
 

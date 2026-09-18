@@ -56,6 +56,10 @@ go test ./...
 | `internal/moderation` | публикация, жалобы, блокировки |
 | `internal/auth` | аккаунты, токены, Sign in with Apple |
 | `internal/media` | загрузка, транскодирование, HLS |
+| `internal/author` | публичные страницы авторов, подписки |
+| `internal/social` | жалобы и блокировки — то, чего требует Guideline 1.2 |
+| `internal/jobs` | очередь фоновых задач на Postgres: реестр обработчиков, повторы, периодические задачи |
+| `internal/paging` | keyset-курсор, общий для всех листингов |
 | `internal/httpx` | ошибки, JSON, middleware |
 
 ## Что читать перед правками

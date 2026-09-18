@@ -1,4 +1,11 @@
-package media
+// Package jobs is the durable background-work queue: Postgres as the broker,
+// claimed with FOR UPDATE SKIP LOCKED.
+//
+// It used to live in internal/media, where its own doc comment already noted
+// that nothing in it was media-specific. It moved out when a second kind of
+// work appeared, because the alternative -- a media package that every other
+// package imports in order to enqueue -- gets the dependencies backwards.
+package jobs
 
 import (
 	"context"
@@ -10,10 +17,6 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
-
-// JobKindTranscode is the jobs.kind value the worker in this package
-// processes.
-const JobKindTranscode = "media.transcode"
 
 // Job is one claimed row from the jobs table.
 type Job struct {
@@ -99,7 +102,7 @@ func (q *Queue) Enqueue(ctx context.Context, kind string, payload any, opts ...E
 
 	body, err := json.Marshal(payload)
 	if err != nil {
-		return 0, fmt.Errorf("media: marshal job payload: %w", err)
+		return 0, fmt.Errorf("jobs: marshal job payload: %w", err)
 	}
 
 	// The DO UPDATE with a self-referential no-op assignment is the standard
@@ -118,7 +121,7 @@ func (q *Queue) Enqueue(ctx context.Context, kind string, payload any, opts ...E
 
 	var id int64
 	if err := row.Scan(&id); err != nil {
-		return 0, fmt.Errorf("media: enqueue %s: %w", kind, err)
+		return 0, fmt.Errorf("jobs: enqueue %s: %w", kind, err)
 	}
 	return id, nil
 }
@@ -147,7 +150,7 @@ func (q *Queue) Claim(ctx context.Context, workerID string, n int) ([]Job, error
 		RETURNING j.id, j.kind, j.payload, j.attempts, j.max_attempts`,
 		n, workerID)
 	if err != nil {
-		return nil, fmt.Errorf("media: claim: %w", err)
+		return nil, fmt.Errorf("jobs: claim: %w", err)
 	}
 	defer rows.Close()
 
@@ -155,12 +158,12 @@ func (q *Queue) Claim(ctx context.Context, workerID string, n int) ([]Job, error
 	for rows.Next() {
 		var j Job
 		if err := rows.Scan(&j.ID, &j.Kind, &j.Payload, &j.Attempts, &j.MaxAttempts); err != nil {
-			return nil, fmt.Errorf("media: claim scan: %w", err)
+			return nil, fmt.Errorf("jobs: claim scan: %w", err)
 		}
 		jobs = append(jobs, j)
 	}
 	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("media: claim iterate: %w", err)
+		return nil, fmt.Errorf("jobs: claim iterate: %w", err)
 	}
 	return jobs, nil
 }
@@ -171,7 +174,7 @@ func (q *Queue) Complete(ctx context.Context, id int64) error {
 		UPDATE jobs SET status = 'done', finished_at = now(), locked_at = NULL, locked_by = NULL
 		WHERE id = $1 AND status = 'running'`, id)
 	if err != nil {
-		return fmt.Errorf("media: complete job %d: %w", id, err)
+		return fmt.Errorf("jobs: complete job %d: %w", id, err)
 	}
 	return nil
 }
@@ -192,9 +195,9 @@ func (q *Queue) Fail(ctx context.Context, id int64, cause error) error {
 	row := q.pool.QueryRow(ctx, `SELECT attempts, max_attempts FROM jobs WHERE id = $1`, id)
 	if err := row.Scan(&attempts, &maxAttempts); err != nil {
 		if err == pgx.ErrNoRows {
-			return fmt.Errorf("media: fail job %d: not found", id)
+			return fmt.Errorf("jobs: fail job %d: not found", id)
 		}
-		return fmt.Errorf("media: fail job %d: read attempts: %w", id, err)
+		return fmt.Errorf("jobs: fail job %d: read attempts: %w", id, err)
 	}
 
 	// The retry timestamp is computed here, in Go, and passed as a plain
@@ -219,7 +222,7 @@ func (q *Queue) Fail(ctx context.Context, id int64, cause error) error {
 		WHERE id = $1`,
 		id, msg, nextRun)
 	if err != nil {
-		return fmt.Errorf("media: fail job %d: %w", id, err)
+		return fmt.Errorf("jobs: fail job %d: %w", id, err)
 	}
 	return nil
 }
@@ -252,7 +255,7 @@ func (q *Queue) SweepStale(ctx context.Context, staleAfter time.Duration) (int64
 		WHERE status = 'running' AND locked_at < $1::timestamptz`,
 		cutoff)
 	if err != nil {
-		return 0, fmt.Errorf("media: sweep stale: %w", err)
+		return 0, fmt.Errorf("jobs: sweep stale: %w", err)
 	}
 	return tag.RowsAffected(), nil
 }

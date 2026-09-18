@@ -16,6 +16,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/jobs"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/objstore"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
 )
@@ -75,10 +76,11 @@ type flowRig struct {
 	pool    *pgxpool.Pool
 	repo    *Repo
 	store   *objstore.Fake
-	queue   *Queue
+	queue   *jobs.Queue
 	svc     *Service
 	coder   *FakeTranscoder
 	worker  *Worker
+	runner  *jobs.Runner
 	ownerID uuid.UUID
 }
 
@@ -106,17 +108,20 @@ func newFlowRig(t *testing.T) *flowRig {
 
 	repo := NewRepo(pool)
 	store := objstore.NewFake()
-	queue := NewQueue(pool)
+	queue := jobs.NewQueue(pool)
 	coder := &FakeTranscoder{}
 	quiet := slog.New(slog.NewTextHandler(io.Discard, &slog.HandlerOptions{Level: slog.LevelError}))
 
-	return &flowRig{
+	rig := &flowRig{
 		pool: pool, repo: repo, store: store, queue: queue,
 		svc:     NewService(repo, store, queue),
 		coder:   coder,
-		worker:  NewWorker("test-worker", repo, store, queue, coder, quiet),
+		worker:  NewWorker(repo, store, coder, quiet),
 		ownerID: ownerID,
 	}
+	rig.runner = jobs.NewRunner("test-worker", queue, quiet)
+	rig.runner.Handle(JobKindTranscode, rig.worker.Handler())
+	return rig
 }
 
 // has reports whether the object store holds key.
@@ -165,7 +170,7 @@ func TestUploadToReady(t *testing.T) {
 		t.Fatalf("after complete: got %s, want uploaded", asset.Status)
 	}
 
-	n, err := rig.worker.ProcessBatch(ctx)
+	n, err := rig.runner.ProcessBatch(ctx)
 	if err != nil {
 		t.Fatalf("ProcessBatch: %v", err)
 	}
@@ -197,7 +202,7 @@ func TestTranscodeIsIdempotent(t *testing.T) {
 	if _, err := rig.svc.CompleteUpload(ctx, id, rig.ownerID); err != nil {
 		t.Fatalf("CompleteUpload: %v", err)
 	}
-	if _, err := rig.worker.ProcessBatch(ctx); err != nil {
+	if _, err := rig.runner.ProcessBatch(ctx); err != nil {
 		t.Fatalf("first pass: %v", err)
 	}
 	if rig.coder.PhotoCalls != 1 {
@@ -228,7 +233,7 @@ func TestTranscodeFailureMarksAsset(t *testing.T) {
 	}
 	rig.coder.Err = errors.New("ffmpeg exploded")
 
-	if _, err := rig.worker.ProcessBatch(ctx); err != nil {
+	if _, err := rig.runner.ProcessBatch(ctx); err != nil {
 		t.Fatalf("ProcessBatch returned error: %v", err)
 	}
 	asset, _ := rig.repo.Get(ctx, id)

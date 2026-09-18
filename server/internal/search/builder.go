@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/paging"
 )
 
 // argset accumulates bind parameters. Every dynamic value in a query goes
@@ -245,7 +247,7 @@ func orderBy(s SortMode) string {
 	}
 }
 
-func keysetPredicate(s SortMode, c *Cursor, a *argset) string {
+func keysetPredicate(s SortMode, c *paging.Cursor, a *argset) string {
 	switch s {
 	case SortRelevance:
 		return fmt.Sprintf("(rank, id) < (%s::real, %s::uuid)",

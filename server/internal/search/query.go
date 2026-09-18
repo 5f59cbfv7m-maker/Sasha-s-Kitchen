@@ -13,7 +13,15 @@ import (
 	"unicode"
 
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/httpx"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/paging"
 )
+
+// allSorts is every ordering this package understands, used to reject a
+// cursor minted for a different listing.
+var allSorts = []string{
+	string(SortRelevance), string(SortNew), string(SortPopular),
+	string(SortRating), string(SortQuick), string(SortLight),
+}
 
 // SortMode names an ordering. Each mode maps to one partial index and one
 // keyset cursor shape; see builder.go.
@@ -93,7 +101,7 @@ type Query struct {
 	CollectionID string
 
 	Sort   SortMode
-	Cursor *Cursor
+	Cursor *paging.Cursor
 	Limit  int
 }
 
@@ -243,10 +251,10 @@ func ParseQuery(v url.Values) (Query, error) {
 	}
 
 	if raw := v.Get("cursor"); raw != "" {
-		c, err := DecodeCursor(raw)
+		c, err := paging.DecodeFor(raw, allSorts...)
 		if err != nil {
 			problems["cursor"] = "Некорректный курсор постраничной навигации"
-		} else if c.Sort != q.Sort {
+		} else if c.Sort != string(q.Sort) {
 			// Continuing a cursor under a different ordering would silently skip
 			// or repeat rows.
 			problems["cursor"] = "Курсор относится к другой сортировке"
