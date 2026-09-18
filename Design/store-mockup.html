@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Магазин рецептов</title>
+<style>
+/* ------------------------------------------------------------------ токены */
+:root {
+  color-scheme: light dark;
+
+  --bg:         #f7f4ef;
+  --surface:    #ffffff;
+  --surface-2:  #f1ece4;
+  --surface-3:  #e9e2d8;
+  --border:     #e3dcd1;
+  --border-2:   #d3c9ba;
+  --text:       #1f1b16;
+  --muted:      #6f665b;
+  --faint:      #948b7e;
+  --accent:     #b4530f;
+  --accent-ink: #ffffff;
+  --accent-soft:#fbeade;
+  --ok:         #2f7d4f;
+  --ok-soft:    #e4f1e9;
+  --warn:       #8a5a12;
+  --warn-soft:  #f8eeda;
+
+  /* Светлота для заглушек-градиентов: в тёмной теме пятна приглушаются. */
+  --ph-l1: 72%;
+  --ph-l2: 58%;
+  --ph-s:  46%;
+  --ph-text: rgba(28, 20, 12, .82);
+
+  --shadow-1: 0 1px 2px rgba(31, 27, 22, .06), 0 2px 8px rgba(31, 27, 22, .05);
+  --shadow-2: 0 4px 12px rgba(31, 27, 22, .10), 0 12px 32px rgba(31, 27, 22, .10);
+
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --gutter: 16px;
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+          "Noto Sans", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:         #141210;
+    --surface:    #1e1b18;
+    --surface-2:  #272320;
+    --surface-3:  #332e29;
+    --border:     #322d27;
+    --border-2:   #453e36;
+    --text:       #f3efe9;
+    --muted:      #a49a8d;
+    --faint:      #837a6e;
+    --accent:     #f0a05a;
+    --accent-ink: #241403;
+    --accent-soft:#2c2018;
+    --ok:         #6fbd8b;
+    --ok-soft:    #1b2a21;
+    --warn:       #e0b169;
+    --warn-soft:  #2b2318;
+
+    --ph-l1: 34%;
+    --ph-l2: 24%;
+    --ph-s:  38%;
+    --ph-text: rgba(255, 249, 240, .88);
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, .40), 0 2px 8px rgba(0, 0, 0, .30);
+    --shadow-2: 0 4px 12px rgba(0, 0, 0, .45), 0 12px 32px rgba(0, 0, 0, .40);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg:         #141210;
+  --surface:    #1e1b18;
+  --surface-2:  #272320;
+  --surface-3:  #332e29;
+  --border:     #322d27;
+  --border-2:   #453e36;
+  --text:       #f3efe9;
+  --muted:      #a49a8d;
+  --faint:      #837a6e;
+  --accent:     #f0a05a;
+  --accent-ink: #241403;
+  --accent-soft:#2c2018;
+  --ok:         #6fbd8b;
+  --ok-soft:    #1b2a21;
+  --warn:       #e0b169;
+  --warn-soft:  #2b2318;
+
+  --ph-l1: 34%;
+  --ph-l2: 24%;
+  --ph-s:  38%;
+  --ph-text: rgba(255, 249, 240, .88);
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, .40), 0 2px 8px rgba(0, 0, 0, .30);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, .45), 0 12px 32px rgba(0, 0, 0, .40);
+}
+
+/* ------------------------------------------------------------------- база */
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.45;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 { margin: 0; font-weight: 650; letter-spacing: -.01em; }
+p  { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.sr {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ----------------------------------------------------------------- шапка */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px var(--gutter);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(1.6) blur(14px);
+  -webkit-backdrop-filter: saturate(1.6) blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.brand b { font-size: 17px; font-weight: 700; white-space: nowrap; }
+
+.tag {
+  flex: none;
+  font-size: 11px; font-weight: 650; letter-spacing: .02em;
+  padding: 3px 8px; border-radius: 999px;
+  background: var(--warn-soft); color: var(--warn);
+  border: 1px solid color-mix(in srgb, var(--warn) 26%, transparent);
+}
+
+.topbar .spacer { flex: 1 1 auto; }
+
+.icon-btn {
+  flex: none;
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 34px; padding: 0 12px;
+  border: 1px solid var(--border-2); border-radius: 999px;
+  background: var(--surface); color: var(--text);
+  font-size: 13px; font-weight: 550;
+  white-space: nowrap;
+}
+.icon-btn:hover { background: var(--surface-2); }
+#theme-icon { font-size: 15px; line-height: 1; }
+
+@media (max-width: 460px) {
+  .icon-btn { padding: 0 10px; }
+  #theme-label { display: none; }
+}
+
+/* --------------------------------------------------------------- раскладка */
+.layout {
+  display: grid;
+  grid-template-columns: 286px minmax(0, 1fr);
+  gap: 24px;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 20px var(--gutter) 64px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+}
+
+/* ---------------------------------------------------------------- фильтры */
+.filters {
+  position: sticky; top: 66px;
+  max-height: calc(100vh - 86px);
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+}
+
+@media (max-width: 900px) {
+  .filters { position: static; max-height: none; }
+  .filters[data-collapsed="true"] .filters-body { display: none; }
+}
+
+.filters-head {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 14px;
+}
+.filters-head h2 { font-size: 15px; }
+.filters-head .count {
+  margin-left: auto;
+  font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+
+.filters-head .caret { display: none; flex: none; color: var(--faint); font-size: 13px; }
+@media (max-width: 900px) {
+  .filters-head { cursor: pointer; margin-bottom: 0; }
+  .filters-head .caret { display: block; transition: transform .15s ease; }
+  .filters[data-collapsed="false"] .filters-head { margin-bottom: 14px; }
+  .filters[data-collapsed="false"] .caret { transform: rotate(180deg); }
+}
+
+.fgroup { padding: 13px 0; border-top: 1px solid var(--border); }
+.fgroup:first-of-type { border-top: none; padding-top: 0; }
+
+.fgroup > h3 {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 9px;
+}
+
+.fnote {
+  margin-top: 7px;
+  font-size: 11.5px; line-height: 1.4; color: var(--faint);
+}
+
+.switch {
+  display: flex; align-items: flex-start; gap: 10px;
+  cursor: pointer; user-select: none;
+}
+.switch input { position: absolute; opacity: 0; pointer-events: none; }
+.switch .track {
+  flex: none; margin-top: 1px;
+  width: 40px; height: 24px; border-radius: 999px;
+  background: var(--surface-3); border: 1px solid var(--border-2);
+  transition: background .16s ease, border-color .16s ease;
+  position: relative;
+}
+.switch .track::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--surface); box-shadow: var(--shadow-1);
+  transition: transform .16s ease;
+}
+.switch input:checked + .track { background: var(--accent); border-color: var(--accent); }
+.switch input:checked + .track::after { transform: translateX(16px); }
+.switch .label { font-size: 13.5px; font-weight: 550; }
+.switch .sub { display: block; font-weight: 400; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 10px;
+  font-size: 12.5px; font-weight: 550;
+  border: 1px solid var(--border-2); border-radius: 999px;
+  background: var(--surface-2); color: var(--text);
+  transition: background .12s ease, border-color .12s ease, color .12s ease;
+}
+.chip:hover:not([disabled]) { border-color: var(--accent); }
+.chip[aria-pressed="true"] {
+  background: var(--accent); border-color: var(--accent); color: var(--accent-ink);
+}
+.chip[disabled] { opacity: .38; cursor: default; }
+.chip .n {
+  font-size: 11px; font-variant-numeric: tabular-nums;
+  color: var(--muted); font-weight: 600;
+}
+.chip[aria-pressed="true"] .n { color: color-mix(in srgb, var(--accent-ink) 78%, transparent); }
+.chip[disabled] .n { color: var(--faint); }
+
+.range-row { display: flex; align-items: center; gap: 10px; }
+.range-row input[type="range"] { flex: 1 1 auto; min-width: 0; accent-color: var(--accent); }
+.range-row .val {
+  flex: none; min-width: 74px; text-align: right;
+  font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--muted);
+}
+
+.reset {
+  width: 100%; margin-top: 14px; height: 36px;
+  border: 1px solid var(--border-2); border-radius: var(--r-sm);
+  background: var(--surface-2); font-size: 13px; font-weight: 550;
+}
+.reset:hover { background: var(--surface-3); }
+
+/* ------------------------------------------------------------------ полки */
+.shelf { margin-bottom: 34px; }
+
+.shelf-head {
+  display: flex; align-items: baseline; gap: 10px;
+  margin-bottom: 12px;
+}
+.shelf-head h2 { font-size: 21px; }
+.shelf-head .sub { font-size: 13px; color: var(--muted); }
+.shelf-head .kind {
+  margin-left: auto; flex: none;
+  font-size: 10.5px; font-weight: 650; letter-spacing: .04em;
+  color: var(--faint);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 2px 7px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@media (max-width: 640px) {
+  .shelf-head { flex-wrap: wrap; }
+  .shelf-head h2 { flex: 1 1 100%; font-size: 19px; }
+}
+
+/* kind = shelf — горизонтальная лента; прокрутка своя, страница не едет */
+.rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 232px;
+  gap: 14px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  padding-bottom: 6px;
+  margin: 0 calc(var(--gutter) * -1);
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  scrollbar-width: thin;
+}
+.rail > * { scroll-snap-align: start; }
+
+@media (min-width: 901px) {
+  .rail { margin: 0; padding-left: 0; padding-right: 0; }
+}
+
+/* kind = grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
+  gap: 14px;
+}
+
+/* ---------------------------------------------------------------- карточка */
+.card {
+  display: flex; flex-direction: column;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-color: var(--border-2); }
+.card:active { transform: translateY(0); }
+
+.ph {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(140deg,
+      hsl(var(--h1) var(--ph-s) var(--ph-l1)),
+      hsl(var(--h2) var(--ph-s) var(--ph-l2)));
+  overflow: hidden;
+}
+.ph::after {
+  /* лёгкая «крупа», чтобы плоский градиент не выглядел пустой заливкой */
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 22% 28%, rgba(255,255,255,.22), transparent 42%),
+                    radial-gradient(circle at 78% 72%, rgba(0,0,0,.16), transparent 46%);
+  pointer-events: none;
+}
+.ph-badges {
+  position: absolute; z-index: 2; top: 8px; left: 8px; right: 8px;
+  display: flex; align-items: flex-start; gap: 6px;
+}
+.ph-badges .right { margin-left: auto; display: flex; gap: 6px; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  height: 22px; padding: 0 8px;
+  font-size: 11px; font-weight: 650;
+  border-radius: 999px;
+  background: rgba(20, 16, 12, .62);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.pill.lock { background: rgba(20, 16, 12, .74); }
+
+.play {
+  position: absolute; z-index: 2; inset: 0;
+  display: grid; place-items: center;
+  pointer-events: none;
+}
+.play i {
+  display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(20, 16, 12, .48);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.34);
+}
+.play i::before {
+  content: ""; margin-left: 3px;
+  border-left: 13px solid #fff;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+
+.card-body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 6px; flex: 1 1 auto; }
+.card-title { font-size: 14.5px; font-weight: 650; line-height: 1.28; }
+.card-sum {
+  font-size: 12.5px; color: var(--muted); line-height: 1.35;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.byline { display: flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 4px; }
+.avatar {
+  flex: none; width: 20px; height: 20px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 9.5px; font-weight: 700; color: var(--ph-text);
+  background: linear-gradient(140deg,
+      hsl(var(--h1) var(--ph-s) var(--ph-l1)),
+      hsl(var(--h2) var(--ph-s) var(--ph-l2)));
+}
+.byline .name { font-size: 12px; color: var(--muted); font-weight: 550; }
+.verified { flex: none; width: 13px; height: 13px; color: var(--accent); }
+
+.meta {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 9px;
+  font-size: 12px; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.meta > span + span::before {
+  content: "·";
+  color: var(--border-2);
+  margin-right: 9px;
+}
+.meta .star { color: var(--accent); font-weight: 650; }
+
+/* kind = hero */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  min-height: 300px;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  text-align: left;
+  width: 100%;
+}
+.hero:hover { box-shadow: var(--shadow-2); }
+.hero .ph { aspect-ratio: auto; height: 100%; min-height: 220px; }
+.hero-body { padding: 26px 28px; display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+.hero-body .h3 { display: block; font-size: 27px; line-height: 1.15; font-weight: 650; letter-spacing: -.01em; }
+.hero-body .sum { font-size: 14.5px; color: var(--muted); line-height: 1.45; }
+
+@media (max-width: 720px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .hero .ph { aspect-ratio: 16 / 10; min-height: 0; }
+  .hero-body { padding: 18px var(--gutter) 22px; }
+  .hero-body .h3 { font-size: 22px; }
+}
+
+/* kind = spotlight */
+.spotlight {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  gap: 20px;
+  padding: 18px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--accent-soft), var(--surface) 62%);
+  text-align: left;
+  width: 100%;
+  box-shadow: var(--shadow-1);
+}
+.spotlight:hover { box-shadow: var(--shadow-2); }
+.spotlight .ph { border-radius: var(--r-md); aspect-ratio: 4 / 3; }
+.spot-body { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+.spot-body .h3 { display: block; font-size: 22px; line-height: 1.2; font-weight: 650; letter-spacing: -.01em; }
+.spot-body .sum { font-size: 14px; color: var(--muted); line-height: 1.45; }
+
+@media (max-width: 720px) {
+  .spotlight { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+}
+
+/* --------------------------------------------------------------- результат */
+.results-head {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 12px;
+  margin-bottom: 14px;
+}
+.results-head h2 { font-size: 21px; }
+.results-head .n { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.sortbar { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.sortbar label { font-size: 12.5px; color: var(--muted); }
+select {
+  font: inherit; font-size: 13px;
+  height: 32px; padding: 0 8px;
+  border: 1px solid var(--border-2); border-radius: var(--r-sm);
+  background: var(--surface); color: var(--text);
+}
+
+.empty {
+  padding: 46px 20px; text-align: center;
+  border: 1px dashed var(--border-2); border-radius: var(--r-lg);
+  color: var(--muted);
+}
+.empty b { display: block; color: var(--text); font-size: 15px; margin-bottom: 5px; }
+
+/* ------------------------------------------------------------- карточка/дет */
+.back {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-bottom: 14px;
+  font-size: 13.5px; font-weight: 550; color: var(--accent);
+}
+
+.detail {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+}
+
+.detail-hero { position: relative; }
+.detail-hero .ph { aspect-ratio: 21 / 9; }
+@media (max-width: 720px) { .detail-hero .ph { aspect-ratio: 4 / 3; } }
+
+.detail-body {
+  padding: 22px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+}
+@media (max-width: 560px) { .detail-body { padding: 18px var(--gutter); } }
+
+.detail-title { font-size: 28px; line-height: 1.15; overflow-wrap: anywhere; }
+@media (max-width: 560px) { .detail-title { font-size: 23px; } }
+
+.detail-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+
+.author-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+.author-row .avatar { width: 34px; height: 34px; font-size: 13px; }
+.author-row .who { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.author-row .who b { font-size: 13.5px; font-weight: 650; display: flex; align-items: center; gap: 5px; }
+.author-row .who span { font-size: 12px; color: var(--muted); }
+.author-row .note {
+  margin-left: auto; text-align: right; flex: none;
+  font-size: 11px; color: var(--faint); max-width: 190px; line-height: 1.35;
+}
+@media (max-width: 620px) { .author-row .note { display: none; } }
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+@media (max-width: 520px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.fact { background: var(--surface); padding: 11px 12px; }
+.fact .k { font-size: 11px; color: var(--faint); letter-spacing: .03em; text-transform: uppercase; font-weight: 650; }
+.fact .v { font-size: 16px; font-weight: 650; margin-top: 3px; font-variant-numeric: tabular-nums; }
+.fact .v small { font-size: 11.5px; font-weight: 500; color: var(--muted); }
+
+.section > h3 {
+  font-size: 12px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 10px;
+}
+
+.ing { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
+.ing li {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 10px 13px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+.ing li:first-child { border-top: none; }
+.ing li .amt {
+  margin-left: auto; flex: none;
+  font-variant-numeric: tabular-nums; font-weight: 600;
+  color: var(--muted);
+}
+.ing li .opt {
+  font-size: 11px; font-weight: 600; color: var(--faint);
+  border: 1px solid var(--border-2); border-radius: 999px; padding: 1px 6px;
+}
+.ing li .note { font-size: 12px; color: var(--faint); }
+
+.steps { counter-reset: s; display: grid; gap: 10px; }
+.steps li {
+  counter-increment: s;
+  display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 11px;
+  font-size: 14.5px; line-height: 1.5;
+}
+.steps li::before {
+  content: counter(s);
+  display: grid; place-items: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent);
+  font-size: 12.5px; font-weight: 700;
+}
+
+.gallery { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
+.gallery .ph { flex: none; width: 152px; aspect-ratio: 4 / 3; border-radius: var(--r-sm); }
+
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  height: 44px; padding: 0 20px;
+  border-radius: var(--r-md);
+  font-size: 15px; font-weight: 650;
+  border: 1px solid transparent;
+}
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.06); }
+.btn.ghost { background: var(--surface-2); border-color: var(--border-2); color: var(--text); }
+.btn.ghost:hover { background: var(--surface-3); }
+.btn[disabled] { opacity: .5; cursor: default; }
+
+.locked {
+  display: grid; gap: 10px;
+  padding: 18px;
+  border: 1px dashed var(--border-2);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+.locked h4 { font-size: 15px; }
+.locked p { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+
+.callout {
+  display: grid; gap: 4px;
+  padding: 11px 13px;
+  border-radius: var(--r-sm);
+  background: var(--warn-soft);
+  border: 1px solid color-mix(in srgb, var(--warn) 24%, transparent);
+  font-size: 12.5px; line-height: 1.45; color: var(--warn);
+}
+.callout b { font-weight: 700; }
+
+.locked code, .detail code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  background: var(--surface-3); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px;
+}
+
+.diets { display: flex; flex-wrap: wrap; gap: 6px; }
+.diet {
+  font-size: 12px; font-weight: 600;
+  padding: 3px 9px; border-radius: 999px;
+  background: var(--ok-soft); color: var(--ok);
+  border: 1px solid color-mix(in srgb, var(--ok) 26%, transparent);
+}
+
+/* ------------------------------------------------------------------- лист */
+.backdrop {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(12, 9, 6, .46);
+  backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 0;
+}
+@media (min-width: 721px) { .backdrop { align-items: center; padding: 24px; } }
+.backdrop[hidden] { display: none; }
+
+.sheet {
+  width: 100%; max-width: 560px;
+  max-height: min(86vh, 760px);
+  display: flex; flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+}
+@media (min-width: 721px) { .sheet { border-radius: var(--r-lg); } }
+
+.sheet-head {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 18px 18px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.sheet-head h2 { font-size: 19px; }
+.sheet-head p { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+.sheet-close {
+  margin-left: auto; flex: none;
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--surface-2); border: 1px solid var(--border);
+  font-size: 16px; line-height: 1; color: var(--muted);
+}
+
+.sheet-body {
+  overflow-y: auto; padding: 16px 18px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px;
+}
+
+.bucket > h3 {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 12px; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--faint);
+  margin-bottom: 9px;
+}
+.bucket > h3 .n {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0; text-transform: none; font-size: 11.5px;
+}
+
+.lines { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
+.lines li {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 9px 12px; font-size: 13.5px;
+  border-top: 1px solid var(--border);
+}
+.lines li:first-child { border-top: none; }
+.lines li .amt { margin-left: auto; flex: none; font-variant-numeric: tabular-nums; font-weight: 600; }
+.lines li .sub { font-size: 11.5px; color: var(--faint); }
+.lines li.have .amt { color: var(--ok); }
+.lines li.buy  .amt { color: var(--accent); }
+.lines li.new-product { background: var(--surface-2); }
+
+.sheet-foot {
+  padding: 13px 18px 18px;
+  border-top: 1px solid var(--border);
+  display: grid; gap: 10px;
+}
+
+/* ----------------------------------------------------------------- подвал */
+.colophon {
+  max-width: 1360px; margin: 0 auto;
+  padding: 0 var(--gutter) 56px;
+  color: var(--muted); font-size: 12.5px; line-height: 1.6;
+}
+.colophon h2 { font-size: 14px; color: var(--text); margin-bottom: 8px; }
+.colophon ul { display: grid; gap: 5px; }
+.colophon li { padding-left: 15px; position: relative; }
+.colophon li::before {
+  content: "—"; position: absolute; left: 0; color: var(--faint);
+}
+.colophon code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px;
+}
+.colophon .sep { height: 1px; background: var(--border); margin: 18px 0; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <b>Магазин рецептов</b>
+    <span class="tag">макет</span>
+  </div>
+  <div class="spacer"></div>
+  <button class="icon-btn" id="theme-toggle" type="button">
+    <span id="theme-icon">◐</span><span id="theme-label">Тема</span>
+  </button>
+</header>
+
+<div class="layout">
+
+  <!-- ------------------------------------------------------------ фильтры -->
+  <aside class="filters" id="filters" data-collapsed="true">
+    <div class="filters-head">
+      <h2>Фильтры</h2>
+      <span class="count" id="facet-total"></span>
+      <span class="caret" aria-hidden="true">▾</span>
+    </div>
+
+    <div class="filters-body">
+
+      <div class="fgroup">
+        <label class="switch">
+          <input type="checkbox" id="f-cancook">
+          <span class="track"></span>
+          <span class="label">Можно приготовить сейчас
+            <span class="sub">Из того, что лежит в холодильнике прямо сейчас</span>
+          </span>
+        </label>
+        <p class="fnote" id="pantry-note"></p>
+      </div>
+
+      <div class="fgroup">
+        <h3>Исключить продукт</h3>
+        <div class="chips" id="f-exclude"></div>
+        <p class="fnote">Число рядом — сколько рецептов <b>останется</b>, если убрать
+          продукт. Аллергия проверяет все ингредиенты, включая необязательные:
+          арахис в посыпке «по желанию» — всё равно арахис.</p>
+      </div>
+
+      <div class="fgroup">
+        <h3>Категория</h3>
+        <div class="chips" id="f-category"></div>
+      </div>
+
+      <div class="fgroup">
+        <h3>Кухня</h3>
+        <div class="chips" id="f-cuisine"></div>
+      </div>
+
+      <div class="fgroup">
+        <h3>Диеты</h3>
+        <div class="chips" id="f-diet"></div>
+        <p class="fnote">Несколько меток складываются: рецепт должен нести все
+          выбранные сразу.</p>
+      </div>
+
+      <div class="fgroup">
+        <h3>Сложность</h3>
+        <div class="chips" id="f-difficulty"></div>
+      </div>
+
+      <div class="fgroup">
+        <h3>Время приготовления</h3>
+        <div class="range-row">
+          <input type="range" id="f-time" min="10" max="120" step="5" value="120">
+          <span class="val" id="f-time-val">любое</span>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <h3>Калорийность порции</h3>
+        <div class="range-row">
+          <input type="range" id="f-kcal" min="150" max="900" step="25" value="900">
+          <span class="val" id="f-kcal-val">любая</span>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <h3>Доступ</h3>
+        <div class="chips" id="f-access"></div>
+      </div>
+
+      <div class="fgroup">
+        <h3>Медиа</h3>
+        <div class="chips" id="f-video"></div>
+      </div>
+
+      <button class="reset" id="f-reset" type="button">Сбросить фильтры</button>
+    </div>
+  </aside>
+
+  <!-- --------------------------------------------------------------- лента -->
+  <main id="main">
+    <section id="view-store"></section>
+    <section id="view-detail" hidden></section>
+  </main>
+</div>
+
+<div class="colophon">
+  <div class="sep"></div>
+  <h2>Что это и чего здесь нет</h2>
+  <ul>
+    <li>Это макет внешнего вида. Ничего не загружается по сети и ничего не
+      сохраняется: закройте вкладку — состояние пропадёт.</li>
+    <li>Данные — выдуманные, но <b>поля настоящие</b>: подписи и раскладка
+      собраны по ответам <code>/v1/storefront</code>, <code>/v1/recipes</code>,
+      <code>/v1/recipes/facets</code> и <code>/v1/recipes/{id}/bundle</code>,
+      а не придуманы к картинке.</li>
+    <li>Фотографий нет — их неоткуда взять. Цветные пятна — это то, что клиент
+      рисует по полю <code>blurhash</code>, пока грузится настоящее фото.</li>
+    <li>Байлайн автора кликабельным не сделан: страница автора в бэкенде есть,
+      но в этот макет её не брали, и ссылка вела бы в никуда.</li>
+    <li>Платная карточка закрыта по-честному: покупок в API нет, создать
+      платный рецепт он отказывается. Замок показывает, что схема это
+      выдержит, а не что механизм работает.</li>
+    <li>Значка «автор в топ-3» на карточках нет намеренно: в ответе витрины
+      у автора сейчас только <code>handle</code>, <code>name</code>,
+      <code>avatar_url</code> и <code>verified</code>. Рейтинг живёт на
+      странице автора; чтобы значок появился здесь, его нужно добавить в
+      карточку на сервере.</li>
+  </ul>
+</div>
+
+<div class="backdrop" id="backdrop" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="sheet-head">
+      <div>
+        <h2 id="sheet-title">Забрать себе</h2>
+        <p id="sheet-sub"></p>
+      </div>
+      <button class="sheet-close" id="sheet-close" type="button" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="sheet-body" id="sheet-body"></div>
+    <div class="sheet-foot">
+      <div class="callout">
+        <b>Это макет.</b> Кнопка ничего не добавит: в приложении на этом месте
+        рецепт, продукты и граммовки уезжают в базу, а недостающее — в список
+        покупок.
+      </div>
+      <button class="btn primary" id="sheet-ok" type="button">Понятно</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* =====================================================================
+   ДЕМО-ДАННЫЕ
+
+   Выдуманные, но разложены по настоящим полям ответа API. Имена ключей
+   намеренно совпадают с JSON-тегами Go-структур: Card, Detail, Shelf,
+   Facets, Bundle. Если поле здесь есть — оно есть и в ответе сервера;
+   если его здесь нет — сервер его не отдаёт.
+   ===================================================================== */
+
+/* Каталог продуктов — то, что приезжает в bundle.products и что клиент
+   заводит у себя, если такого продукта ещё нет. */
+const PRODUCTS = {
+  "яйца куриные":      { name: "Яйца куриные",       category: "Молочка/яйца", unit: "шт", grams_per_unit: 55,  per100: [157, 12.7, 11.5, 0.7],  shelf_life_days: 30, low_stock_threshold: 3 },
+  "молоко 2.5%":       { name: "Молоко 2.5%",        category: "Молочка",      unit: "мл", grams_per_unit: 1,   per100: [52, 2.9, 2.5, 4.7],     shelf_life_days: 7,  low_stock_threshold: 200 },
+  "мука пшеничная":    { name: "Мука пшеничная",     category: "Бакалея",      unit: "г",  grams_per_unit: 1,   per100: [342, 9.2, 1.2, 74.9],   shelf_life_days: 365, low_stock_threshold: 200 },
+  "масло сливочное":   { name: "Масло сливочное",    category: "Молочка",      unit: "г",  grams_per_unit: 1,   per100: [748, 0.5, 82.5, 0.8],   shelf_life_days: 30, low_stock_threshold: 50 },
+  "масло растительное":{ name: "Масло растительное", category: "Масла",        unit: "мл", grams_per_unit: 1,   per100: [899, 0, 99.9, 0],       shelf_life_days: 365, low_stock_threshold: 100 },
+  "оливковое масло":   { name: "Оливковое масло",    category: "Масла",        unit: "мл", grams_per_unit: 1,   per100: [898, 0, 99.8, 0],       shelf_life_days: 365, low_stock_threshold: 100 },
+  "сыр твёрдый":       { name: "Сыр твёрдый",        category: "Молочка",      unit: "г",  grams_per_unit: 1,   per100: [364, 24.1, 29.5, 0.3],  shelf_life_days: 21, low_stock_threshold: 50 },
+  "куриное филе":      { name: "Куриное филе",       category: "Мясо",         unit: "г",  grams_per_unit: 1,   per100: [113, 23.1, 1.2, 0.4],   shelf_life_days: 3,  low_stock_threshold: 200 },
+  "помидоры":          { name: "Помидоры",           category: "Овощи",        unit: "шт", grams_per_unit: 120, per100: [20, 1.1, 0.2, 3.7],     shelf_life_days: 7,  low_stock_threshold: 2 },
+  "огурцы":            { name: "Огурцы",             category: "Овощи",        unit: "шт", grams_per_unit: 100, per100: [14, 0.8, 0.1, 2.5],     shelf_life_days: 7,  low_stock_threshold: 2 },
+  "лук репчатый":      { name: "Лук репчатый",       category: "Овощи",        unit: "шт", grams_per_unit: 90,  per100: [41, 1.4, 0.2, 8.2],     shelf_life_days: 60, low_stock_threshold: 2 },
+  "картофель":         { name: "Картофель",          category: "Овощи",        unit: "г",  grams_per_unit: 1,   per100: [77, 2, 0.4, 16.3],      shelf_life_days: 60, low_stock_threshold: 500 },
+  "рис":               { name: "Рис",                category: "Крупы",        unit: "г",  grams_per_unit: 1,   per100: [344, 6.7, 0.7, 78.9],   shelf_life_days: 365, low_stock_threshold: 200 },
+  "гречка":            { name: "Гречка",             category: "Крупы",        unit: "г",  grams_per_unit: 1,   per100: [343, 12.6, 3.3, 62.1],  shelf_life_days: 365, low_stock_threshold: 200 },
+  "творог 5%":         { name: "Творог 5%",          category: "Молочка",      unit: "г",  grams_per_unit: 1,   per100: [121, 17.2, 5, 1.8],     shelf_life_days: 5,  low_stock_threshold: 100 },
+  "сметана 20%":       { name: "Сметана 20%",        category: "Молочка",      unit: "г",  grams_per_unit: 1,   per100: [206, 2.8, 20, 3.2],     shelf_life_days: 10, low_stock_threshold: 100 },
+  "сахар":             { name: "Сахар",              category: "Бакалея",      unit: "г",  grams_per_unit: 1,   per100: [399, 0, 0, 99.7],       shelf_life_days: 730, low_stock_threshold: 200 },
+  "соль":              { name: "Соль",               category: "Специи",       unit: "г",  grams_per_unit: 1,   per100: [0, 0, 0, 0],            shelf_life_days: 1825, low_stock_threshold: 100 },
+  "чеснок":            { name: "Чеснок",             category: "Овощи",        unit: "шт", grams_per_unit: 5,   per100: [143, 6.5, 0.5, 29.9],   shelf_life_days: 90, low_stock_threshold: 3 },
+  "спагетти":          { name: "Спагетти",           category: "Бакалея",      unit: "г",  grams_per_unit: 1,   per100: [344, 10.4, 1.1, 71.5],  shelf_life_days: 365, low_stock_threshold: 200 },
+  "петрушка":          { name: "Петрушка",           category: "Зелень",       unit: "г",  grams_per_unit: 1,   per100: [49, 3.7, 0.4, 7.6],     shelf_life_days: 5,  low_stock_threshold: 20 },
+  "хлеб белый":        { name: "Хлеб белый",         category: "Хлеб",         unit: "г",  grams_per_unit: 1,   per100: [242, 7.6, 3.1, 48.8],   shelf_life_days: 4,  low_stock_threshold: 100 },
+  "маскарпоне":        { name: "Маскарпоне",         category: "Молочка",      unit: "г",  grams_per_unit: 1,   per100: [412, 4.8, 41, 4.8],     shelf_life_days: 14, low_stock_threshold: 100 },
+  "савоярди":          { name: "Савоярди",           category: "Бакалея",      unit: "г",  grams_per_unit: 1,   per100: [392, 7.5, 8.5, 70],     shelf_life_days: 180, low_stock_threshold: 100 },
+  "кофе молотый":      { name: "Кофе молотый",       category: "Бакалея",      unit: "г",  grams_per_unit: 1,   per100: [200, 13.9, 14.4, 4.1],  shelf_life_days: 180, low_stock_threshold: 50 },
+  "какао":             { name: "Какао",              category: "Бакалея",      unit: "г",  grams_per_unit: 1,   per100: [289, 24.2, 15, 10.2],   shelf_life_days: 365, low_stock_threshold: 30 },
+  "арахис":            { name: "Арахис",             category: "Бакалея",      unit: "г",  grams_per_unit: 1,   per100: [567, 26, 49.2, 16.1],   shelf_life_days: 180, low_stock_threshold: 50 },
+  "лосось":            { name: "Лосось",             category: "Рыба",         unit: "г",  grams_per_unit: 1,   per100: [208, 20, 13.4, 0],      shelf_life_days: 2,  low_stock_threshold: 200 },
+  "лимон":             { name: "Лимон",              category: "Фрукты",       unit: "шт", grams_per_unit: 90,  per100: [34, 0.9, 0.1, 3],       shelf_life_days: 21, low_stock_threshold: 1 },
+  "яблоки":            { name: "Яблоки",             category: "Фрукты",       unit: "шт", grams_per_unit: 180, per100: [47, 0.4, 0.4, 9.8],     shelf_life_days: 21, low_stock_threshold: 2 },
+  "сливочный сыр":     { name: "Сливочный сыр",      category: "Молочка",      unit: "г",  grams_per_unit: 1,   per100: [342, 5.5, 33, 4.9],     shelf_life_days: 14, low_stock_threshold: 80 },
+};
+
+/* «Холодильник» — то, что у смотрящего уже есть. В приложении это StockItem,
+   в запросе к витрине — параметр pantry для фильтра can_cook_now. */
+const PANTRY = {
+  "яйца куриные": 6, "молоко 2.5%": 400, "мука пшеничная": 500,
+  "масло сливочное": 120, "сыр твёрдый": 150, "куриное филе": 300,
+  "помидоры": 3, "огурцы": 2, "лук репчатый": 2, "картофель": 1000,
+  "рис": 400, "соль": 300, "масло растительное": 250, "чеснок": 4,
+  "спагетти": 200, "хлеб белый": 300,
+};
+
+const AUTHORS = {
+  anna:   { id: "9a1c…", handle: "chef_anna",    name: "Анна Коваль",  verified: true  },
+  boris:  { id: "3f70…", handle: "chef_boris",   name: "Борис Лапин",  verified: false },
+  marina: { id: "c204…", handle: "marina_cooks", name: "Марина Гай",   verified: true  },
+  peter:  { id: "7b8e…", handle: "peter_grill",  name: "Пётр Савин",   verified: false },
+};
+
+const CATEGORIES = [
+  { slug: "breakfast", title: "Завтрак" },
+  { slug: "soup",      title: "Суп"     },
+  { slug: "main",      title: "Основное"},
+  { slug: "dessert",   title: "Десерт"  },
+];
+const CUISINES = [
+  { slug: "russian",  title: "Русская"     },
+  { slug: "italian",  title: "Итальянская" },
+  { slug: "japanese", title: "Японская"    },
+];
+const DIETS = [
+  { slug: "vegetarian",   title: "Вегетарианское" },
+  { slug: "gluten_free",  title: "Без глютена"    },
+  { slug: "lactose_free", title: "Без лактозы"    },
+];
+const DIET_TITLE = Object.fromEntries(DIETS.map(d => [d.slug, d.title]));
+const DIFFICULTY_TITLE = { 1: "Просто", 2: "Средне", 3: "Сложно" };
+
+/* Кандидаты на исключение — то, что чаще всего убирают по аллергии. */
+const ALLERGENS = ["арахис", "молоко 2.5%", "яйца куриные", "мука пшеничная", "сыр твёрдый"];
+
+/* Рецепты. amount — на всю закладку в base_servings порций, как в колонке
+   amount_per_base_serving; в состав на карточке они уезжают как есть. */
+const RECIPES = [
+  {
+    slug: "omlet-klassicheskiy", title: "Омлет классический",
+    summary: "Тот, который получается с первого раза: три правила и сковорода потолще.",
+    description: "Омлет разваливается по двум причинам: сильный огонь и лишняя мука. Здесь нет ни того, ни другого — только яйца, молоко и терпение первые полторы минуты.",
+    category: "breakfast", cuisine: "russian", difficulty: 1,
+    cook_time_minutes: 10, prep_time_minutes: 3, base_servings: 2,
+    access_tier: "free", diets: [], has_video: true,
+    import_count: 4218, favorite_count: 1183, rating: 4.7, rating_count: 312,
+    published_at: "2026-09-14", author: "anna", gallery: 3,
+    ingredients: [
+      { key: "яйца куриные", amount: 4, unit: "шт" },
+      { key: "молоко 2.5%", amount: 80, unit: "мл" },
+      { key: "масло сливочное", amount: 15, unit: "г" },
+      { key: "соль", amount: 3, unit: "г" },
+    ],
+    steps: [
+      "Разбить яйца в миску, влить молоко, посолить. Взбить вилкой до однородности — не венчиком: лишний воздух потом осядет.",
+      "Разогреть сковороду на среднем огне, растопить сливочное масло так, чтобы оно покрыло дно.",
+      "Вылить смесь, убавить огонь до слабого и не трогать полторы минуты.",
+      "Лопаткой сдвинуть край к центру, наклонить сковороду, дать жидкой части стечь. Повторить дважды и снять с огня — на тарелке дойдёт сам.",
+    ],
+  },
+  {
+    slug: "yaichnitsa-s-pomidorami", title: "Яичница с помидорами",
+    summary: "Завтрак на одного за десять минут. Помидоры кладём первыми, иначе будет суп.",
+    description: "Главная ошибка — вылить яйца на сырые помидоры: те дадут сок, и яичница поплывёт. Дайте помидорам выпарить влагу, и всё сойдётся.",
+    category: "breakfast", cuisine: "russian", difficulty: 1,
+    cook_time_minutes: 10, prep_time_minutes: 4, base_servings: 1,
+    access_tier: "free", diets: ["gluten_free", "lactose_free"], has_video: false,
+    import_count: 2870, favorite_count: 640, rating: 4.5, rating_count: 188,
+    published_at: "2026-09-11", author: "boris", gallery: 2,
+    ingredients: [
+      { key: "яйца куриные", amount: 3, unit: "шт" },
+      { key: "помидоры", amount: 2, unit: "шт" },
+      { key: "масло растительное", amount: 15, unit: "мл" },
+      { key: "соль", amount: 2, unit: "г" },
+    ],
+    steps: [
+      "Помидоры нарезать дольками, обжарить на масле 3–4 минуты, пока не уйдёт сок.",
+      "Разбить сверху яйца, посолить.",
+      "Накрыть крышкой и держать на слабом огне 3 минуты — белок схватится, желток останется жидким.",
+    ],
+  },
+  {
+    slug: "grenki-s-chesnokom", title: "Гренки с чесноком",
+    summary: "Чёрствый хлеб превращается в закуску, ради которой его стоило не доедать.",
+    description: "Чеснок кладётся в масло, а не на готовые гренки: так он отдаёт запах маслу и не горит на сковороде.",
+    category: "breakfast", cuisine: "russian", difficulty: 1,
+    cook_time_minutes: 12, prep_time_minutes: 5, base_servings: 2,
+    access_tier: "free", diets: ["vegetarian", "lactose_free"], has_video: false,
+    import_count: 1932, favorite_count: 415, rating: 4.4, rating_count: 96,
+    published_at: "2026-09-08", author: "peter", gallery: 1,
+    ingredients: [
+      { key: "хлеб белый", amount: 200, unit: "г" },
+      { key: "чеснок", amount: 3, unit: "шт" },
+      { key: "масло растительное", amount: 30, unit: "мл" },
+      { key: "соль", amount: 3, unit: "г" },
+    ],
+    steps: [
+      "Хлеб нарезать брусками в палец толщиной.",
+      "Чеснок раздавить плашмя ножом и прогреть в масле на слабом огне 2 минуты, потом вынуть.",
+      "Обжарить хлеб в этом масле с двух сторон до корочки, посолить горячим.",
+    ],
+  },
+  {
+    slug: "zharenaya-kartoshka-s-lukom", title: "Жареная картошка с луком",
+    summary: "Корочка получается, если не мешать первые семь минут и солить в конце.",
+    description: "Картошку перемешивают слишком рано и слишком часто — отсюда каша вместо корочки. Первые семь минут сковороду вообще не трогают.",
+    category: "main", cuisine: "russian", difficulty: 1,
+    cook_time_minutes: 30, prep_time_minutes: 10, base_servings: 3,
+    access_tier: "free", diets: ["vegetarian", "gluten_free", "lactose_free"], has_video: true,
+    import_count: 3604, favorite_count: 902, rating: 4.6, rating_count: 241,
+    published_at: "2026-09-15", author: "anna", gallery: 2,
+    ingredients: [
+      { key: "картофель", amount: 800, unit: "г" },
+      { key: "лук репчатый", amount: 2, unit: "шт" },
+      { key: "масло растительное", amount: 40, unit: "мл" },
+      { key: "соль", amount: 6, unit: "г" },
+    ],
+    steps: [
+      "Картофель нарезать брусками, обсушить полотенцем — мокрая картошка не жарится, а парится.",
+      "Разогреть масло, выложить одним слоем и не трогать 7 минут.",
+      "Перевернуть, жарить ещё 7 минут, добавить лук.",
+      "Довести до мягкости под крышкой, посолить в самом конце.",
+    ],
+  },
+  {
+    slug: "pasta-aglio-e-olio", title: "Паста агльо э ольо",
+    summary: "Четыре продукта и пятнадцать минут. Соус делает вода из-под макарон.",
+    description: "Настоящий соус здесь — крахмальная вода от спагетти. Слейте её всю, и получите масляные макароны; оставьте полстакана, и получится паста.",
+    category: "main", cuisine: "italian", difficulty: 1,
+    cook_time_minutes: 15, prep_time_minutes: 5, base_servings: 2,
+    access_tier: "free", diets: ["vegetarian", "lactose_free"], has_video: true,
+    import_count: 2410, favorite_count: 781, rating: 4.8, rating_count: 164,
+    published_at: "2026-09-16", author: "marina", gallery: 3,
+    ingredients: [
+      { key: "спагетти", amount: 200, unit: "г" },
+      { key: "чеснок", amount: 4, unit: "шт" },
+      { key: "оливковое масло", amount: 50, unit: "мл" },
+      { key: "петрушка", amount: 15, unit: "г" },
+      { key: "соль", amount: 8, unit: "г" },
+    ],
+    steps: [
+      "Поставить воду, посолить как следует. Отварить спагетти на минуту меньше, чем написано на пачке.",
+      "Пока варятся — нарезать чеснок тонкими пластинами и прогреть в оливковом масле на слабом огне до светло-золотого.",
+      "Зачерпнуть полстакана воды из кастрюли. Спагетти переложить в сковороду.",
+      "Влить воду, мешать полминуты — масло с водой свяжутся в соус. Снять с огня, добавить петрушку.",
+    ],
+  },
+  {
+    slug: "kurinyy-sup-s-risom", title: "Куриный суп с рисом",
+    summary: "Прозрачный бульон: снимаем пену и держим на слабом огне, не на кипении.",
+    description: "Мутный бульон — это бульон, который кипел. Как только пошли крупные пузыри, огонь убавляют: дальше суп должен только подрагивать.",
+    category: "soup", cuisine: "russian", difficulty: 2,
+    cook_time_minutes: 50, prep_time_minutes: 15, base_servings: 4,
+    access_tier: "free", diets: ["gluten_free", "lactose_free"], has_video: false,
+    import_count: 2115, favorite_count: 534, rating: 4.5, rating_count: 203,
+    published_at: "2026-09-09", author: "boris", gallery: 2,
+    ingredients: [
+      { key: "куриное филе", amount: 400, unit: "г" },
+      { key: "рис", amount: 80, unit: "г" },
+      { key: "картофель", amount: 300, unit: "г" },
+      { key: "лук репчатый", amount: 1, unit: "шт" },
+      { key: "соль", amount: 8, unit: "г" },
+      { key: "петрушка", amount: 10, unit: "г", optional: true, note: "в тарелку" },
+    ],
+    steps: [
+      "Филе залить холодной водой, довести до кипения, снять пену и убавить огонь.",
+      "Через 20 минут добавить картофель кубиком и лук целой луковицей.",
+      "Ещё через 10 минут всыпать рис, варить до готовности.",
+      "Луковицу вынуть, посолить, дать постоять под крышкой 5 минут.",
+    ],
+  },
+  {
+    slug: "grechka-s-kuritsey", title: "Гречка с курицей",
+    summary: "Гречка доходит в той же сковороде, где жарилась курица, и забирает весь вкус.",
+    description: "Отдельно сваренная гречка и отдельно пожаренная курица — это два блюда на одной тарелке. Здесь крупа доваривается в сковороде и получается одно.",
+    category: "main", cuisine: "russian", difficulty: 1,
+    cook_time_minutes: 35, prep_time_minutes: 8, base_servings: 3,
+    access_tier: "free", diets: ["gluten_free", "lactose_free"], has_video: false,
+    import_count: 1788, favorite_count: 392, rating: 4.3, rating_count: 121,
+    published_at: "2026-09-06", author: "peter", gallery: 1,
+    ingredients: [
+      { key: "гречка", amount: 250, unit: "г" },
+      { key: "куриное филе", amount: 400, unit: "г" },
+      { key: "лук репчатый", amount: 1, unit: "шт" },
+      { key: "масло растительное", amount: 25, unit: "мл" },
+      { key: "соль", amount: 6, unit: "г" },
+    ],
+    steps: [
+      "Филе нарезать кубиком, обжарить на сильном огне до румяности, переложить на тарелку.",
+      "В той же сковороде обжарить лук.",
+      "Всыпать промытую гречку, вернуть курицу, залить водой на два пальца выше крупы.",
+      "Довести до кипения, убавить огонь, накрыть крышкой и не открывать 20 минут.",
+    ],
+  },
+  {
+    slug: "salat-s-syrom-i-ogurtsami", title: "Салат с сыром и огурцами",
+    summary: "Пять минут, три продукта. Сыр натирается крупно, иначе теряется.",
+    description: "Салат из того, что всегда есть. Солить в самом конце: соль вытянет из огурцов воду, и через десять минут на дне будет лужа.",
+    category: "main", cuisine: "russian", difficulty: 1,
+    cook_time_minutes: 10, prep_time_minutes: 10, base_servings: 2,
+    access_tier: "free", diets: ["vegetarian", "gluten_free"], has_video: false,
+    import_count: 1204, favorite_count: 288, rating: 4.2, rating_count: 74,
+    published_at: "2026-09-04", author: "marina", gallery: 1,
+    ingredients: [
+      { key: "огурцы", amount: 2, unit: "шт" },
+      { key: "сыр твёрдый", amount: 120, unit: "г" },
+      { key: "сметана 20%", amount: 60, unit: "г" },
+      { key: "петрушка", amount: 10, unit: "г" },
+      { key: "соль", amount: 2, unit: "г" },
+    ],
+    steps: [
+      "Огурцы нарезать соломкой, сыр натереть на крупной тёрке.",
+      "Смешать со сметаной и рубленой петрушкой.",
+      "Посолить прямо перед подачей.",
+    ],
+  },
+  {
+    slug: "losos-s-limonom", title: "Лосось на сковороде с лимоном",
+    summary: "Кожей вниз, не трогая четыре минуты — и корочка снимется вместе с рыбой.",
+    description: "Рыба прилипает к сковороде, когда её кладут на недостаточно горячую поверхность и сразу начинают двигать. Всё решают первые четыре минуты.",
+    category: "main", cuisine: "japanese", difficulty: 2,
+    cook_time_minutes: 20, prep_time_minutes: 7, base_servings: 2,
+    access_tier: "free", diets: ["gluten_free", "lactose_free"], has_video: true,
+    import_count: 1470, favorite_count: 613, rating: 4.9, rating_count: 88,
+    published_at: "2026-09-17", author: "marina", gallery: 3,
+    ingredients: [
+      { key: "лосось", amount: 400, unit: "г" },
+      { key: "лимон", amount: 1, unit: "шт" },
+      { key: "оливковое масло", amount: 20, unit: "мл" },
+      { key: "соль", amount: 4, unit: "г" },
+      { key: "петрушка", amount: 10, unit: "г", optional: true },
+    ],
+    steps: [
+      "Филе обсушить, посолить за 10 минут до жарки.",
+      "Сковороду разогреть как следует, влить масло, выложить рыбу кожей вниз.",
+      "Четыре минуты не трогать. Перевернуть и держать ещё две.",
+      "Снять с огня, выжать сверху половину лимона.",
+    ],
+  },
+  {
+    slug: "tvorozhnaya-zapekanka", title: "Творожная запеканка",
+    summary: "Не оседает, потому что муки мало, а яиц ровно столько, сколько нужно.",
+    description: "Запеканка оседает от избытка жидкости и резкого перепада температуры. Достаём её из выключённой духовки не сразу, а через десять минут.",
+    category: "breakfast", cuisine: "russian", difficulty: 1,
+    cook_time_minutes: 45, prep_time_minutes: 12, base_servings: 4,
+    access_tier: "free", diets: ["vegetarian"], has_video: false,
+    import_count: 2530, favorite_count: 708, rating: 4.6, rating_count: 176,
+    published_at: "2026-09-12", author: "anna", gallery: 2,
+    ingredients: [
+      { key: "творог 5%", amount: 500, unit: "г" },
+      { key: "яйца куриные", amount: 2, unit: "шт" },
+      { key: "сахар", amount: 60, unit: "г" },
+      { key: "мука пшеничная", amount: 40, unit: "г" },
+      { key: "сметана 20%", amount: 80, unit: "г" },
+      { key: "соль", amount: 2, unit: "г" },
+    ],
+    steps: [
+      "Творог протереть через сито — от этого зависит, будет ли запеканка однородной.",
+      "Вмешать яйца, сахар, соль, затем муку и сметану.",
+      "Выложить в форму, разровнять, печь 40 минут при 180 °C.",
+      "Выключить духовку и оставить запеканку внутри ещё на 10 минут.",
+    ],
+  },
+  {
+    slug: "yablochnye-oladi", title: "Яблочные оладьи",
+    summary: "Тесто гуще обычного: яблоки дадут сок и разжижат его сами.",
+    description: "Если замесить тесто как на обычные оладьи, после яблок оно поплывёт. Поэтому здесь его делают заметно гуще, чем кажется правильным.",
+    category: "dessert", cuisine: "russian", difficulty: 2,
+    cook_time_minutes: 25, prep_time_minutes: 12, base_servings: 4,
+    access_tier: "free", diets: ["vegetarian"], has_video: false,
+    import_count: 1655, favorite_count: 497, rating: 4.4, rating_count: 109,
+    published_at: "2026-09-07", author: "boris", gallery: 2,
+    ingredients: [
+      { key: "яблоки", amount: 2, unit: "шт" },
+      { key: "мука пшеничная", amount: 180, unit: "г" },
+      { key: "яйца куриные", amount: 2, unit: "шт" },
+      { key: "молоко 2.5%", amount: 150, unit: "мл" },
+      { key: "сахар", amount: 40, unit: "г" },
+      { key: "масло растительное", amount: 30, unit: "мл" },
+      { key: "арахис", amount: 30, unit: "г", optional: true, note: "рубленый, сверху" },
+    ],
+    steps: [
+      "Яблоки натереть на крупной тёрке, отжать лишний сок.",
+      "Смешать яйца, молоко и сахар, всыпать муку, вымесить до густоты сметаны.",
+      "Вмешать яблоки. Жарить на среднем огне под крышкой по 3 минуты с каждой стороны.",
+    ],
+  },
+  {
+    slug: "pechenye-s-arahisom", title: "Печенье с арахисом",
+    summary: "Масло должно быть холодным, иначе печенье растечётся в один корж.",
+    description: "Арахис обжаривается всухую до того, как попадёт в тесто, — иначе он останется сырым внутри печенья и будет отдавать бобом.",
+    category: "dessert", cuisine: "russian", difficulty: 2,
+    cook_time_minutes: 35, prep_time_minutes: 15, base_servings: 6,
+    access_tier: "free", diets: ["vegetarian"], has_video: false,
+    import_count: 986, favorite_count: 254, rating: 4.3, rating_count: 61,
+    published_at: "2026-09-03", author: "peter", gallery: 1,
+    ingredients: [
+      { key: "арахис", amount: 150, unit: "г" },
+      { key: "мука пшеничная", amount: 200, unit: "г" },
+      { key: "масло сливочное", amount: 120, unit: "г" },
+      { key: "сахар", amount: 120, unit: "г" },
+      { key: "яйца куриные", amount: 1, unit: "шт" },
+    ],
+    steps: [
+      "Арахис обжарить на сухой сковороде 5 минут, остудить, крупно порубить.",
+      "Холодное масло растереть с мукой и сахаром в крошку, вмешать яйцо.",
+      "Добавить арахис, скатать шарики, слегка приплюснуть.",
+      "Печь 18 минут при 180 °C. Из духовки печенье выходит мягким — твердеет, когда остынет.",
+    ],
+  },
+  {
+    slug: "tiramisu", title: "Тирамису",
+    summary: "Классический, на сырых желтках, с разбором главных ошибок сборки.",
+    description: "Платный рецепт: полный состав, граммовки и шаги открываются после покупки.",
+    category: "dessert", cuisine: "italian", difficulty: 3,
+    cook_time_minutes: 40, prep_time_minutes: 30, base_servings: 6,
+    access_tier: "paid", price: { minor: 29000, currency: "RUB" },
+    diets: ["vegetarian"], has_video: true,
+    import_count: 143, favorite_count: 871, rating: 4.9, rating_count: 57,
+    published_at: "2026-09-18", author: "anna", gallery: 3,
+    ingredients: [
+      { key: "маскарпоне", amount: 500, unit: "г" },
+      { key: "савоярди", amount: 200, unit: "г" },
+      { key: "яйца куриные", amount: 4, unit: "шт" },
+      { key: "сахар", amount: 100, unit: "г" },
+      { key: "кофе молотый", amount: 30, unit: "г" },
+      { key: "какао", amount: 15, unit: "г" },
+    ],
+    steps: [
+      "Сварить кофе и полностью остудить.",
+      "Желтки взбить с сахаром до белизны, вмешать маскарпоне.",
+      "Белки взбить отдельно и ввести лопаткой сверху вниз.",
+      "Савоярди обмакивать в кофе по одной секунде на сторону. Собрать слоями и убрать в холод на 6 часов.",
+    ],
+  },
+];
+
+/* Полки витрины — collections. kind принимает ровно четыре значения. */
+const SHELVES = [
+  { slug: "following", title: "Новое у тех, на кого вы подписаны",
+    subtitle: "Анна Коваль, Марина Гай", kind: "shelf",
+    items: ["losos-s-limonom", "pasta-aglio-e-olio", "zharenaya-kartoshka-s-lukom", "tiramisu", "salat-s-syrom-i-ogurtsami", "tvorozhnaya-zapekanka"] },
+  { slug: "today", title: "Готовим сегодня",
+    subtitle: "Выбор редакции", kind: "hero",
+    items: ["omlet-klassicheskiy"] },
+  { slug: "faster-than-delivery", title: "Быстрее, чем доставка",
+    subtitle: "От холодильника до стола — двадцать минут", kind: "shelf",
+    items: ["yaichnitsa-s-pomidorami", "pasta-aglio-e-olio", "grenki-s-chesnokom", "omlet-klassicheskiy", "losos-s-limonom", "salat-s-syrom-i-ogurtsami"] },
+  { slug: "from-your-fridge", title: "Из того, что уже лежит в холодильнике",
+    subtitle: "Собрано по вашим остаткам", kind: "grid",
+    items: ["omlet-klassicheskiy", "zharenaya-kartoshka-s-lukom", "grenki-s-chesnokom", "yaichnitsa-s-pomidorami"] },
+  { slug: "author-of-week", title: "Автор недели",
+    subtitle: "Анна Коваль", kind: "spotlight",
+    items: ["tvorozhnaya-zapekanka"] },
+];
+
+/* =====================================================================
+   ВЫЧИСЛЕНИЯ
+   ===================================================================== */
+
+/* Устойчивый хеш: цвет заглушки не должен меняться от перезагрузки —
+   ровно та же причина, по которой в приложении есть stableHash. */
+function stableHash(s) {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function phVars(seed) {
+  const h = stableHash(seed);
+  const h1 = h % 360;
+  const h2 = (h1 + 26 + (h >> 9) % 30) % 360;
+  return `--h1:${h1};--h2:${h2}`;
+}
+
+const nf = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 1 });
+const num = v => nf.format(Math.round(v * 10) / 10);
+const int = v => new Intl.NumberFormat("ru-RU").format(Math.round(v));
+
+function gramsOf(ing) {
+  const p = PRODUCTS[ing.key];
+  return ing.unit === "шт" ? ing.amount * p.grams_per_unit : ing.amount;
+}
+
+/* КБЖУ считается только от граммов — тот же инвариант, что в приложении. */
+function nutritionPerServing(r) {
+  const t = [0, 0, 0, 0];
+  for (const ing of r.ingredients) {
+    if (ing.optional) continue;
+    const g = gramsOf(ing), p = PRODUCTS[ing.key].per100;
+    for (let i = 0; i < 4; i++) t[i] += g * p[i] / 100;
+  }
+  return {
+    kcal:    t[0] / r.base_servings,
+    protein: t[1] / r.base_servings,
+    fat:     t[2] / r.base_servings,
+    carbs:   t[3] / r.base_servings,
+  };
+}
+
+for (const r of RECIPES) {
+  r.nutrition_per_serving = nutritionPerServing(r);
+  r.author_obj = AUTHORS[r.author];
+}
+const BY_SLUG = Object.fromEntries(RECIPES.map(r => [r.slug, r]));
+
+/* Может ли рецепт быть приготовлен из текущих остатков. Считаются только
+   обязательные ингредиенты: «по желанию» не должно блокировать. */
+function canCookNow(r) {
+  return r.ingredients.every(ing =>
+    ing.optional || (PANTRY[ing.key] !== undefined && PANTRY[ing.key] >= ing.amount));
+}
+
+/* Исключение продукта проверяет ВСЕ ингредиенты, включая необязательные:
+   арахис в посыпке «по желанию» — всё равно арахис. */
+function hasIngredient(r, key) {
+  return r.ingredients.some(ing => ing.key === key);
+}
+
+const state = {
+  cancook: false,
+  exclude: new Set(),
+  category: new Set(),
+  cuisine: new Set(),
+  diet: new Set(),
+  difficulty: new Set(),
+  access: "any",
+  video: false,
+  maxTime: 120,
+  maxKcal: 900,
+  sort: "new",
+};
+
+/* skip — измерение, фильтр которого при подсчёте снимается: так считаются
+   счётчики у значений, чтобы было видно, какой выбор ведёт в пустоту. */
+function matches(r, skip) {
+  if (state.cancook && skip !== "cancook" && !canCookNow(r)) return false;
+  if (skip !== "exclude") {
+    for (const key of state.exclude) if (hasIngredient(r, key)) return false;
+  }
+  if (skip !== "category" && state.category.size && !state.category.has(r.category)) return false;
+  if (skip !== "cuisine"  && state.cuisine.size  && !state.cuisine.has(r.cuisine))   return false;
+  if (skip !== "diet" && state.diet.size) {
+    for (const d of state.diet) if (!r.diets.includes(d)) return false;
+  }
+  if (skip !== "difficulty" && state.difficulty.size && !state.difficulty.has(r.difficulty)) return false;
+  if (skip !== "access" && state.access !== "any" && r.access_tier !== state.access) return false;
+  if (skip !== "video" && state.video && !r.has_video) return false;
+  if (skip !== "time" && r.cook_time_minutes > state.maxTime) return false;
+  if (skip !== "kcal" && r.nutrition_per_serving.kcal > state.maxKcal) return false;
+  return true;
+}
+
+function anyFilterActive() {
+  return state.cancook || state.exclude.size || state.category.size ||
+         state.cuisine.size || state.diet.size || state.difficulty.size ||
+         state.access !== "any" || state.video ||
+         state.maxTime < 120 || state.maxKcal < 900;
+}
+
+const SORTS = {
+  new:     (a, b) => b.published_at.localeCompare(a.published_at),
+  popular: (a, b) => b.import_count - a.import_count,
+  rating:  (a, b) => (b.rating || 0) - (a.rating || 0) || b.rating_count - a.rating_count,
+  quick:   (a, b) => a.cook_time_minutes - b.cook_time_minutes,
+  light:   (a, b) => a.nutrition_per_serving.kcal - b.nutrition_per_serving.kcal,
+};
+
+function results() {
+  return RECIPES.filter(r => matches(r, null)).sort(SORTS[state.sort]);
+}
+
+/* Счётчики фильтров. На сервере это отдельный маршрут /v1/recipes/facets:
+   для каждого значения — сколько результатов оно даст при текущем запросе. */
+function facets() {
+  const count = (skip, pred) => RECIPES.filter(r => matches(r, skip) && pred(r)).length;
+  return {
+    total: results().length,
+    cancook:    count("cancook", canCookNow),
+    exclude:    Object.fromEntries(ALLERGENS.map(k => [k, count("exclude", r => !hasIngredient(r, k))])),
+    categories: Object.fromEntries(CATEGORIES.map(c => [c.slug, count("category", r => r.category === c.slug)])),
+    cuisines:   Object.fromEntries(CUISINES.map(c => [c.slug, count("cuisine", r => r.cuisine === c.slug)])),
+    diets:      Object.fromEntries(DIETS.map(d => [d.slug, count("diet", r => r.diets.includes(d.slug))])),
+    difficulty: Object.fromEntries([1, 2, 3].map(d => [d, count("difficulty", r => r.difficulty === d)])),
+    access: {
+      any:  count("access", () => true),
+      free: count("access", r => r.access_tier === "free"),
+      paid: count("access", r => r.access_tier === "paid"),
+    },
+    video: count("video", r => r.has_video),
+  };
+}
+
+/* =====================================================================
+   ОТРИСОВКА
+   ===================================================================== */
+
+const esc = s => String(s).replace(/[&<>"]/g, c =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+const CHECK = '<svg class="verified" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">' +
+  '<path d="M8 0l1.9 1.4 2.3-.3.8 2.2 2 1.2-.8 2.2.8 2.2-2 1.2-.8 2.2-2.3-.3L8 13.4 6.1 12l-2.3.3-.8-2.2-2-1.2.8-2.2-.8-2.2 2-1.2.8-2.2 2.3.3z"/>' +
+  '<path d="M6.9 9.9L4.6 7.6l.9-.9 1.4 1.4 3.2-3.2.9.9z" fill="var(--surface)"/></svg>';
+
+function priceText(p) { return int(p.minor / 100) + " ₽"; }
+
+function phBlock(r, opts = {}) {
+  const badges = [];
+  if (r.access_tier === "paid") {
+    badges.push(`<span class="pill lock">🔒 ${esc(priceText(r.price))}</span>`);
+  }
+  const right = badges.length ? `<div class="right">${badges.join("")}</div>` : "";
+  const play = r.has_video ? '<span class="play"><i></i></span>' : "";
+  const cls = opts.cls ? ` ${opts.cls}` : "";
+  return `<div class="ph${cls}" style="${phVars(r.slug)}">
+      <div class="ph-badges">${right}</div>
+      ${play}
+    </div>`;
+}
+
+function bylineBlock(r) {
+  const a = r.author_obj;
+  const initials = a.name.split(" ").map(w => w[0]).join("").slice(0, 2);
+  return `<span class="byline">
+      <span class="avatar" style="${phVars(a.handle)}">${esc(initials)}</span>
+      <span class="name">${esc(a.name)}</span>${a.verified ? CHECK : ""}
+    </span>`;
+}
+
+function metaBlock(r, extra) {
+  const line = items => `<span class="meta">${items.map(i => `<span>${i}</span>`).join("")}</span>`;
+  const first = [`${r.cook_time_minutes} мин`, DIFFICULTY_TITLE[r.difficulty]];
+  if (r.rating) first.push(`<b class="star">★ ${num(r.rating)}</b>`);
+  const second = [`${int(r.import_count)} забрали`];
+  if (r.rating_count) second.push(`${int(r.rating_count)} ${plural(r.rating_count, "оценка", "оценки", "оценок")}`);
+  return line(first) + line(second.concat(extra || []));
+}
+
+function cardHTML(r) {
+  return `<button class="card" type="button" data-slug="${esc(r.slug)}">
+      ${phBlock(r)}
+      <span class="card-body">
+        <span class="card-title">${esc(r.title)}</span>
+        <span class="card-sum">${esc(r.summary)}</span>
+        ${metaBlock(r)}
+        ${bylineBlock(r)}
+      </span>
+    </button>`;
+}
+
+function heroHTML(r) {
+  const n = r.nutrition_per_serving;
+  return `<button class="hero" type="button" data-slug="${esc(r.slug)}">
+      ${phBlock(r)}
+      <span class="hero-body">
+        <span class="h3">${esc(r.title)}</span>
+        <span class="sum">${esc(r.summary)}</span>
+        ${metaBlock(r, [`${int(n.kcal)} ккал на порцию`, `${r.base_servings} порц.`])}
+        ${bylineBlock(r)}
+      </span>
+    </button>`;
+}
+
+function spotlightHTML(r) {
+  return `<button class="spotlight" type="button" data-slug="${esc(r.slug)}">
+      ${phBlock(r)}
+      <span class="spot-body">
+        <span class="h3">${esc(r.title)}</span>
+        <span class="sum">${esc(r.description)}</span>
+        ${metaBlock(r)}
+        ${bylineBlock(r)}
+      </span>
+    </button>`;
+}
+
+function shelfHTML(sh) {
+  const items = sh.items.map(s => BY_SLUG[s]).filter(Boolean);
+  if (!items.length) return "";
+  const head = `<div class="shelf-head">
+      <h2>${esc(sh.title)}</h2>
+      ${sh.subtitle ? `<span class="sub">${esc(sh.subtitle)}</span>` : ""}
+      <span class="kind">kind: ${esc(sh.kind)}</span>
+    </div>`;
+
+  let body;
+  if (sh.kind === "hero")           body = items.map(heroHTML).join("");
+  else if (sh.kind === "spotlight") body = items.map(spotlightHTML).join("");
+  else if (sh.kind === "grid")      body = `<div class="grid">${items.map(cardHTML).join("")}</div>`;
+  else                              body = `<div class="rail">${items.map(cardHTML).join("")}</div>`;
+
+  return `<section class="shelf">${head}${body}</section>`;
+}
+
+function renderStore() {
+  const host = document.getElementById("view-store");
+
+  if (anyFilterActive()) {
+    const found = results();
+    const head = `<div class="results-head">
+        <h2>Результаты</h2>
+        <span class="n">${int(found.length)} ${plural(found.length, "рецепт", "рецепта", "рецептов")}</span>
+        <span class="sortbar">
+          <label for="sort">Сортировка</label>
+          <select id="sort">
+            <option value="new">Сначала новые</option>
+            <option value="popular">Чаще забирают</option>
+            <option value="rating">Выше рейтинг</option>
+            <option value="quick">Быстрее готовить</option>
+            <option value="light">Меньше калорий</option>
+          </select>
+        </span>
+      </div>`;
+    const body = found.length
+      ? `<div class="grid">${found.map(cardHTML).join("")}</div>`
+      : `<div class="empty"><b>Ничего не нашлось</b>Снимите часть фильтров — счётчики у значений
+           показывают, какие из них сейчас ведут в пустоту.</div>`;
+    host.innerHTML = head + body;
+    const sel = document.getElementById("sort");
+    sel.value = state.sort;
+    sel.addEventListener("change", () => { state.sort = sel.value; renderStore(); });
+  } else {
+    host.innerHTML = SHELVES.map(shelfHTML).join("");
+  }
+}
+
+function plural(n, one, few, many) {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
+  return many;
+}
+
+/* ------------------------------------------------------- карточка рецепта */
+
+function amountText(ing) {
+  return `${num(ing.amount)} ${ing.unit}`;
+}
+
+function detailHTML(r) {
+  const n = r.nutrition_per_serving;
+  const a = r.author_obj;
+  const initials = a.name.split(" ").map(w => w[0]).join("").slice(0, 2);
+
+  /* Платная карточка: витрина показывает медиа, описание и цену, состав и
+     шаги остаются за прилавком. Это поля locked и can_import. */
+  const locked = r.access_tier === "paid";
+
+  const facts = [
+    ["Готовить", `${r.cook_time_minutes}<small> мин</small>`],
+    ["Подготовка", `${r.prep_time_minutes}<small> мин</small>`],
+    ["Порций", `${r.base_servings}`],
+    ["Сложность", DIFFICULTY_TITLE[r.difficulty]],
+    ["Ккал / порция", `${int(n.kcal)}`],
+    ["Б / Ж / У, г", `<span style="font-size:15px">${num(n.protein)} · ${num(n.fat)} · ${num(n.carbs)}</span>`],
+  ].map(([k, v]) => `<div class="fact"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+
+  const diets = r.diets.length
+    ? `<div class="diets">${r.diets.map(d => `<span class="diet">${esc(DIET_TITLE[d])}</span>`).join("")}</div>`
+    : "";
+
+  const ingredients = `<div class="section">
+      <h3>Состав на ${r.base_servings} ${plural(r.base_servings, "порцию", "порции", "порций")}</h3>
+      <ul class="ing">${r.ingredients.map(ing => `<li>
+          <span>${esc(PRODUCTS[ing.key].name)}</span>
+          ${ing.optional ? '<span class="opt">по желанию</span>' : ""}
+          ${ing.note ? `<span class="note">${esc(ing.note)}</span>` : ""}
+          <span class="amt">${amountText(ing)}</span>
+        </li>`).join("")}</ul>
+    </div>`;
+
+  const steps = `<div class="section">
+      <h3>Шаги</h3>
+      <ol class="steps">${r.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol>
+    </div>`;
+
+  const gallery = r.gallery > 0 ? `<div class="section">
+      <h3>Галерея</h3>
+      <div class="gallery">${Array.from({ length: r.gallery }, (_, i) =>
+        `<div class="ph" style="${phVars(r.slug + "#" + i)}"></div>`).join("")}</div>
+    </div>` : "";
+
+  const body = locked
+    ? `<div class="locked">
+         <h4>🔒 Состав и шаги открываются после покупки — ${esc(priceText(r.price))}</h4>
+         <p>Витрина показывает медиа, описание и цену; ингредиенты и шаги остаются
+            за прилавком. В ответе это два поля: <code>locked</code> и
+            <code>can_import</code>.</p>
+         <div class="callout">
+           <b>Механизма покупки нет.</b> Платежи в API не сделаны, и создать платный
+           рецепт он сейчас отказывается. Замок здесь показывает, что схема это
+           выдержит, — не что кнопка работает.
+         </div>
+       </div>`
+    : ingredients + steps;
+
+  return `<button class="back" type="button" id="back">← К витрине</button>
+    <article class="detail">
+      <div class="detail-hero">${phBlock(r)}</div>
+      <div class="detail-body">
+
+        <div class="detail-head">
+          <h1 class="detail-title">${esc(r.title)}</h1>
+          <p style="font-size:15px;color:var(--muted);line-height:1.5">${esc(r.description)}</p>
+          ${diets}
+        </div>
+
+        <div class="author-row">
+          <span class="avatar" style="${phVars(a.handle)}">${esc(initials)}</span>
+          <span class="who">
+            <b>${esc(a.name)}${a.verified ? CHECK : ""}</b>
+            <span>@${esc(a.handle)}</span>
+          </span>
+          <span class="note">Страница автора в бэкенде есть, но в этот макет не вошла —
+            поэтому байлайн не кликабельный.</span>
+        </div>
+
+        <div class="facts">${facts}</div>
+
+        ${body}
+        ${gallery}
+
+        <div class="section">
+          <h3>Оценки</h3>
+          <span class="meta" style="font-size:13.5px">
+            <span><b class="star">★ ${r.rating ? num(r.rating) : "—"}</b>
+              ${int(r.rating_count)} ${plural(r.rating_count, "оценка", "оценки", "оценок")}</span>
+            <span>${int(r.import_count)} забрали себе</span>
+            <span>${int(r.favorite_count)} в избранном</span>
+          </span>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" id="take" ${locked ? "disabled" : ""}
+                  data-slug="${esc(r.slug)}">
+            ${locked ? "Купить за " + esc(priceText(r.price)) : "Забрать себе"}
+          </button>
+          <button class="btn ghost" type="button" disabled>♡ В избранное</button>
+        </div>
+
+      </div>
+    </article>`;
+}
+
+function openDetail(slug) {
+  const r = BY_SLUG[slug];
+  if (!r) return;
+  document.getElementById("view-detail").innerHTML = detailHTML(r);
+  document.getElementById("view-store").hidden = true;
+  document.getElementById("view-detail").hidden = false;
+  window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+}
+
+function closeDetail() {
+  document.getElementById("view-detail").hidden = true;
+  document.getElementById("view-detail").innerHTML = "";
+  document.getElementById("view-store").hidden = false;
+}
+
+/* ---------------------------------------------------- лист «Забрать себе» */
+
+/* Содержимое bundle, показанное человеку: что появится в каталоге, чего
+   хватит из холодильника и что уедет в список покупок. */
+function sheetHTML(r) {
+  const have = [], buy = [];
+  for (const ing of r.ingredients) {
+    const p = PRODUCTS[ing.key];
+    const stock = PANTRY[ing.key];
+    const known = stock !== undefined;
+    if (known && stock >= ing.amount) {
+      have.push({ ing, p, stock });
+    } else {
+      buy.push({ ing, p, stock: known ? stock : 0, isNew: !known });
+    }
+  }
+  const n = r.nutrition_per_serving;
+  const newProducts = r.ingredients.filter(i => PANTRY[i.key] === undefined);
+
+  const block = (title, rows, render) => rows.length ? `<div class="bucket">
+      <h3>${title}<span class="n">${rows.length}</span></h3>
+      <ul class="lines">${rows.map(render).join("")}</ul>
+    </div>` : "";
+
+  return `
+    <div class="bucket">
+      <h3>Рецепт</h3>
+      <ul class="lines">
+        <li><span>${esc(r.title)}</span><span class="amt">${r.base_servings} ${plural(r.base_servings, "порция", "порции", "порций")}</span></li>
+        <li><span>КБЖУ на порцию <span class="sub">пересчитывается по граммовкам</span></span>
+            <span class="amt">${int(n.kcal)} ккал</span></li>
+      </ul>
+    </div>
+
+    ${block("Хватит того, что есть", have, ({ ing, p, stock }) => `
+      <li class="have">
+        <span>${esc(p.name)} <span class="sub">в холодильнике ${num(stock)} ${p.unit}</span></span>
+        <span class="amt">− ${amountText(ing)}</span>
+      </li>`)}
+
+    ${block("Уедет в список покупок", buy, ({ ing, p, stock, isNew }) => `
+      <li class="buy${isNew ? " new-product" : ""}">
+        <span>${esc(p.name)}
+          <span class="sub">${isNew
+            ? "нет в каталоге — заведётся из bundle"
+            : "в холодильнике " + num(stock) + " " + p.unit + ", не хватает"}</span>
+        </span>
+        <span class="amt">${num(ing.amount - stock)} ${p.unit}</span>
+      </li>`)}
+
+    ${block("Заодно приедет в каталог", newProducts, i => {
+      const p = PRODUCTS[i.key];
+      return `<li>
+        <span>${esc(p.name)} <span class="sub">${esc(p.category)} · ${p.unit}${
+          p.unit === "шт" ? ", " + num(p.grams_per_unit) + " г/шт" : ""}</span></span>
+        <span class="amt sub">${int(p.per100[0])} ккал/100 г</span>
+      </li>`;
+    })}`;
+}
+
+function openSheet(slug) {
+  const r = BY_SLUG[slug];
+  if (!r) return;
+  document.getElementById("sheet-sub").textContent =
+    "Что произойдёт в приложении, если забрать «" + r.title + "»";
+  document.getElementById("sheet-body").innerHTML = sheetHTML(r);
+  document.getElementById("backdrop").hidden = false;
+  document.getElementById("sheet-close").focus();
+}
+
+function closeSheet() { document.getElementById("backdrop").hidden = true; }
+
+/* --------------------------------------------------------------- фильтры */
+
+function chip(label, count, pressed, disabled, data) {
+  const attrs = Object.entries(data).map(([k, v]) => `data-${k}="${esc(v)}"`).join(" ");
+  return `<button class="chip" type="button" aria-pressed="${pressed}" ${attrs}
+      ${disabled && !pressed ? "disabled" : ""}>
+      <span>${esc(label)}</span><span class="n">${int(count)}</span>
+    </button>`;
+}
+
+function renderFilters() {
+  const f = facets();
+
+  document.getElementById("facet-total").textContent =
+    int(f.total) + " " + plural(f.total, "рецепт", "рецепта", "рецептов");
+
+  document.getElementById("f-cancook").checked = state.cancook;
+  document.getElementById("pantry-note").innerHTML =
+    `Сейчас в холодильнике ${Object.keys(PANTRY).length} продуктов; полностью хватает на
+     <b>${f.cancook}</b> ${plural(f.cancook, "рецепт", "рецепта", "рецептов")}.
+     Ингредиенты «по желанию» приготовить не мешают.`;
+
+  document.getElementById("f-exclude").innerHTML = ALLERGENS.map(k =>
+    chip(PRODUCTS[k].name, f.exclude[k], state.exclude.has(k), f.exclude[k] === 0, { ex: k })).join("");
+
+  document.getElementById("f-category").innerHTML = CATEGORIES.map(c =>
+    chip(c.title, f.categories[c.slug], state.category.has(c.slug), f.categories[c.slug] === 0, { cat: c.slug })).join("");
+
+  document.getElementById("f-cuisine").innerHTML = CUISINES.map(c =>
+    chip(c.title, f.cuisines[c.slug], state.cuisine.has(c.slug), f.cuisines[c.slug] === 0, { cui: c.slug })).join("");
+
+  document.getElementById("f-diet").innerHTML = DIETS.map(d =>
+    chip(d.title, f.diets[d.slug], state.diet.has(d.slug), f.diets[d.slug] === 0, { diet: d.slug })).join("");
+
+  document.getElementById("f-difficulty").innerHTML = [1, 2, 3].map(d =>
+    chip(DIFFICULTY_TITLE[d], f.difficulty[d], state.difficulty.has(d), f.difficulty[d] === 0, { dif: d })).join("");
+
+  document.getElementById("f-access").innerHTML =
+    chip("Все", f.access.any, state.access === "any", false, { acc: "any" }) +
+    chip("Бесплатные", f.access.free, state.access === "free", f.access.free === 0, { acc: "free" }) +
+    chip("Платные", f.access.paid, state.access === "paid", f.access.paid === 0, { acc: "paid" });
+
+  document.getElementById("f-video").innerHTML =
+    chip("С видео", f.video, state.video, f.video === 0, { vid: "1" });
+
+  document.getElementById("f-time-val").textContent =
+    state.maxTime >= 120 ? "любое" : "до " + state.maxTime + " мин";
+  document.getElementById("f-kcal-val").textContent =
+    state.maxKcal >= 900 ? "любая" : "до " + state.maxKcal + " ккал";
+}
+
+function toggleIn(set, value) {
+  if (set.has(value)) set.delete(value); else set.add(value);
+}
+
+function refresh() { renderFilters(); renderStore(); }
+
+/* ---------------------------------------------------------------- события */
+
+document.getElementById("filters").addEventListener("click", e => {
+  const c = e.target.closest(".chip");
+  if (!c || c.disabled) return;
+  const d = c.dataset;
+  if (d.ex   !== undefined) toggleIn(state.exclude, d.ex);
+  if (d.cat  !== undefined) toggleIn(state.category, d.cat);
+  if (d.cui  !== undefined) toggleIn(state.cuisine, d.cui);
+  if (d.diet !== undefined) toggleIn(state.diet, d.diet);
+  if (d.dif  !== undefined) toggleIn(state.difficulty, Number(d.dif));
+  if (d.acc  !== undefined) state.access = d.acc;
+  if (d.vid  !== undefined) state.video = !state.video;
+  refresh();
+});
+
+document.getElementById("f-cancook").addEventListener("change", e => {
+  state.cancook = e.target.checked;
+  refresh();
+});
+
+document.getElementById("f-time").addEventListener("input", e => {
+  state.maxTime = Number(e.target.value);
+  refresh();
+});
+
+document.getElementById("f-kcal").addEventListener("input", e => {
+  state.maxKcal = Number(e.target.value);
+  refresh();
+});
+
+document.getElementById("f-reset").addEventListener("click", () => {
+  state.cancook = false;
+  state.exclude.clear(); state.category.clear(); state.cuisine.clear();
+  state.diet.clear(); state.difficulty.clear();
+  state.access = "any"; state.video = false;
+  state.maxTime = 120; state.maxKcal = 900; state.sort = "new";
+  document.getElementById("f-time").value = 120;
+  document.getElementById("f-kcal").value = 900;
+  refresh();
+});
+
+document.getElementById("main").addEventListener("click", e => {
+  const take = e.target.closest("#take");
+  if (take && !take.disabled) { openSheet(take.dataset.slug); return; }
+  if (e.target.closest("#back")) { closeDetail(); return; }
+  const card = e.target.closest("[data-slug]");
+  if (card && card.classList.contains("card") ||
+      card && (card.classList.contains("hero") || card.classList.contains("spotlight"))) {
+    openDetail(card.dataset.slug);
+  }
+});
+
+document.getElementById("sheet-close").addEventListener("click", closeSheet);
+document.getElementById("sheet-ok").addEventListener("click", closeSheet);
+document.getElementById("backdrop").addEventListener("click", e => {
+  if (e.target.id === "backdrop") closeSheet();
+});
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if (!document.getElementById("backdrop").hidden) closeSheet();
+  else if (!document.getElementById("view-detail").hidden) closeDetail();
+});
+
+/* ------------------------------------------------------------------- тема */
+
+/* Системная тема по умолчанию; переключатель перебирает три состояния и
+   ничего не сохраняет — макет не должен ничего оставлять после себя. */
+const THEMES = [
+  { v: null,    icon: "◐", label: "Как в системе" },
+  { v: "light", icon: "☀", label: "Светлая" },
+  { v: "dark",  icon: "☾", label: "Тёмная" },
+];
+let themeIndex = 0;
+
+function applyTheme() {
+  const t = THEMES[themeIndex];
+  if (t.v) document.documentElement.setAttribute("data-theme", t.v);
+  else document.documentElement.removeAttribute("data-theme");
+  document.getElementById("theme-icon").textContent = t.icon;
+  document.getElementById("theme-label").textContent = t.label;
+}
+
+document.getElementById("theme-toggle").addEventListener("click", () => {
+  themeIndex = (themeIndex + 1) % THEMES.length;
+  applyTheme();
+});
+
+/* На узком экране панель фильтров начинает свёрнутой, чтобы витрина была
+   сверху; заголовок раскрывает её. */
+const filtersEl = document.getElementById("filters");
+document.querySelector(".filters-head").addEventListener("click", () => {
+  if (window.matchMedia("(max-width: 900px)").matches) {
+    filtersEl.dataset.collapsed = filtersEl.dataset.collapsed === "true" ? "false" : "true";
+  }
+});
+function syncFiltersCollapsed() {
+  if (!window.matchMedia("(max-width: 900px)").matches) filtersEl.dataset.collapsed = "false";
+}
+window.addEventListener("resize", syncFiltersCollapsed);
+
+applyTheme();
+syncFiltersCollapsed();
+refresh();
+</script>
+</body>
+</html>
