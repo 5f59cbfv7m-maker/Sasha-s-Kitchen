@@ -14,19 +14,36 @@ import (
 // through the API, only these small control messages.
 const maxRequestBody = 4 << 10
 
+// CallerFunc resolves the authenticated caller of a request, returning false
+// for an anonymous one. It is injected rather than read from a context key
+// this package defines, so that wiring it up is a compile-time obligation
+// instead of a convention someone has to remember.
+//
+// An earlier version did define its own context key and expected whatever
+// verified the credentials to populate it. Nothing ever did, so every upload
+// answered 401 and no test noticed, because none of them went through the
+// router. Hence this parameter.
+type CallerFunc func(*http.Request) (uuid.UUID, bool)
+
 // API exposes the upload endpoints.
 type API struct {
-	svc   *Service
-	repo  *Repo
-	store objstore.Store
+	svc    *Service
+	repo   *Repo
+	store  objstore.Store
+	caller CallerFunc
 }
 
-func NewAPI(svc *Service, repo *Repo, store objstore.Store) *API {
-	return &API{svc: svc, repo: repo, store: store}
+func NewAPI(svc *Service, repo *Repo, store objstore.Store, caller CallerFunc) *API {
+	if caller == nil {
+		// Refusing every request is the safe failure: an upload endpoint that
+		// cannot identify its caller must not accept anonymous writes.
+		caller = func(*http.Request) (uuid.UUID, bool) { return uuid.UUID{}, false }
+	}
+	return &API{svc: svc, repo: repo, store: store, caller: caller}
 }
 
-// Routes registers the media endpoints. They all require an authenticated
-// caller; the owner id is read from the request context.
+// Routes registers the media endpoints. Uploading requires an authenticated
+// caller, resolved by the CallerFunc given to NewAPI.
 func (a *API) Routes(mux *http.ServeMux) {
 	mux.HandleFunc("POST /v1/media/uploads", a.handleCreateUpload)
 	mux.HandleFunc("POST /v1/media/{id}/complete", a.handleComplete)
@@ -40,7 +57,7 @@ type createUploadRequest struct {
 }
 
 func (a *API) handleCreateUpload(w http.ResponseWriter, r *http.Request) {
-	owner, ok := UserIDFromContext(r.Context())
+	owner, ok := a.caller(r)
 	if !ok {
 		httpx.Respond(w, r, httpx.Unauthorized("Нужен вход в аккаунт"))
 		return
@@ -70,7 +87,7 @@ func (a *API) handleCreateUpload(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *API) handleComplete(w http.ResponseWriter, r *http.Request) {
-	caller, ok := UserIDFromContext(r.Context())
+	caller, ok := a.caller(r)
 	if !ok {
 		httpx.Respond(w, r, httpx.Unauthorized("Нужен вход в аккаунт"))
 		return

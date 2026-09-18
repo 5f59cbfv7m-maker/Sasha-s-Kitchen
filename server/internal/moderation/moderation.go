@@ -44,26 +44,91 @@ type ReportInput struct {
 // open report per reporter per target, so a user tapping repeatedly cannot
 // flood the queue; that collision surfaces here as ErrDuplicate.
 func (r *Repo) Report(ctx context.Context, reporterID string, in ReportInput) (string, error) {
+	exists, err := r.targetExists(ctx, in.TargetType, in.TargetID)
+	if err != nil {
+		return "", err
+	}
+	if !exists {
+		return "", ErrNotFound
+	}
+
 	var id string
-	err := r.pool.QueryRow(ctx, `
+	err = r.pool.QueryRow(ctx, `
 		INSERT INTO reports (reporter_id, target_type, target_id, reason, details)
 		VALUES ($1::uuid, $2, $3::uuid, $4, nullif($5,''))
 		RETURNING id::text`,
 		reporterID, in.TargetType, in.TargetID, in.Reason, in.Details).Scan(&id)
 
 	var pgErr *pgconn.PgError
-	if errors.As(err, &pgErr) {
-		switch pgErr.Code {
-		case "23505": // unique_violation
-			return "", ErrDuplicate
-		case "23503": // foreign_key_violation: target does not exist
-			return "", ErrNotFound
-		}
+	if errors.As(err, &pgErr) && pgErr.Code == "23505" { // unique_violation
+		return "", ErrDuplicate
 	}
 	if err != nil {
 		return "", fmt.Errorf("moderation: file report: %w", err)
 	}
 	return id, nil
+}
+
+// targetExists reports whether the thing being reported is real.
+//
+// reports.target_id is polymorphic and therefore carries no foreign key, so
+// the database cannot reject a complaint about a UUID that was never issued.
+// Without this check the moderation queue accepts junk that a human then has
+// to work through. Report calls it before inserting.
+func (r *Repo) targetExists(ctx context.Context, targetType, targetID string) (bool, error) {
+	var q string
+	switch targetType {
+	case "recipe":
+		q = `SELECT EXISTS (SELECT 1 FROM recipes WHERE id = $1::uuid AND deleted_at IS NULL)`
+	case "user":
+		q = `SELECT EXISTS (SELECT 1 FROM users WHERE id = $1::uuid AND deleted_at IS NULL)`
+	case "rating":
+		// ratings is keyed by (user_id, recipe_id) and has no id of its own, so
+		// a rating is reported by the id of the recipe it sits on.
+		q = `SELECT EXISTS (SELECT 1 FROM ratings WHERE recipe_id = $1::uuid)`
+	default:
+		return false, nil
+	}
+	var ok bool
+	if err := r.pool.QueryRow(ctx, q, targetID).Scan(&ok); err != nil {
+		return false, fmt.Errorf("moderation: check report target: %w", err)
+	}
+	return ok, nil
+}
+
+// BlockedUser is one entry of a viewer's block list.
+type BlockedUser struct {
+	ID          string
+	Handle      string
+	DisplayName string
+	BlockedAt   string
+}
+
+// ListBlocked returns who this viewer has blocked, newest first. A block a
+// user cannot find again is a trap rather than a control, and Guideline 1.2
+// expects the list to be manageable from inside the app.
+func (r *Repo) ListBlocked(ctx context.Context, blockerID string) ([]BlockedUser, error) {
+	rows, err := r.pool.Query(ctx, `
+		SELECT u.id::text, u.handle::text, u.display_name,
+		       to_char(b.created_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')
+		  FROM user_blocks b
+		  JOIN users u ON u.id = b.blocked_id
+		 WHERE b.blocker_id = $1::uuid AND u.deleted_at IS NULL
+		 ORDER BY b.created_at DESC, u.id DESC`, blockerID)
+	if err != nil {
+		return nil, fmt.Errorf("moderation: list blocked: %w", err)
+	}
+	defer rows.Close()
+
+	out := []BlockedUser{}
+	for rows.Next() {
+		var b BlockedUser
+		if err := rows.Scan(&b.ID, &b.Handle, &b.DisplayName, &b.BlockedAt); err != nil {
+			return nil, fmt.Errorf("moderation: scan blocked: %w", err)
+		}
+		out = append(out, b)
+	}
+	return out, rows.Err()
 }
 
 // Block hides an author's content from one viewer. Blocking is per-viewer and

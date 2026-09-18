@@ -12,16 +12,20 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/google/uuid"
+
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/auth"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/bundle"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/cache"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/config"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/httpx"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/media"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/moderation"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/objstore"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/observability"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/search"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/social"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/storefront"
 )
 
@@ -111,14 +115,27 @@ func run() error {
 		return ""
 	}
 
+	// Uploads, unlike the storefront, must know exactly who is writing.
+	caller := func(r *http.Request) (uuid.UUID, bool) {
+		id, ok := auth.UserFrom(r.Context())
+		if !ok {
+			return uuid.UUID{}, false
+		}
+		return id.UserID, true
+	}
+
 	authHandlers.Routes(mux)
 	api := storefront.NewAPI(pool, searchRepo, storeRepo, bundleRepo, redis, viewer, cfg.FeedCacheTTL)
 	api.Routes(mux)
 
+	// Reporting and blocking. The storefront has always filtered listings by
+	// user_blocks; until now there was no way for anyone to create one.
+	social.NewAPI(moderation.NewRepo(pool), caller).Routes(mux)
+
 	if blobs != nil {
 		mediaRepo := media.NewRepo(pool)
 		mediaAPI := media.NewAPI(
-			media.NewService(mediaRepo, blobs, media.NewQueue(pool)), mediaRepo, blobs)
+			media.NewService(mediaRepo, blobs, media.NewQueue(pool)), mediaRepo, blobs, caller)
 		mediaAPI.Routes(mux)
 	}
 
