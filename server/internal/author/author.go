@@ -82,7 +82,16 @@ type Profile struct {
 	JoinedAt    time.Time    `json:"joined_at"`
 	Stats       Stats        `json:"stats"`
 	Featured    *search.Card `json:"featured,omitempty"`
-	Viewer      ViewerState  `json:"viewer"`
+	// Rank is the "top N" badge beside the avatar, absent when the author is
+	// not on the leaderboard.
+	Rank   *RankBadge  `json:"rank,omitempty"`
+	Viewer ViewerState `json:"viewer"`
+}
+
+// RankBadge marks an author's leaderboard position and how it moved.
+type RankBadge struct {
+	Rank     int `json:"rank"`
+	PrevRank int `json:"prev_rank,omitempty"`
 }
 
 // Repo reads author pages.
@@ -264,6 +273,20 @@ func (r *Repo) Profile(ctx context.Context, authorID, viewerID string) (*Profile
 	}
 	if mayShowLinks && len(linksRaw) > 0 {
 		p.Links = decodeLinks(linksRaw)
+	}
+
+	// The leaderboard is a separate small table; one indexed lookup keeps it
+	// out of the storefront's hot card query.
+	var rank, prevRank int
+	switch err := r.pool.QueryRow(ctx, `
+		SELECT rank, coalesce(prev_rank, 0) FROM author_ranks WHERE user_id = $1::uuid`,
+		authorID).Scan(&rank, &prevRank); {
+	case err == nil:
+		p.Rank = &RankBadge{Rank: rank, PrevRank: prevRank}
+	case errors.Is(err, pgx.ErrNoRows):
+		// Not ranked; the badge is simply absent.
+	default:
+		return nil, fmt.Errorf("author: read rank: %w", err)
 	}
 
 	if featuredID.Valid {

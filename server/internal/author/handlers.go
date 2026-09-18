@@ -3,12 +3,14 @@ package author
 import (
 	"errors"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/google/uuid"
 
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/httpx"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/posts"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/ranking"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/search"
 )
 
@@ -18,26 +20,48 @@ type ViewerFunc func(*http.Request) string
 
 // API serves the public author pages.
 type API struct {
-	repo   *Repo
-	search *search.Repo
-	posts  *posts.Repo
-	viewer ViewerFunc
+	repo    *Repo
+	search  *search.Repo
+	posts   *posts.Repo
+	ranking *ranking.Repo
+	media   search.MediaURLResolver
+	viewer  ViewerFunc
 }
 
-func NewAPI(repo *Repo, s *search.Repo, p *posts.Repo, viewer ViewerFunc) *API {
+func NewAPI(repo *Repo, s *search.Repo, p *posts.Repo, rank *ranking.Repo,
+	media search.MediaURLResolver, viewer ViewerFunc) *API {
 	if viewer == nil {
 		viewer = func(*http.Request) string { return "" }
 	}
-	return &API{repo: repo, search: s, posts: p, viewer: viewer}
+	return &API{repo: repo, search: s, posts: p, ranking: rank, media: media, viewer: viewer}
 }
 
 func (a *API) Routes(mux *http.ServeMux) {
+	mux.HandleFunc("GET /v1/authors/top", a.handleTop)
 	mux.HandleFunc("GET /v1/authors/{handle}", a.handleProfile)
 	mux.HandleFunc("GET /v1/authors/{handle}/recipes", a.handleRecipes)
 	mux.HandleFunc("GET /v1/authors/{handle}/posts", a.handlePosts)
 	mux.HandleFunc("GET /v1/authors/{handle}/shorts", a.handleShorts)
 	mux.HandleFunc("PUT /v1/authors/{handle}/follow", a.handleFollow)
 	mux.HandleFunc("DELETE /v1/authors/{handle}/follow", a.handleUnfollow)
+}
+
+// handleTop serves the leaderboard. It is registered before the {handle}
+// pattern; ServeMux prefers the more specific literal either way, but keeping
+// them adjacent makes the overlap obvious to the next reader.
+func (a *API) handleTop(w http.ResponseWriter, r *http.Request) {
+	if a.ranking == nil {
+		httpx.Respond(w, r, httpx.NotFound("Рейтинг недоступен"))
+		return
+	}
+	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
+	entries, err := a.ranking.Leaderboard(r.Context(), limit, a.media)
+	if err != nil {
+		httpx.Respond(w, r, err)
+		return
+	}
+	// The leaderboard is identical for everyone and changes once a day.
+	httpx.JSONWithETag(w, r, http.StatusOK, map[string]any{"items": entries})
 }
 
 func (a *API) handleProfile(w http.ResponseWriter, r *http.Request) {

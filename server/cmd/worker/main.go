@@ -13,6 +13,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/config"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/jobs"
@@ -20,6 +21,7 @@ import (
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/objstore"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/observability"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/ranking"
 )
 
 func main() {
@@ -70,6 +72,13 @@ func run() error {
 	// up in the dead letters instead of quietly losing work.
 	runner.Handle(media.JobKindTranscode,
 		media.NewWorker(media.NewRepo(pool), blobs, &media.FFmpegTranscoder{}, logger).Handler())
+
+	// The leaderboard is recomputed daily, not hourly: a badge that flickers
+	// between refreshes looks broken, and nothing about a 30-day window moves
+	// fast enough to need more.
+	rankingRepo := ranking.NewRepo(pool, logger)
+	runner.Handle(ranking.JobKind, rankingRepo.Handler())
+	runner.Every(ranking.JobKind, 24*time.Hour, map[string]string{})
 
 	logger.Info("worker started", slog.String("id", id), slog.String("env", cfg.Env))
 	if err := runner.Run(ctx); err != nil {

@@ -29,6 +29,7 @@ import (
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/observability"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/postgres"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/posts"
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/ranking"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/search"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/social"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/storefront"
@@ -143,7 +144,9 @@ func run() error {
 	postsRepo := posts.NewRepo(pool, searchRepo, mediaURLs)
 	posts.NewAPI(postsRepo, viewer).Routes(mux)
 	comments.NewAPI(comments.NewRepo(pool, mediaURLs), viewer).Routes(mux)
-	author.NewAPI(author.NewRepo(pool, searchRepo, mediaURLs), searchRepo, postsRepo, viewer).Routes(mux)
+	rankingRepo := ranking.NewRepo(pool, logger)
+	author.NewAPI(author.NewRepo(pool, searchRepo, mediaURLs), searchRepo, postsRepo,
+		rankingRepo, mediaURLs, viewer).Routes(mux)
 
 	// The author's own workspace: profile, drafts and publishing.
 	modRepo := moderation.NewRepo(pool)
