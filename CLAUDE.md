@@ -102,6 +102,51 @@ UI-тесты собираются с `SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolat
 `Scripts/make-appicon.swift`. Если исходник поменяется, иконку надо пересобрать
 им же, а не класть картинку в каталог ассетов напрямую.
 
+## Совместимость с iPadOS 27
+
+Проверено по release notes Xcode 27 и iOS/iPadOS 27 (сентябрь 2026) — **в коде
+менять нечего**. Проверка статическая, по документации: собрать и прогнать тесты
+под Xcode 27 всё равно нужно.
+
+Два жёстких требования к приложениям, собранным iOS 27 SDK, проект уже выполняет:
+
+- **Экран запуска.** `UILaunchScreen` в `Config/Info.plist` — без одного из
+  ключей `UILaunchScreen`/`UILaunchScreens`/`UILaunchStoryboardName` App Store
+  отклоняет сборку.
+- **Scene-based жизненный цикл.** SwiftUI `App` плюс `UIApplicationSceneManifest`
+  — без него приложение просто не запускается.
+
+`IPHONEOS_DEPLOYMENT_TARGET` остаётся `26.0`, и поднимать его не нужно: сборка
+под 26 прекрасно работает на 27, а 27.0 отрезал бы устройства на iPadOS 26 без
+единого выигрыша — ни один используемый API этого не требует. Собирать при этом
+можно (а с апреля 2027 придётся) iOS 27 SDK: версия SDK и deployment target —
+разные вещи.
+
+Изменения iOS 27, которые могли бы задеть проект, но не задевают:
+
+- **`@State` стал макросом `State()`.** Разница видна, только когда состояние —
+  class: инициализатор выполняется один раз, а не на каждой пересборке View.
+  Здесь все `@State` хранят значимые типы; `adjusting: StockItem?` — это
+  `Optional` с инициализатором `nil`, лишних аллокаций нет.
+- **`controlSize`, `buttonSizing`, `buttonBorderShape`, `buttonRepeatBehavior`,
+  `menuIndicatorVisibility` теперь сбрасываются к значениям по умолчанию внутри
+  sheet и popover.** Здесь они навешены прямо на контрол (`sortMenu`, фильтры
+  рецептов, кнопка «Купил»), а не наследуются сверху, — ничего не уедет.
+- **Deprecated в iOS 27:** `FileDocument`, `canOpenURL`,
+  `PHAssetResource.originalFilename`, MetricKit, On Demand Resources, PencilKit.
+  Ничего из этого не используется.
+- **Source break из SE-0508** (`init`-аксессор, объявленный после геттера, у
+  свойства с литералом массива или словаря) — `init`-аксессоров в проекте нет.
+- `textSelection`, `containerRelativeFrame`, `scrollPosition` не используются —
+  правки их поведения в 27 мимо.
+
+**Что реально изменится на вид.** На iPadOS 27 система сама показывает
+сокращённый набор иконок в контекстных меню и меню и по умолчанию не рисует
+картинки у пунктов. Значит, `Label(…, systemImage:)` в `.contextMenu` у
+`StockCard`, в меню «Ещё» карточки рецепта и в `sortMenu` останутся без иконок.
+В UIKit это регулируется через `UIMenuElement.preferredImageVisibility`, в
+индексе SwiftUI 27 аналога не нашлось — чинить нечего, это не регрессия.
+
 ## Отладочная лазейка
 
 `-startTab <fridge|shopping|recipes|log|settings>` в аргументах запуска

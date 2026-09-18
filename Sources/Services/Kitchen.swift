@@ -137,7 +137,7 @@ enum Kitchen {
     /// Текст для ShareLink: iMessage, Заметки, что угодно.
     static func shareText(for entries: [ShoppingEntry]) -> String {
         guard !entries.isEmpty else { return "Список покупок пуст — в холодильнике всё есть." }
-        var lines = ["🛒 Купить (Оракул холодильника)", ""]
+        var lines = ["🛒 Купить (Sasha’s Kitchen)", ""]
         let out = entries.filter { $0.state == .out }
         let low = entries.filter { $0.state == .low }
         if !out.isEmpty {
