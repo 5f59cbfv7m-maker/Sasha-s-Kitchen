@@ -147,6 +147,28 @@ func (r *Repo) Front(ctx context.Context, viewerID string, perShelf int) (Front,
 			Kind: c.kind, Items: page.Items,
 		})
 	}
+
+	// Nothing editorial to show — a fresh install, expired or empty
+	// collections — left the front page blank although recipes were
+	// published. Fall back to shelves that need no editor.
+	if len(front.Shelves) == 0 {
+		for _, auto := range []struct {
+			slug, title string
+			sort        search.SortMode
+		}{
+			{"new", "Новое", search.SortNew},
+			{"popular", "Популярное", search.SortPopular},
+			{"quick", "Быстро", search.SortQuick},
+		} {
+			page, err := r.search.List(ctx, search.Query{Access: search.AccessAny, Sort: auto.sort, Limit: perShelf}, viewerID)
+			if err != nil {
+				return Front{}, fmt.Errorf("storefront: shelf %s: %w", auto.slug, err)
+			}
+			if len(page.Items) > 0 {
+				front.Shelves = append(front.Shelves, Shelf{Slug: auto.slug, Title: auto.title, Kind: "shelf", Items: page.Items})
+			}
+		}
+	}
 	return front, nil
 }
 
