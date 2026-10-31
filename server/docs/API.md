@@ -57,7 +57,7 @@
 | `GET` | `/v1/recipes` | Поиск и фильтры |
 | `GET` | `/v1/recipes/facets` | Счётчики для фильтров: сколько найдётся при каждом значении |
 | `GET` | `/v1/recipes/{id}` | Карточка рецепта; принимает и slug |
-| `GET` | `/v1/recipes/{id}/bundle` | Самодостаточный payload для импорта в приложение |
+| `GET` | `/v1/recipes/{id}/bundle` | Самодостаточный payload для импорта в приложение; `recipe.photo_url` — главное фото рецепта на CDN |
 
 Фильтры `/v1/recipes`: `q`, `category`, `cuisine`, `diet`, `difficulty`,
 `cook_time_min/max`, `kcal_min/max`, `protein_*`, `fat_*`, `carbs_*`,
