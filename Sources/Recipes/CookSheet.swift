@@ -91,7 +91,12 @@ struct CookSheet: View {
     }
 
     private func cook() {
-        Kitchen.cook(recipe: recipe, servings: servings, amounts: amounts, in: context)
+        let log = Kitchen.cook(recipe: recipe, servings: servings, amounts: amounts, in: context)
+        #if canImport(HealthKit) && !targetEnvironment(macCatalyst)
+        Task { await HealthLog.record(log) }
+        #else
+        _ = log
+        #endif
         Feedback.shared.play(.cooked)
         onCooked()
         dismiss()

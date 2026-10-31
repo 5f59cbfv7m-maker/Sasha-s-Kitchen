@@ -305,6 +305,11 @@ UI = [
     "Lettura della ricetta…",
     "Importa ricetta",
     "Importa da link o foto",
+    "Inquadra la data di scadenza sulla confezione.",
+    "Scansiona la data sulla confezione",
+    "Registra in Salute",
+    "Salute",
+    "Dopo «Cucinato», calorie, proteine, grassi e carboidrati di una porzione vengono registrati in Salute. L’app scrive soltanto e non legge nulla.",
 ]
 
 SEED = [
@@ -461,4 +466,5 @@ PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
     "NSCameraUsageDescription": "La fotocamera serve per scansionare i codici a barre dei prodotti e fotografare pagine di ricette.",
     "NSRemindersFullAccessUsageDescription": "Con l’accesso a Promemoria l’app mette la lista della spesa in una lista «Spesa» con vere caselle di spunta.",
+    "NSHealthUpdateUsageDescription": "Dopo «Cucinato», calorie, proteine, grassi e carboidrati di una porzione vengono registrati in Salute.",
 }

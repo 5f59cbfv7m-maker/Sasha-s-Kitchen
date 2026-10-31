@@ -305,6 +305,11 @@ UI = [
     "Reading the recipe…",
     "Import Recipe",
     "Import from a Link or Photo",
+    "Point the camera at the expiry date on the package.",
+    "Scan the Date on the Package",
+    "Log to Health",
+    "Health",
+    "After Cooked, the calories, protein, fat and carbs of one serving are logged to Health. The app only writes and never reads anything.",
 ]
 
 SEED = [
@@ -460,4 +465,5 @@ PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
     "NSCameraUsageDescription": "The camera is used to scan product barcodes and photograph recipe pages.",
     "NSRemindersFullAccessUsageDescription": "Reminders access lets the app put your shopping list into a “Shopping” list with real checkboxes.",
+    "NSHealthUpdateUsageDescription": "After Cooked, the calories, protein, fat and carbs of one serving are logged to Health.",
 }

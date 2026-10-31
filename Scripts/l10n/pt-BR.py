@@ -305,6 +305,11 @@ UI = [
     "Lendo a receita…",
     "Importar receita",
     "Importar por link ou foto",
+    "Aponte a câmera para a data de validade na embalagem.",
+    "Ler a data na embalagem",
+    "Registrar no Saúde",
+    "Saúde",
+    "Depois de “Cozinhei”, as calorias, proteínas, gorduras e carboidratos de uma porção são registrados no Saúde. O app só grava e não lê nada.",
 ]
 
 SEED = [
@@ -461,4 +466,5 @@ PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
     "NSCameraUsageDescription": "A câmera é usada para ler códigos de barras de produtos e fotografar páginas de receitas.",
     "NSRemindersFullAccessUsageDescription": "Com acesso aos Lembretes o app coloca sua lista de compras numa lista “Comprar” com caixas de seleção de verdade.",
+    "NSHealthUpdateUsageDescription": "Depois de “Cozinhei”, as calorias, proteínas, gorduras e carboidratos de uma porção são registrados no Saúde.",
 }

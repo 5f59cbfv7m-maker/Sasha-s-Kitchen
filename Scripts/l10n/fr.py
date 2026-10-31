@@ -305,6 +305,11 @@ UI = [
     "Lecture de la recette…",
     "Importer une recette",
     "Importer par lien ou photo",
+    "Visez la date de péremption sur l’emballage.",
+    "Scanner la date sur l’emballage",
+    "Enregistrer dans Santé",
+    "Santé",
+    "Après « Cuisiné », les calories, protéines, lipides et glucides d’une portion sont enregistrés dans Santé. L’app écrit seulement et ne lit rien.",
 ]
 
 SEED = [
@@ -461,4 +466,5 @@ PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
     "NSCameraUsageDescription": "L’appareil photo sert à scanner les codes-barres des produits et à photographier des pages de recettes.",
     "NSRemindersFullAccessUsageDescription": "L’accès à Rappels permet de placer votre liste de courses dans une liste « Courses » avec de vraies cases à cocher.",
+    "NSHealthUpdateUsageDescription": "Après « Cuisiné », les calories, protéines, lipides et glucides d’une portion sont enregistrés dans Santé.",
 }

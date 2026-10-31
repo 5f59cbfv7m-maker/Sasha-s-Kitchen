@@ -18,6 +18,7 @@
       Push Notifications, контейнер `iCloud.com.kirillrychkov.FridgeOracle`.
       С версии 1.1 у них и у виджетов (`….widgets`,
       `….watchkitapp.widgets`) — App Groups `group.com.kirillrychkov.FridgeOracle`.
+      У приложения ещё HealthKit (только запись КБЖУ порции в «Здоровье»).
       Xcode с автоматической подписью сделает это сам при первой сборке на
       устройство.
 - [ ] Один раз запустить сборку с подписью `J656PYWTCP` на iPhone и iPad с
