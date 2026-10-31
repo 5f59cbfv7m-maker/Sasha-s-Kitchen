@@ -1,9 +1,10 @@
 # Работа над этим проектом
 
-«Sasha’s Kitchen» для iPhone, iPad и Mac (Mac Catalyst): учёт продуктов, подбор
-рецептов из остатков, пересчёт граммовок и КБЖУ, списание при готовке, список
-покупок со сканером штрихкодов. Данные синхронизируются через iCloud (SwiftData +
-CloudKit). Интерфейс на 11 языках. Swift 6, SwiftUI, без зависимостей. Здесь
+«Sasha’s Kitchen» для iPhone, iPad, Mac (Mac Catalyst) и Apple Watch: учёт
+продуктов, подбор рецептов из остатков, пересчёт граммовок и КБЖУ, списание при
+готовке, список покупок со сканером штрихкодов. Данные синхронизируются через
+iCloud (SwiftData + CloudKit), списком покупок можно поделиться с другим
+человеком (CKShare + CKSyncEngine). Интерфейс на 11 языках. Swift 6, SwiftUI, без зависимостей. Здесь
 записано то, что дорого выяснять заново.
 
 Имена расходятся намеренно: на домашнем экране — `Sasha’s Kitchen`
@@ -19,12 +20,17 @@ xcodebuild -project FridgeOracle.xcodeproj -scheme FridgeOracle \
 ```
 
 `DEVELOPER_DIR` нужен, пока `xcode-select` указывает на Command Line Tools.
-**41 модульный тест в 8 наборах и 4 UI-теста должны проходить** до того, как
+**48 модульных тестов в 9 наборах и 4 UI-теста должны проходить** до того, как
 изменение считается готовым. В выводе искать `Test run with`: xcodebuild топит
 результат в шуме, а `CoreData: error:` при запуске тестов — безобидный лог
 создания контейнера, а не сбой.
 
 `./Scripts/run-ipad.sh` собирает и запускает приложение на симуляторе.
+
+Часы собираются вместе с приложением для iOS (встроены в `FridgeOracle.app/Watch`,
+в Mac-сборку не попадают — `platformFilter = ios`). Отдельно:
+`xcodebuild … -target FridgeOracleWatch -sdk watchsimulator CODE_SIGNING_ALLOWED=NO build`.
+Симулятора watchOS на этом Mac нет — запускать часы только на устройстве.
 
 Mac-сборка без подписи (проверить, что компилируется):
 `xcodebuild … -destination 'platform=macOS,variant=Mac Catalyst' CODE_SIGNING_ALLOWED=NO build`.
@@ -34,11 +40,16 @@ Mac-сборка без подписи (проверить, что компил�
 
 | Путь | Роль |
 |---|---|
-| `Sources/Model/` | `@Model`-классы SwiftData: продукт, остаток, рецепт, ингредиент, журнал, своя позиция списка покупок |
-| `Sources/Support/` | `Nutrition`, форматирование чисел, цвета категорий — чистые типы без SwiftData |
-| `Sources/Services/` | `Kitchen` (списание, пополнение, список покупок), `RecipeAvailability`, `SyncCleanup` (дубликаты после iCloud), `FoodFacts` (штрихкоды), Напоминания, звук |
+| `Shared/` | Общее для приложения и часов (оба таргета собирают эту папку целиком) |
+| `Shared/Model/` | `@Model`-классы SwiftData и `KitchenStore` (схема, контейнер) |
+| `Shared/Services/` | `Kitchen` (списание, пополнение, список покупок), `RecipeAvailability`, `SharedLists` (общий список) |
+| `Shared/Support/` | `Nutrition`, форматирование чисел, цвета категорий — чистые типы без SwiftData |
+| `Shared/Resources/` | `Localizable` и `Data` — каталоги строк, нужные и часам |
+| `Sources/` | Только приложение для iPhone, iPad и Mac: экраны, сканер, стартовые данные |
+| `Sources/Services/` | `SyncCleanup` (дубликаты после iCloud), `FoodFacts` (штрихкоды), Напоминания, звук |
+| `Watch/` | Приложение для часов: список покупок с отметкой «купил» |
 | `Sources/Scanner/` | `ScanSheet`: камера VisionKit или ввод цифр → карточка продукта |
-| `Sources/Resources/*.xcstrings` | **Генерируются** `Scripts/l10n/build_catalogs.py`, не править руками |
+| `Sources/Resources/*.xcstrings`, `Shared/Resources/*.xcstrings` | **Генерируются** `Scripts/l10n/build_catalogs.py`, не править руками |
 | `Scripts/l10n/` | Переводы: `ru.py` задаёт ключи и их порядок, `<язык>.py` — переводы в том же порядке |
 | `Sources/Seed/` | `SeedData.swift` **генерируется** скриптом, не править руками |
 | `Sources/Fridge|Shopping|Recipes|Settings/` | Экраны |
@@ -73,6 +84,30 @@ Mac-сборка без подписи (проверить, что компил�
 - **`SeedData.swift` — производная от `starter-data.md`.** Изменения вносить в
   markdown и перегенерировать: `./Scripts/generate_seed.py "../Учет продуктов/starter-data.md"`.
   Скрипт падает, если рецепт ссылается на продукт, которого нет в таблице.
+
+## Общий список покупок
+
+SwiftData делиться не умеет, поэтому `SharedLists` зеркалит список в
+отдельную зону `Shopping` приватной базы через CKSyncEngine и открывает её
+целиком одним CKShare. Холодильник и рецепты остаются только у владельца.
+
+- **Источник правды — SwiftData владельца.** Каждое его устройство приводит
+  зону к текущему списку (`reconcile`: своё вписанное + то, что кончается).
+  Гость в зоне только отмечает купленное и дописывает новое.
+- **Отметку гостя проводит одно устройство.** Устройство владельца сначала
+  ставит в записи `applied`/`imported` (заявка), и только когда сервер принял
+  сохранение, пополняет холодильник. Остальные устройства получают
+  `serverRecordChanged` и ничего не делают. Без этого холодильник пополнился
+  бы столько раз, сколько у владельца устройств.
+- **Имя записи — хеш названия** (`SharedListPlan.key`): «Молоко» с iPhone, с
+  iPad и от гостя — одна запись.
+- **Приватный движок забирает только зону `Shopping`** (`nextFetchChangesOptions`):
+  в той же базе лежит зона SwiftData со всем холодильником.
+- Без входа в iCloud (симулятор, тесты) обмен не запускается вовсе.
+- Принять приглашение: `SceneDelegate` (iOS/Mac) и `WatchAppDelegate`.
+- Решения о записях — чистые функции `SharedListPlan`, их проверяет
+  `Tests/SharedListTests.swift`. Сквозной сценарий с двумя Apple ID проверяется
+  только руками на устройствах команды J656PYWTCP.
 
 ## Ловушки, за которые уже заплачено
 

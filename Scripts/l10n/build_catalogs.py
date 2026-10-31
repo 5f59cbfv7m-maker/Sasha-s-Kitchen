@@ -18,7 +18,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 L10N = Path(__file__).resolve().parent
+# Каталоги, нужные и часам, лежат в Shared/: его собирают оба таргета.
 RES = ROOT / "Sources/Resources"
+SHARED = ROOT / "Shared/Resources"
 LANGS = ["en", "de", "fr", "es", "it", "pt-BR", "ja", "ko", "zh-Hans", "th"]
 SPEC = re.compile(r"%(?:\d\$)?(?:lld|@|d)")
 
@@ -73,14 +75,14 @@ def catalog(table, keys, manual=False):
         strings[key] = item
     return {"sourceLanguage": "ru", "strings": strings, "version": "1.0"}
 
-def write(name, data):
-    path = RES / name
+def write(name, data, res=RES):
+    path = res / name
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
     print(f"{path.relative_to(ROOT)}: {len(data['strings'])} строк × {len(LANGS)} языков")
 
-write("Localizable.xcstrings", catalog("UI", ru.KEYS))
+write("Localizable.xcstrings", catalog("UI", ru.KEYS), SHARED)
 write("Seed.xcstrings", catalog("SEED", ru.SEED_KEYS, manual=True))
-write("Data.xcstrings", catalog("DATA", ru.DATA_KEYS, manual=True))
+write("Data.xcstrings", catalog("DATA", ru.DATA_KEYS, manual=True), SHARED)
 for mod in langs.values():
     mod.PLIST.setdefault("CFBundleName", mod.PLIST["CFBundleDisplayName"])
 write("InfoPlist.xcstrings", catalog("PLIST", list(ru.PLIST), manual=True))

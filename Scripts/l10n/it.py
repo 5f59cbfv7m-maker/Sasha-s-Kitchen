@@ -186,7 +186,7 @@ UI = [
     "Foto",
     "Frigo",  # 185
     "Il frigo è vuoto",
-    "Frigo, ricette, lista della spesa e diario sono salvati nel tuo iCloud e compaiono su iPhone, iPad e Mac con lo stesso Account Apple.",
+    "Frigo, ricette, lista della spesa e diario sono salvati nel tuo iCloud e compaiono su iPhone, iPad, Mac e Apple Watch con lo stesso Account Apple. Puoi anche aprire la lista della spesa ad altre persone: «Condividi» → «Invita alla lista condivisa».",
     "Passaggi di preparazione",
     "La lingua dell’interfaccia si cambia nelle impostazioni di sistema dell’app. I nomi di prodotti e ricette si possono scrivere in qualsiasi lingua.",
     "Lingua dell’app",  # 190
@@ -227,6 +227,12 @@ UI = [
     "Codice a barre",  # 225
     "Codice a barre: %@",
     "Non sembra un codice a barre: servono da 8 a 14 cifre.",
+    "Lista condivisa: %@",
+    "Invita alla lista condivisa",
+    "Chi vede la lista",
+    "Invia come testo",
+    "Aggiungi a questa lista",
+    "Proprietario della lista",
 ]
 
 SEED = [

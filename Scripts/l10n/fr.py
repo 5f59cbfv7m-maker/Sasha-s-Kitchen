@@ -186,7 +186,7 @@ UI = [
     "Photo",
     "Frigo",  # 185
     "Le frigo est vide",
-    "Frigo, recettes, liste de courses et journal sont stockés dans votre iCloud et apparaissent sur l’iPhone, l’iPad et le Mac connectés au même compte Apple.",
+    "Frigo, recettes, liste de courses et journal sont stockés dans votre iCloud et apparaissent sur l’iPhone, l’iPad, le Mac et l’Apple Watch connectés au même compte Apple. Vous pouvez aussi ouvrir votre liste de courses à d’autres personnes : « Partager » → « Inviter à la liste partagée ».",
     "Étapes de préparation",
     "La langue de l’interface se change dans les réglages système de l’app. Les noms de produits et de recettes peuvent être saisis dans n’importe quelle langue.",
     "Langue de l’app",  # 190
@@ -227,6 +227,12 @@ UI = [
     "Code-barres",  # 225
     "Code-barres : %@",
     "Cela ne ressemble pas à un code-barres : il faut 8 à 14 chiffres.",
+    "Liste partagée : %@",
+    "Inviter à la liste partagée",
+    "Qui voit la liste",
+    "Envoyer en texte",
+    "Ajouter à cette liste",
+    "Propriétaire de la liste",
 ]
 
 SEED = [

@@ -47,7 +47,7 @@ struct RootView: View {
     }
 
     private var shoppingCount: Int {
-        Kitchen.shoppingEntries(from: stock).count + listed.count
+        Kitchen.shoppingEntries(from: stock).count + listed.count + SharedLists.shared.guestCount
     }
 
     var body: some View {
@@ -80,6 +80,7 @@ struct RootView: View {
         // Число записей меняется и когда iCloud привозит чужие: самое время
         // слить одноимённые дубликаты.
         .task(id: products.count + recipes.count) { SyncCleanup.run(in: context) }
+        .modifier(SharedListSync())
         .overlay {
             if showIntro {
                 IntroView { withAnimation(.easeOut(duration: 0.45)) { showIntro = false } }

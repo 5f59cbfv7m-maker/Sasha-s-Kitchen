@@ -186,7 +186,7 @@ UI = [
     "Photo",
     "Fridge",  # 185
     "The fridge is empty",
-    "Your fridge, recipes, shopping list and log are stored in your iCloud and appear on your iPhone, iPad and Mac signed in to the same Apple Account.",
+    "Your fridge, recipes, shopping list and log are stored in your iCloud and appear on your iPhone, iPad, Mac and Apple Watch signed in to the same Apple Account. You can also open your shopping list to other people: Share → Invite to Shared List.",
     "Cooking steps",
     "The interface language is changed in the app’s system settings. Product and recipe names can be entered in any language.",
     "App language",  # 190
@@ -227,6 +227,12 @@ UI = [
     "Barcode",  # 225
     "Barcode: %@",
     "That doesn’t look like a barcode: 8–14 digits are needed.",
+    "Shared list: %@",
+    "Invite to Shared List",
+    "Who Can See the List",
+    "Send as Text",
+    "Add to this list",
+    "List owner",
 ]
 
 SEED = [

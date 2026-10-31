@@ -1,9 +1,11 @@
+import CloudKit
 import SwiftData
 import SwiftUI
 
 /// Что купить: своё, вписанное руками, и то, что закончилось или заканчивается
 /// в холодильнике. Всё синхронизируется через iCloud — список, начатый на
-/// iPad, отмечается в магазине с iPhone.
+/// iPad, отмечается в магазине с iPhone. Ниже — общие списки других людей,
+/// которые пригласили в них через iCloud.
 struct ShoppingListView: View {
     @Environment(\.modelContext) private var context
     @Query private var stock: [StockItem]
@@ -13,6 +15,8 @@ struct ShoppingListView: View {
     @State private var isScanning = false
     @State private var isExporting = false
     @State private var alert: AlertPayload?
+    @State private var managing: CKShare?
+    @State private var guestDrafts: [String: String] = [:]
     @FocusState private var isAddFocused: Bool
 
     private struct AlertPayload: Identifiable {
@@ -26,6 +30,7 @@ struct ShoppingListView: View {
     private var low: [Kitchen.ShoppingEntry] { entries.filter { $0.state == .low } }
     private var toBuy: [ShoppingItem] { listed.filter { !$0.isBought } }
     private var isEmpty: Bool { entries.isEmpty && toBuy.isEmpty }
+    private var lists: SharedLists { .shared }
 
     var body: some View {
         NavigationStack {
@@ -55,7 +60,8 @@ struct ShoppingListView: View {
                         ForEach(low) { row($0) }
                     }
                 }
-                if isEmpty {
+                ForEach(lists.guestLists) { guestSection($0) }
+                if isEmpty && lists.guestLists.isEmpty {
                     EmptyStateView(symbol: "checkmark.circle",
                                    title: "Покупать нечего",
                                    message: "Всё, что нужно рецептам, есть в холодильнике. Список наполнится сам, когда продукты начнут заканчиваться.")
@@ -64,12 +70,10 @@ struct ShoppingListView: View {
             }
             .navigationTitle("Для покупки")
             .sheet(isPresented: $isScanning) { ScanSheet() }
+            .sheet(item: $managing) { CloudSharingView(share: $0).ignoresSafeArea() }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    ShareLink(item: Kitchen.shareText(for: entries, extra: listed)) {
-                        Label("Поделиться", systemImage: "square.and.arrow.up")
-                    }
-                    .disabled(isEmpty)
+                    shareMenu
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -108,6 +112,96 @@ struct ShoppingListView: View {
                       dismissButton: .default(Text("Понятно")))
             }
         }
+    }
+
+    /// Общий список через iCloud — тому, у кого есть приложение; текстом — кому угодно.
+    private var shareMenu: some View {
+        Menu {
+            if lists.isAvailable {
+                ShareLink(item: SharedListInvite(),
+                          preview: SharePreview("Список покупок", image: Image(systemName: "cart"))) {
+                    Label("Пригласить в общий список", systemImage: "person.badge.plus")
+                }
+                if let share = lists.ownShare {
+                    Button {
+                        managing = share
+                    } label: {
+                        Label("Кто видит список", systemImage: "person.2")
+                    }
+                }
+            }
+            ShareLink(item: Kitchen.shareText(for: entries, extra: listed)) {
+                Label("Отправить текстом", systemImage: "text.alignleft")
+            }
+            .disabled(isEmpty)
+        } label: {
+            Label("Поделиться", systemImage: "square.and.arrow.up")
+        }
+    }
+
+    private func guestSection(_ list: SharedLists.GuestList) -> some View {
+        Section {
+            ForEach(list.items) { guestRow($0) }
+            HStack(spacing: 12) {
+                Image(systemName: "plus.circle")
+                    .font(.title3)
+                    .foregroundStyle(.tint)
+                TextField("Дописать в этот список", text: draft(for: list.owner))
+                    .submitLabel(.done)
+                    .onSubmit { addToGuest(list.owner) }
+            }
+        } header: {
+            HStack {
+                Text("Общий список: \(list.name)")
+                Spacer()
+                if let share = list.share {
+                    Button {
+                        managing = share
+                    } label: {
+                        Label("Кто видит список", systemImage: "person.2")
+                            .labelStyle(.iconOnly)
+                    }
+                }
+            }
+        }
+    }
+
+    private func guestRow(_ purchase: Purchase) -> some View {
+        Button {
+            withAnimation(.snappy) { lists.toggle(purchase) }
+            Feedback.shared.play(purchase.isBought ? .removed : .added)
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: purchase.isBought ? "checkmark.circle.fill" : "circle")
+                    .font(.title3)
+                    .foregroundStyle(purchase.isBought ? Color.green : Color.secondary)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(purchase.title)
+                        .strikethrough(purchase.isBought)
+                        .foregroundStyle(purchase.isBought ? .secondary : .primary)
+                    if let detail = purchase.detail {
+                        Text(detail)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                Spacer()
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .disabled(purchase.applied)
+        .accessibilityAddTraits(purchase.isBought ? .isSelected : [])
+    }
+
+    private func draft(for owner: String) -> Binding<String> {
+        Binding { guestDrafts[owner, default: ""] } set: { guestDrafts[owner] = $0 }
+    }
+
+    private func addToGuest(_ owner: String) {
+        lists.add(guestDrafts[owner, default: ""], toListOf: owner)
+        guestDrafts[owner] = ""
+        Feedback.shared.play(.added)
     }
 
     private var addRow: some View {
