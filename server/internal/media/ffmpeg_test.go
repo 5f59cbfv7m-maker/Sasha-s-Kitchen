@@ -107,13 +107,15 @@ func TestBuildProbeArgs_NoShellString(t *testing.T) {
 }
 
 func TestBuildHLSRungArgs_ArgvShape(t *testing.T) {
-	args := buildHLSRungArgs("/tmp/src.mp4", "/tmp/out/720p", rung{Name: "720p", Height: 720, Bitrate: 2_800_000}, 6)
+	args := buildHLSRungArgs("/tmp/src.mp4", "/tmp/out/720p", rung{Name: "720p", Height: 720, Bitrate: 2_800_000}, 6, false)
 	want := []string{
 		"-y",
 		"-i", "/tmp/src.mp4",
-		"-vf", "scale=-2:720",
+		"-vf", "scale=-2:720,format=yuv420p",
 		"-c:v", "h264",
+		"-profile:v", "high",
 		"-b:v", "2800000",
+		"-force_key_frames", "expr:gte(t,n_forced*6)",
 		"-c:a", "aac",
 		"-hls_time", "6",
 		"-hls_playlist_type", "vod",
