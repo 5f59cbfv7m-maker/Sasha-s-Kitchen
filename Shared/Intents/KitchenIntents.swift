@@ -98,6 +98,8 @@ struct MarkBoughtIntent: AppIntent {
     }
 }
 
+// Фразы Siri объявляет только приложение; в виджете — те же действия без них.
+#if !WIDGET_EXTENSION
 struct KitchenShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(intent: AddToShoppingListIntent(), phrases: [
@@ -114,3 +116,4 @@ struct KitchenShortcuts: AppShortcutsProvider {
         ], shortTitle: "Что испортится", systemImageName: "clock.badge.exclamationmark")
     }
 }
+#endif

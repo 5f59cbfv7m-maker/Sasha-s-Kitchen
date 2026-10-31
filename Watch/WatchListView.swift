@@ -1,6 +1,7 @@
 import SwiftData
 import SwiftUI
 import WatchKit
+import WidgetKit
 
 struct WatchListView: View {
     @Environment(\.modelContext) private var context
@@ -54,6 +55,10 @@ struct WatchListView: View {
                 }
             }
             .navigationTitle("Для покупки")
+        }
+        // Значок на циферблате — то же число, что здесь.
+        .onChange(of: entries.count + listed.filter { !$0.isBought }.count) {
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
 

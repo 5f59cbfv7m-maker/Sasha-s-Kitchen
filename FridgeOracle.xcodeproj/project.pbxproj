@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AA00000000000000000001B1 /* FridgeOracleWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000C5 /* FridgeOracleWatch.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AA0000000000000000000214 /* FridgeOracleWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000209 /* FridgeOracleWidgets.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AA0000000000000000000216 /* FridgeOracleWatchWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA000000000000000000020A /* FridgeOracleWatchWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +34,20 @@
 			remoteGlobalIDString = AA00000000000000000000D4;
 			remoteInfo = FridgeOracleWatch;
 		};
+		AA0000000000000000000217 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA00000000000000000000A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000201;
+			remoteInfo = FridgeOracleWidgets;
+		};
+		AA0000000000000000000219 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA00000000000000000000A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000000202;
+			remoteInfo = FridgeOracleWatchWidgets;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +62,28 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA0000000000000000000213 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AA0000000000000000000214 /* FridgeOracleWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000215 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AA0000000000000000000216 /* FridgeOracleWatchWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +92,8 @@
 		AA00000000000000000000C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA00000000000000000000C4 /* FridgeOracleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FridgeOracleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA00000000000000000000C5 /* FridgeOracleWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FridgeOracleWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0000000000000000000209 /* FridgeOracleWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FridgeOracleWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA000000000000000000020A /* FridgeOracleWatchWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FridgeOracleWatchWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -80,6 +120,16 @@
 		AA00000000000000000000B8 /* Watch */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Watch;
+			sourceTree = "<group>";
+		};
+		AA000000000000000000020B /* Widgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		AA000000000000000000020C /* WatchWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WatchWidgets;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -113,6 +163,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA0000000000000000000204 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000207 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -122,6 +186,8 @@
 				AA00000000000000000000B3 /* Sources */,
 				AA00000000000000000000B7 /* Shared */,
 				AA00000000000000000000B8 /* Watch */,
+				AA000000000000000000020B /* Widgets */,
+				AA000000000000000000020C /* WatchWidgets */,
 				AA00000000000000000000B4 /* Tests */,
 				AA00000000000000000000B6 /* UITests */,
 				AA00000000000000000000B5 /* Config */,
@@ -136,6 +202,8 @@
 				AA00000000000000000000C2 /* FridgeOracleTests.xctest */,
 				AA00000000000000000000C4 /* FridgeOracleUITests.xctest */,
 				AA00000000000000000000C5 /* FridgeOracleWatch.app */,
+				AA0000000000000000000209 /* FridgeOracleWidgets.appex */,
+				AA000000000000000000020A /* FridgeOracleWatchWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -159,11 +227,13 @@
 				AA00000000000000000000E2 /* Frameworks */,
 				AA00000000000000000000E3 /* Resources */,
 				AA00000000000000000000EA /* Embed Watch Content */,
+				AA0000000000000000000213 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				AA00000000000000000001A5 /* PBXTargetDependency */,
+				AA0000000000000000000218 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				AA00000000000000000000B3 /* Sources */,
@@ -229,10 +299,12 @@
 				AA00000000000000000000EB /* Sources */,
 				AA00000000000000000000EC /* Frameworks */,
 				AA00000000000000000000ED /* Resources */,
+				AA0000000000000000000215 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AA000000000000000000021A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				AA00000000000000000000B7 /* Shared */,
@@ -244,6 +316,52 @@
 			productName = FridgeOracleWatch;
 			productReference = AA00000000000000000000C5 /* FridgeOracleWatch.app */;
 			productType = "com.apple.product-type.application";
+		};
+		AA0000000000000000000201 /* FridgeOracleWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA000000000000000000020D /* Build configuration list for PBXNativeTarget "FridgeOracleWidgets" */;
+			buildPhases = (
+				AA0000000000000000000203 /* Sources */,
+				AA0000000000000000000204 /* Frameworks */,
+				AA0000000000000000000205 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA00000000000000000000B7 /* Shared */,
+				AA000000000000000000020B /* Widgets */,
+			);
+			name = FridgeOracleWidgets;
+			packageProductDependencies = (
+			);
+			productName = FridgeOracleWidgets;
+			productReference = AA0000000000000000000209 /* FridgeOracleWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		AA0000000000000000000202 /* FridgeOracleWatchWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000210 /* Build configuration list for PBXNativeTarget "FridgeOracleWatchWidgets" */;
+			buildPhases = (
+				AA0000000000000000000206 /* Sources */,
+				AA0000000000000000000207 /* Frameworks */,
+				AA0000000000000000000208 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA00000000000000000000B7 /* Shared */,
+				AA000000000000000000020C /* WatchWidgets */,
+			);
+			name = FridgeOracleWatchWidgets;
+			packageProductDependencies = (
+			);
+			productName = FridgeOracleWatchWidgets;
+			productReference = AA000000000000000000020A /* FridgeOracleWatchWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -267,6 +385,12 @@
 						TestTargetID = AA00000000000000000000D1;
 					};
 					AA00000000000000000000D4 = {
+						CreatedOnToolsVersion = 27.2;
+					};
+					AA0000000000000000000201 = {
+						CreatedOnToolsVersion = 27.2;
+					};
+					AA0000000000000000000202 = {
 						CreatedOnToolsVersion = 27.2;
 					};
 				};
@@ -299,6 +423,8 @@
 				AA00000000000000000000D2 /* FridgeOracleTests */,
 				AA00000000000000000000D3 /* FridgeOracleUITests */,
 				AA00000000000000000000D4 /* FridgeOracleWatch */,
+				AA0000000000000000000201 /* FridgeOracleWidgets */,
+				AA0000000000000000000202 /* FridgeOracleWatchWidgets */,
 			);
 		};
 /* End PBXProject section */
@@ -326,6 +452,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AA00000000000000000000ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000205 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000208 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -363,6 +503,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA0000000000000000000203 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000206 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -381,6 +535,17 @@
 			platformFilter = ios;
 			target = AA00000000000000000000D4 /* FridgeOracleWatch */;
 			targetProxy = AA00000000000000000001A6 /* PBXContainerItemProxy */;
+		};
+		AA0000000000000000000218 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = AA0000000000000000000201 /* FridgeOracleWidgets */;
+			targetProxy = AA0000000000000000000217 /* PBXContainerItemProxy */;
+		};
+		AA000000000000000000021A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000000202 /* FridgeOracleWatchWidgets */;
+			targetProxy = AA0000000000000000000219 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -649,6 +814,118 @@
 			};
 			name = Release;
 		};
+		AA000000000000000000020E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Config/Widgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = J656PYWTCP;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Config/Widgets-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kirillrychkov.FridgeOracle.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "WIDGET_EXTENSION $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		AA000000000000000000020F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Config/Widgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = J656PYWTCP;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Config/Widgets-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kirillrychkov.FridgeOracle.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "WIDGET_EXTENSION $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		AA0000000000000000000211 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Config/WatchWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = J656PYWTCP;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Config/WatchWidgets-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kirillrychkov.FridgeOracle.watchkitapp.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "WIDGET_EXTENSION $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000212 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Config/WatchWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = J656PYWTCP;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Config/WatchWidgets-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kirillrychkov.FridgeOracle.watchkitapp.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "WIDGET_EXTENSION $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -693,6 +970,24 @@
 			buildConfigurations = (
 				AA0000000000000000000112 /* Debug */,
 				AA0000000000000000000113 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA000000000000000000020D /* Build configuration list for PBXNativeTarget "FridgeOracleWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA000000000000000000020E /* Debug */,
+				AA000000000000000000020F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0000000000000000000210 /* Build configuration list for PBXNativeTarget "FridgeOracleWatchWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000211 /* Debug */,
+				AA0000000000000000000212 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
