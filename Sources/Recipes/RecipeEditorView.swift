@@ -9,6 +9,8 @@ struct RecipeEditorView: View {
     @Environment(\.modelContext) private var context
 
     var editing: Recipe?
+    /// Черновик из импорта по ссылке или с фото.
+    var prefill: ImportedRecipe?
 
     @State private var name = ""
     @State private var minutes = 20
@@ -18,6 +20,8 @@ struct RecipeEditorView: View {
     @State private var photoData: Data?
     @State private var photoItem: PhotosPickerItem?
     @State private var isPickingProduct = false
+    /// Новые продукты из импорта: не сохранили рецепт — убираем и их.
+    @State private var created: [Product] = []
 
     struct Draft: Identifiable {
         let id = UUID()
@@ -95,6 +99,9 @@ struct RecipeEditorView: View {
                     if drafts.isEmpty {
                         Text("Рецепт без ингредиентов не сохранится — из него нечего списывать.")
                     }
+                    if !created.isEmpty {
+                        Text("Новые продукты без КБЖУ: \(created.map(\.name).formatted(.list(type: .and))). Проверьте граммовки — импорт мог ошибиться.")
+                    }
                 }
 
                 Section("Шаги приготовления") {
@@ -117,7 +124,11 @@ struct RecipeEditorView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Отмена") { dismiss() }
+                    Button("Отмена") {
+                        for product in created { context.delete(product) }
+                        try? context.save()
+                        dismiss()
+                    }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Сохранить") { save() }.disabled(!canSave)
@@ -133,6 +144,8 @@ struct RecipeEditorView: View {
                 photoData = try? await photoItem.loadTransferable(type: Data.self)
             }
             .onAppear(perform: loadForEditing)
+            // Смахнуть импорт нельзя: созданные продукты остались бы сиротами.
+            .interactiveDismissDisabled(!created.isEmpty)
         }
     }
 
@@ -146,6 +159,21 @@ struct RecipeEditorView: View {
     }
 
     private func loadForEditing() {
+        if let prefill, drafts.isEmpty, name.isEmpty {
+            name = prefill.name
+            minutes = prefill.minutes ?? minutes
+            servings = prefill.servings ?? servings
+            steps = prefill.steps
+            photoData = prefill.photoData
+            for ingredient in prefill.ingredients {
+                let resolved = RecipeImport.product(for: ingredient, in: context)
+                guard !drafts.contains(where: { $0.product.persistentModelID == resolved.product.persistentModelID }) else { continue }
+                if resolved.isNew { created.append(resolved.product) }
+                drafts.append(Draft(product: resolved.product,
+                                    amount: resolved.amount > 0 ? resolved.amount : defaultAmount(for: resolved.product)))
+            }
+            return
+        }
         guard let editing, drafts.isEmpty, name.isEmpty else { return }
         name = editing.name
         minutes = editing.cookingTimeMinutes

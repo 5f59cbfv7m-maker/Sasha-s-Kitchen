@@ -292,6 +292,19 @@ UI = [
     "On cuisine quand ?",
     "Portions",
     "Ajouté au menu",
+    "Aucune recette trouvée sur cette page. Essayez le lien de la recette elle-même ou une photo de la page.",
+    "Impossible de lire le texte de la photo.",
+    "Nouveaux produits sans valeurs nutritionnelles : %@. Vérifiez les quantités — l’import a pu se tromper.",
+    "Charger la recette",
+    "Par lien",
+    "Fonctionne avec les pages de recettes de la plupart des sites de cuisine : nom, ingrédients, étapes et photo se remplissent seuls.",
+    "Choisir une photo de la page",
+    "Photographier la page",
+    "Par photo",
+    "Le texte est reconnu sur l’appareil et n’est envoyé nulle part. La première ligne devient le nom, les lignes avec des quantités deviennent les ingrédients.",
+    "Lecture de la recette…",
+    "Importer une recette",
+    "Importer par lien ou photo",
 ]
 
 SEED = [
@@ -446,6 +459,6 @@ DATA = ["Viande", "Poisson", "Fruits de mer", "Produits laitiers", "Laitages et 
 
 PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
-    "NSCameraUsageDescription": "L’appareil photo sert à scanner les codes-barres des produits pour les ajouter au frigo sans les taper.",
+    "NSCameraUsageDescription": "L’appareil photo sert à scanner les codes-barres des produits et à photographier des pages de recettes.",
     "NSRemindersFullAccessUsageDescription": "L’accès à Rappels permet de placer votre liste de courses dans une liste « Courses » avec de vraies cases à cocher.",
 }

@@ -11,6 +11,9 @@ struct RecipesView: View {
     @State private var onlyAvailable = false
     @State private var scope: Scope = .all
     @State private var isCreating = false
+    @State private var isImporting = false
+    @State private var imported: ImportedRecipe?
+    @State private var pendingImport: ImportedRecipe?
     /// `-openRecipe <имя из стартового набора>` открывает рецепт сразу — для скриншотов.
     @State private var opened: Recipe?
 
@@ -80,13 +83,26 @@ struct RecipesView: View {
             .searchable(text: $search, prompt: "Рецепт или ингредиент")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button { isCreating = true } label: {
+                    Menu {
+                        Button { isCreating = true } label: {
+                            Label("Создать рецепт", systemImage: "square.and.pencil")
+                        }
+                        .keyboardShortcut("n", modifiers: .command)
+                        Button { isImporting = true } label: {
+                            Label("Импорт по ссылке или с фото", systemImage: "square.and.arrow.down")
+                        }
+                    } label: {
                         Label("Создать рецепт", systemImage: "plus")
                     }
-                    .keyboardShortcut("n", modifiers: .command)
                 }
             }
             .sheet(isPresented: $isCreating) { RecipeEditorView() }
+            // Редактор открывается, когда лист импорта уже закрылся: два листа
+            // разом SwiftUI не покажет.
+            .sheet(isPresented: $isImporting, onDismiss: { imported = pendingImport; pendingImport = nil }) {
+                RecipeImportView { pendingImport = $0 }
+            }
+            .sheet(item: $imported) { RecipeEditorView(prefill: $0) }
             .navigationDestination(item: $opened) { RecipeDetailView(recipe: $0) }
             .task {
                 guard opened == nil, let key = UserDefaults.standard.string(forKey: "openRecipe") else { return }

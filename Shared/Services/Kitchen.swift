@@ -220,7 +220,13 @@ enum Kitchen {
     static func setBought(_ item: ShoppingItem, _ bought: Bool, in context: ModelContext) {
         guard item.isBought != bought else { return }
         item.isBought = bought
-        if let product = item.product, let stock = product.stockItems?.first {
+        if let product = item.product {
+            // Продукт из импортированного рецепта ещё не лежал в холодильнике.
+            let stock = product.stockItems?.first ?? {
+                let created = StockItem(product: product, currentAmount: 0)
+                context.insert(created)
+                return created
+            }()
             let amount = item.amount > 0 ? item.amount : suggestedPurchase(for: stock)
             if item.amount == 0 { item.amount = amount }
             if bought {

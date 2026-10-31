@@ -2559,6 +2559,70 @@
         }
       }
     },
+    "Выбрать фото страницы": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foto der Seite wählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a Photo of the Page"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elegir una foto de la página"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir une photo de la page"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scegli una foto della pagina"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ページの写真を選ぶ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "페이지 사진 선택"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolher foto da página"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เลือกรูปถ่ายของหน้า"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择页面照片"
+          }
+        }
+      }
+    },
     "Годен %lld дн. с покупки": {
       "localizations": {
         "de": {
@@ -5023,6 +5087,70 @@
         }
       }
     },
+    "Загрузить рецепт": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rezept laden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Load Recipe"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cargar receta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charger la recette"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carica ricetta"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "レシピを読み込む"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "레시피 불러오기"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carregar receita"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "โหลดสูตรอาหาร"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "载入菜谱"
+          }
+        }
+      }
+    },
     "Загрузить стартовые данные заново": {
       "localizations": {
         "de": {
@@ -6107,6 +6235,134 @@
           "stringUnit": {
             "state": "translated",
             "value": "修改库存"
+          }
+        }
+      }
+    },
+    "Импорт по ссылке или с фото": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per Link oder Foto importieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import from a Link or Photo"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importar desde enlace o foto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importer par lien ou photo"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importa da link o foto"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "リンクや写真から取り込む"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "링크나 사진으로 가져오기"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importar por link ou foto"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "นำเข้าจากลิงก์หรือรูปถ่าย"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过链接或照片导入"
+          }
+        }
+      }
+    },
+    "Импорт рецепта": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rezept importieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import Recipe"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importar receta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importer une recette"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importa ricetta"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "レシピを取り込む"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "레시피 가져오기"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importar receita"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "นำเข้าสูตรอาหาร"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导入菜谱"
           }
         }
       }
@@ -8575,6 +8831,70 @@
         }
       }
     },
+    "На этой странице не нашлось рецепта. Попробуйте ссылку на сам рецепт или фото страницы.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf dieser Seite wurde kein Rezept gefunden. Versuche einen Link zum Rezept selbst oder ein Foto der Seite."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No recipe was found on this page. Try a link to the recipe itself or a photo of the page."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se encontró ninguna receta en esta página. Prueba con el enlace de la receta o una foto de la página."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune recette trouvée sur cette page. Essayez le lien de la recette elle-même ou une photo de la page."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In questa pagina non c’è una ricetta. Prova con il link alla ricetta o con una foto della pagina."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このページにレシピが見つかりませんでした。レシピ本体へのリンクか、ページの写真をお試しください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 페이지에서 레시피를 찾지 못했습니다. 레시피 자체의 링크나 페이지 사진으로 시도해 보세요."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhuma receita encontrada nesta página. Tente o link da própria receita ou uma foto da página."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ไม่พบสูตรอาหารในหน้านี้ ลองใช้ลิงก์ของสูตรโดยตรงหรือรูปถ่ายของหน้า"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这个页面上没有找到菜谱。试试菜谱本身的链接，或者拍下页面。"
+          }
+        }
+      }
+    },
     "Наведите камеру на штрихкод на упаковке.": {
       "localizations": {
         "de": {
@@ -9471,6 +9791,70 @@
         }
       }
     },
+    "Не удалось прочитать текст на фото.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Text auf dem Foto konnte nicht gelesen werden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t read the text in the photo."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se ha podido leer el texto de la foto."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de lire le texte de la photo."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossibile leggere il testo nella foto."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "写真の文字を読み取れませんでした。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사진의 글자를 읽지 못했습니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível ler o texto da foto."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "อ่านข้อความในรูปไม่ได้"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法识别照片里的文字。"
+          }
+        }
+      }
+    },
     "Не удалось связаться с базами продуктов. Проверьте интернет.": {
       "localizations": {
         "de": {
@@ -10171,6 +10555,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "新分类…"
+          }
+        }
+      }
+    },
+    "Новые продукты без КБЖУ: %@. Проверьте граммовки — импорт мог ошибиться.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neue Produkte ohne Nährwerte: %@. Prüfe die Mengen – der Import kann sich geirrt haben."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New products without nutrition: %@. Check the amounts — the import may have got something wrong."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Productos nuevos sin nutrientes: %@. Revisa las cantidades: la importación puede haberse equivocado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouveaux produits sans valeurs nutritionnelles : %@. Vérifiez les quantités — l’import a pu se tromper."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuovi prodotti senza valori nutrizionali: %@. Controlla le quantità: l’importazione potrebbe aver sbagliato."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "栄養素のない新しい食材：%@。分量を確認してください。読み取りが間違っている場合があります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "영양 정보가 없는 새 재료: %@. 양을 확인하세요. 가져오기가 틀렸을 수 있습니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Produtos novos sem nutrientes: %@. Confira as quantidades — a importação pode ter errado."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "วัตถุดิบใหม่ที่ไม่มีข้อมูลโภชนาการ: %@ ตรวจสอบปริมาณอีกครั้ง การนำเข้าอาจผิดพลาด"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有营养数据的新食材：%@。请核对用量，导入可能有误。"
           }
         }
       }
@@ -11135,6 +11583,70 @@
         }
       }
     },
+    "По ссылке": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per Link"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From a Link"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desde un enlace"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Par lien"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Da link"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "リンクから"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "링크로"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Por link"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "จากลิงก์"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过链接"
+          }
+        }
+      }
+    },
     "По умолчанию — расчёт на %lld порц. Поправьте, если положили больше или меньше: спишется ровно то, что здесь указано.": {
       "localizations": {
         "de": {
@@ -11259,6 +11771,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "分享"
+          }
+        }
+      }
+    },
+    "Подойдёт страница рецепта на большинстве кулинарных сайтов: название, ингредиенты, шаги и фото подставятся сами.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klappt mit Rezeptseiten der meisten Kochseiten: Name, Zutaten, Schritte und Foto werden automatisch übernommen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Works with recipe pages on most cooking sites: name, ingredients, steps and photo fill in by themselves."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funciona con las páginas de recetas de la mayoría de webs de cocina: nombre, ingredientes, pasos y foto se rellenan solos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fonctionne avec les pages de recettes de la plupart des sites de cuisine : nom, ingrédients, étapes et photo se remplissent seuls."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funziona con le pagine delle ricette della maggior parte dei siti di cucina: nome, ingredienti, passaggi e foto si compilano da soli."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "多くの料理サイトのレシピページに対応しています。料理名、材料、手順、写真が自動で入ります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "대부분의 요리 사이트 레시피 페이지에서 됩니다. 이름, 재료, 단계, 사진이 자동으로 채워집니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funciona com páginas de receitas da maioria dos sites de culinária: nome, ingredientes, passos e foto são preenchidos sozinhos."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ใช้ได้กับหน้าสูตรอาหารของเว็บทำอาหารส่วนใหญ่ ชื่อ วัตถุดิบ ขั้นตอน และรูปจะถูกกรอกให้เอง"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "适用于大多数美食网站的菜谱页面：名称、食材、步骤和图片会自动填好。"
           }
         }
       }
@@ -13439,6 +14015,70 @@
         }
       }
     },
+    "С фото": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per Foto"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From a Photo"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desde una foto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Par photo"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Da foto"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "写真から"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "사진으로"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Por foto"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "จากรูปถ่าย"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过照片"
+          }
+        }
+      }
+    },
     "Сброс удалит все остатки, свои рецепты, список покупок и журнал — на всех ваших устройствах, — а затем разложит заново стартовый набор продуктов и рецептов.": {
       "localizations": {
         "de": {
@@ -15295,6 +15935,70 @@
         }
       }
     },
+    "Сфотографировать страницу": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seite fotografieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photograph the Page"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotografiar la página"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photographier la page"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotografa la pagina"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ページを撮影"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "페이지 촬영"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotografar a página"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ถ่ายรูปหน้า"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拍摄页面"
+          }
+        }
+      }
+    },
     "Считать «на исходе» ниже": {
       "localizations": {
         "de": {
@@ -15547,6 +16251,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "触感反馈"
+          }
+        }
+      }
+    },
+    "Текст распознаётся на устройстве и никуда не отправляется. Первая строка станет названием, строки с количеством — ингредиентами.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der Text wird auf dem Gerät erkannt und nirgendwohin gesendet. Die erste Zeile wird zum Namen, Zeilen mit Mengen zu Zutaten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text is recognized on the device and isn’t sent anywhere. The first line becomes the name, lines with amounts become ingredients."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El texto se reconoce en el dispositivo y no se envía a ninguna parte. La primera línea será el nombre; las líneas con cantidades, los ingredientes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le texte est reconnu sur l’appareil et n’est envoyé nulle part. La première ligne devient le nom, les lignes avec des quantités deviennent les ingrédients."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il testo viene riconosciuto sul dispositivo e non viene inviato da nessuna parte. La prima riga diventa il nome, le righe con le quantità gli ingredienti."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字はデバイス上で認識され、どこにも送信されません。1行目が料理名、分量のある行が材料になります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "글자는 기기에서 인식되며 어디에도 전송되지 않습니다. 첫 줄은 이름, 양이 있는 줄은 재료가 됩니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O texto é reconhecido no aparelho e não é enviado para lugar nenhum. A primeira linha vira o nome; as linhas com quantidades, os ingredientes."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ข้อความถูกอ่านบนอุปกรณ์และไม่ถูกส่งไปที่ใด บรรทัดแรกเป็นชื่อ บรรทัดที่มีปริมาณเป็นวัตถุดิบ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文字在设备上识别，不会发送到任何地方。第一行是菜名，带用量的行是食材。"
           }
         }
       }
@@ -16891,6 +17659,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "还缺东西"
+          }
+        }
+      }
+    },
+    "Читаем рецепт…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rezept wird gelesen …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading the recipe…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leyendo la receta…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lecture de la recette…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lettura della ricetta…"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "レシピを読み込んでいます…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "레시피를 읽는 중…"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lendo a receita…"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "กำลังอ่านสูตรอาหาร…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在读取菜谱…"
           }
         }
       }

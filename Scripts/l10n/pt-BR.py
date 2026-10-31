@@ -292,6 +292,19 @@ UI = [
     "Quando vamos cozinhar?",
     "Porções",
     "Adicionado ao cardápio",
+    "Nenhuma receita encontrada nesta página. Tente o link da própria receita ou uma foto da página.",
+    "Não foi possível ler o texto da foto.",
+    "Produtos novos sem nutrientes: %@. Confira as quantidades — a importação pode ter errado.",
+    "Carregar receita",
+    "Por link",
+    "Funciona com páginas de receitas da maioria dos sites de culinária: nome, ingredientes, passos e foto são preenchidos sozinhos.",
+    "Escolher foto da página",
+    "Fotografar a página",
+    "Por foto",
+    "O texto é reconhecido no aparelho e não é enviado para lugar nenhum. A primeira linha vira o nome; as linhas com quantidades, os ingredientes.",
+    "Lendo a receita…",
+    "Importar receita",
+    "Importar por link ou foto",
 ]
 
 SEED = [
@@ -446,6 +459,6 @@ DATA = ["Carnes", "Peixes", "Frutos do mar", "Laticínios", "Laticínios e ovos"
 
 PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
-    "NSCameraUsageDescription": "A câmera serve para ler códigos de barras de produtos e colocá-los na geladeira sem digitar.",
+    "NSCameraUsageDescription": "A câmera é usada para ler códigos de barras de produtos e fotografar páginas de receitas.",
     "NSRemindersFullAccessUsageDescription": "Com acesso aos Lembretes o app coloca sua lista de compras numa lista “Comprar” com caixas de seleção de verdade.",
 }
