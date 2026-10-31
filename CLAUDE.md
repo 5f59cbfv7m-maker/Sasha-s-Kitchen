@@ -46,7 +46,7 @@ Mac-сборка без подписи (проверить, что компил�
 | `Shared/Support/` | `Nutrition`, форматирование чисел, цвета категорий — чистые типы без SwiftData |
 | `Shared/Resources/` | `Localizable` и `Data` — каталоги строк, нужные и часам |
 | `Sources/` | Только приложение для iPhone, iPad и Mac: экраны, сканер, стартовые данные |
-| `Sources/Services/` | `SyncCleanup` (дубликаты после iCloud), `FoodFacts` (штрихкоды), Напоминания, звук |
+| `Sources/Services/` | `SyncCleanup` (дубликаты после iCloud), `FoodFacts` (штрихкоды), `ExpiryReminders` (уведомления о сроках), Напоминания, звук |
 | `Watch/` | Приложение для часов: список покупок с отметкой «купил» |
 | `Sources/Scanner/` | `ScanSheet`: камера VisionKit или ввод цифр → карточка продукта |
 | `Sources/Resources/*.xcstrings`, `Shared/Resources/*.xcstrings` | **Генерируются** `Scripts/l10n/build_catalogs.py`, не править руками |

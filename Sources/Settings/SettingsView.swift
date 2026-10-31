@@ -11,6 +11,9 @@ struct SettingsView: View {
 
     @AppStorage(Feedback.soundKey) private var soundEnabled = true
     @AppStorage(Feedback.hapticsKey) private var hapticsEnabled = true
+    @AppStorage(ExpiryReminders.enabledKey) private var expiryEnabled = false
+    @AppStorage(ExpiryReminders.timeKey) private var expiryMinutes = 600
+    @State private var notificationsDenied = false
 
     @State private var cameraStatus = CameraPermission.statusText
     @State private var remindersStatus = ""
@@ -31,6 +34,19 @@ struct SettingsView: View {
                     Text("Отклик")
                 } footer: {
                     Text("Вибро работает на iPhone; на iPad и Mac основной отклик — звук и анимация.")
+                }
+
+                Section {
+                    Toggle("Напоминать о сроках годности", isOn: expiryToggle)
+                    if expiryEnabled {
+                        DatePicker("Время уведомления", selection: expiryTime, displayedComponents: .hourAndMinute)
+                    }
+                } header: {
+                    Text("Сроки годности")
+                } footer: {
+                    Text(notificationsDenied
+                         ? "Уведомления для Sasha’s Kitchen запрещены в настройках устройства — разрешите их там."
+                         : "Накануне дня, когда истекает срок, придёт уведомление: что испортится и что из этого можно приготовить. Включается на каждом устройстве отдельно.")
                 }
 
                 Section {
@@ -119,6 +135,31 @@ struct SettingsView: View {
                 cameraStatus = CameraPermission.statusText
                 remindersStatus = Self.remindersText()
             }
+        }
+    }
+
+    private var expiryToggle: Binding<Bool> {
+        Binding {
+            expiryEnabled
+        } set: { isOn in
+            Task {
+                if isOn {
+                    notificationsDenied = !(await ExpiryReminders.enable())
+                } else {
+                    expiryEnabled = false
+                }
+                await ExpiryReminders.reschedule(in: context)
+            }
+        }
+    }
+
+    private var expiryTime: Binding<Date> {
+        Binding {
+            Calendar.current.date(byAdding: .minute, value: expiryMinutes, to: Calendar.current.startOfDay(for: .now)) ?? .now
+        } set: { date in
+            let parts = Calendar.current.dateComponents([.hour, .minute], from: date)
+            expiryMinutes = (parts.hour ?? 10) * 60 + (parts.minute ?? 0)
+            Task { await ExpiryReminders.reschedule(in: context) }
         }
     }
 
