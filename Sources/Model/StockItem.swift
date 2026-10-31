@@ -34,10 +34,13 @@ final class StockItem {
         return min(1, max(0, currentAmount / initialAmount))
     }
 
+    /// Считаем по календарным дням: от «сейчас» до «завтра в 9 утра» — это
+    /// 1 день, а не 0, как вышло бы при счёте по часам.
     var daysUntilExpiry: Int? {
         guard let expiryDate else { return nil }
-        let days = Calendar.current.dateComponents([.day], from: .now, to: expiryDate).day
-        return days
+        let calendar = Calendar.current
+        return calendar.dateComponents([.day], from: calendar.startOfDay(for: .now),
+                                       to: calendar.startOfDay(for: expiryDate)).day
     }
 
     var isExpiringSoon: Bool {

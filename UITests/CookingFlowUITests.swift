@@ -19,6 +19,8 @@ final class CookingFlowUITests: XCTestCase {
         XCUIDevice.shared.orientation = .landscapeLeft
         let app = XCUIApplication()
         app.launchArguments += ["-startTab", tab, "-resetData", "YES"]
+        // Подписи в тесте русские — и язык приложения русский, каким бы ни был симулятор.
+        app.launchArguments += ["-AppleLanguages", "(ru)", "-AppleLocale", "ru_RU"]
         // Заставка перехватывает тапы, поэтому сценарии идут без неё.
         if !intro { app.launchArguments += ["-skipIntro", "YES"] }
         app.launch()

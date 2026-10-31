@@ -46,7 +46,7 @@ struct IntroView: View {
                         .frame(width: 128, height: 128)
                         .clipShape(.rect(cornerRadius: 128 * 0.2237, style: .continuous))
                         .shadow(color: .black.opacity(0.18), radius: 16, y: 8)
-                    Text("Sasha’s Kitchen")
+                    Text(verbatim: "Sasha’s Kitchen")
                         .font(.title.weight(.bold))
                 }
                 .scaleEffect(phase == 2 ? 1 : 0.6)

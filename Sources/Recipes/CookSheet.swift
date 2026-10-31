@@ -85,9 +85,9 @@ struct CookSheet: View {
                     .multilineTextAlignment(.trailing)
                     .monospacedDigit()
                     .frame(maxWidth: 90)
-                Text(requirement.unit)
+                Text(Fmt.unit(requirement.unit))
                     .foregroundStyle(.secondary)
-                    .frame(width: 30, alignment: .leading)
+                    .frame(minWidth: 30, alignment: .leading)
             }
             Text(short
                  ? "в холодильнике только \(Fmt.amount(have, unit: requirement.unit)) — спишется этот остаток"

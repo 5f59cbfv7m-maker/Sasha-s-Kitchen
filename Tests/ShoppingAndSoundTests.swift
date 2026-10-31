@@ -82,15 +82,22 @@ struct SoundAndFormattingTests {
         #expect(Int(UInt32(littleEndian: payload)) == data.count - 44)
     }
 
-    @Test("Числа выводятся по-русски, без хвостовых нулей")
+    @Test("Числа выводятся по правилам локали, без хвостовых нулей")
     func numbers() {
-        #expect(Fmt.number(330) == "330")
-        #expect(Fmt.number(0.5) == "0,5")
-        #expect(Fmt.number(247.5) == "247,5")
-        #expect(Fmt.number(2.0) == "2")
-        #expect(Fmt.amount(3, unit: "шт") == "3 шт")
-        #expect(Fmt.kcal(1_184.8) == "1\u{00A0}185 ккал")
-        #expect(Fmt.minutes(40) == "40 мин")
-        #expect(Fmt.minutes(90) == "1 ч 30 мин")
+        let ru = Locale(identifier: "ru_RU")
+        #expect(Fmt.number(330, locale: ru) == "330")
+        #expect(Fmt.number(0.5, locale: ru) == "0,5")
+        #expect(Fmt.number(247.5, locale: ru) == "247,5")
+        #expect(Fmt.number(2.0, locale: ru) == "2")
+        #expect(Fmt.number(0.1 + 0.2, locale: ru) == "0,3")
+        #expect(Fmt.amount(3, unit: "шт", locale: ru) == "3 шт")
+        #expect(Fmt.kcal(1_184.8, locale: ru) == "1\u{00A0}185 ккал")
+        #expect(Fmt.minutes(40, locale: ru) == "40 мин")
+        #expect(Fmt.minutes(90, locale: ru) == "1 ч 30 мин")
+
+        let us = Locale(identifier: "en_US")
+        #expect(Fmt.number(0.5, locale: us) == "0.5")
+        #expect(Fmt.kcal(1_184.8, locale: us) == "1,185 kcal")
+        #expect(Fmt.amount(3, unit: "шт", locale: us) == "3 pcs")
     }
 }

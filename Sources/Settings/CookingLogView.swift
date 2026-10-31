@@ -32,7 +32,7 @@ struct CookingLogView: View {
                                 }
                             } header: {
                                 HStack {
-                                    Text(Fmt.date.string(from: group.day))
+                                    Text(Fmt.day(group.day))
                                     Spacer()
                                     Text(Fmt.kcal(group.logs.map(\.calories).reduce(0, +)))
                                 }

@@ -33,7 +33,8 @@ struct NutritionTests {
                           fatPer100: 11, carbsPer100: 1.1)
         // 3 шт = 165 г, ровно как в исходной таблице рецептов.
         #expect(abs(egg.nutrition(forAmount: 3).calories - 255.75) < 1e-9)
-        #expect(egg.amountLabel(3) == "3 шт (165 г)")
+        #expect(egg.amountLabel(3).hasPrefix("3 "))
+        #expect(egg.amountLabel(3).contains("165"))
     }
 
     @Test("Рецепт пересчитывается под число порций")

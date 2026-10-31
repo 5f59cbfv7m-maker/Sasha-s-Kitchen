@@ -30,7 +30,7 @@ struct SettingsView: View {
                 } header: {
                     Text("Отклик")
                 } footer: {
-                    Text("На iPad нет Taptic Engine, поэтому вибро здесь — необязательный бонус. Основной отклик — звук и анимация.")
+                    Text("Вибро работает на iPhone; на iPad и Mac основной отклик — звук и анимация.")
                 }
 
                 Section {
@@ -44,16 +44,10 @@ struct SettingsView: View {
                         Label("Запросить доступ к камере", systemImage: "camera")
                     }
                     .disabled(CameraPermission.status != .notDetermined)
-
-                    Button {
-                    } label: {
-                        Label("Сканер штрихкода", systemImage: "barcode.viewfinder")
-                    }
-                    .disabled(true)
                 } header: {
                     Text("Сканер штрихкода")
                 } footer: {
-                    Text("Сам сканер и запрос к Open Food Facts — вторая фаза. Разрешение на камеру можно выдать заранее, чтобы потом не отвлекаться.")
+                    Text("Сканер — на вкладках «Холодильник» и «Для покупки». Название и КБЖУ приходят из открытой базы Open Food Facts; туда уходит только сам штрихкод.")
                 }
 
                 Section {
@@ -85,12 +79,30 @@ struct SettingsView: View {
                 } header: {
                     Text("Данные")
                 } footer: {
-                    Text("Сброс удалит все остатки, свои рецепты и журнал, а затем разложит заново стартовые 49 продуктов и 40 рецептов.")
+                    Text("Сброс удалит все остатки, свои рецепты, список покупок и журнал — на всех ваших устройствах, — а затем разложит заново стартовые 49 продуктов и 40 рецептов.")
                 }
 
-                Section("О приложении") {
+                Section {
+                    LabeledContent("iCloud", value: Self.iCloudText)
+                } header: {
+                    Text("Синхронизация")
+                } footer: {
+                    Text("Холодильник, рецепты, список покупок и журнал хранятся в вашем iCloud и сами появляются на iPhone, iPad и Mac с той же учётной записью Apple.")
+                }
+
+                Section {
                     LabeledContent("Версия", value: Self.version)
-                    LabeledContent("Хранение", value: "SwiftData, локально на устройстве")
+                    #if !targetEnvironment(macCatalyst)
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        Link(destination: url) {
+                            Label("Язык приложения", systemImage: "globe")
+                        }
+                    }
+                    #endif
+                } header: {
+                    Text("О приложении")
+                } footer: {
+                    Text("Язык интерфейса меняется в системных настройках приложения. Названия продуктов и рецептов можно вводить на любом языке.")
                 }
             }
             .navigationTitle("Настройки")
@@ -112,13 +124,20 @@ struct SettingsView: View {
 
     private static func remindersText() -> String {
         switch EKEventStore.authorizationStatus(for: .reminder) {
-        case .fullAccess: "Доступ разрешён"
-        case .writeOnly: "Только запись"
-        case .denied: "Доступ запрещён"
-        case .restricted: "Доступ ограничен системой"
-        case .notDetermined: "Разрешение ещё не запрашивалось"
-        @unknown default: "Неизвестно"
+        case .fullAccess: String(localized: "Доступ разрешён")
+        case .writeOnly: String(localized: "Только запись")
+        case .denied: String(localized: "Доступ запрещён")
+        case .restricted: String(localized: "Доступ ограничен системой")
+        case .notDetermined: String(localized: "Разрешение ещё не запрашивалось")
+        @unknown default: String(localized: "Неизвестно")
         }
+    }
+
+    /// Только вход в iCloud: состояние самой синхронизации SwiftData наружу не отдаёт.
+    private static var iCloudText: String {
+        FileManager.default.ubiquityIdentityToken != nil
+            ? String(localized: "Включена")
+            : String(localized: "Войдите в iCloud в настройках устройства")
     }
 
     private static var version: String {

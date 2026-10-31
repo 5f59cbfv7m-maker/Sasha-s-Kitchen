@@ -90,7 +90,7 @@ struct RecipeCard: View {
                 .foregroundStyle(.green)
                 .lineLimit(1)
         } else {
-            Label("Не хватает: \(missing.map(\.productName).joined(separator: ", "))",
+            Label("Не хватает: \(missing.map(\.productName).formatted(.list(type: .and)))",
                   systemImage: "exclamationmark.triangle.fill")
                 .font(.caption)
                 .foregroundStyle(.orange)

@@ -20,18 +20,33 @@ struct AddProductView: View {
     @State private var lowThreshold: Double = 0
     @State private var shelfLifeEnabled = false
     @State private var shelfLifeDays: Int = 5
+    @State private var barcode: String?
+    @State private var isScanning = false
 
-    private static let units = ["г", "мл", "шт"]
+    /// Заполненная форма — после сканера: название, КБЖУ и штрихкод из Open Food Facts.
+    init(prefill: FoodFacts.Info? = nil) {
+        guard let prefill else { return }
+        _barcode = State(initialValue: prefill.barcode)
+        _name = State(initialValue: prefill.name)
+        if let per100 = prefill.per100 {
+            _calories = State(initialValue: per100.calories)
+            _protein = State(initialValue: per100.protein)
+            _fat = State(initialValue: per100.fat)
+            _carbs = State(initialValue: per100.carbs)
+        }
+    }
+
     private static let newCategoryTag = "__new__"
 
     private var trimmedName: String { name.trimmingCharacters(in: .whitespacesAndNewlines) }
 
     private var existing: Product? {
-        products.first { $0.name.caseInsensitiveCompare(trimmedName) == .orderedSame }
+        products.first { $0.name.sameName(as: trimmedName) }
     }
 
     private var categories: [String] {
-        Array(Set(products.map(\.category) + CategoryStyle.order)).sorted()
+        Array(Set(products.map(\.category) + CategoryStyle.order))
+            .sorted { Fmt.category($0).localizedStandardCompare(Fmt.category($1)) == .orderedAscending }
     }
 
     private var resolvedCategory: String {
@@ -46,7 +61,7 @@ struct AddProductView: View {
 
     /// КБЖУ на 100 г, применённые к введённому количеству — видно сразу, не после сохранения.
     private var preview: Nutrition {
-        let grams = initialAmount * (unit == "шт" ? gramsPerUnit : 1)
+        let grams = initialAmount * (unit == UnitCode.piece ? gramsPerUnit : 1)
         return Nutrition.from(
             per100: Nutrition(calories: calories, protein: protein, fat: fat, carbs: carbs),
             grams: grams)
@@ -58,7 +73,7 @@ struct AddProductView: View {
                 Section {
                     TextField("Название", text: $name)
                     Picker("Категория", selection: $category) {
-                        ForEach(categories, id: \.self) { Text($0).tag($0) }
+                        ForEach(categories, id: \.self) { Text(Fmt.category($0)).tag($0) }
                         Divider()
                         Text("Новая категория…").tag(Self.newCategoryTag)
                     }
@@ -77,19 +92,19 @@ struct AddProductView: View {
 
                 Section("Единица измерения") {
                     Picker("Единица", selection: $unit) {
-                        ForEach(Self.units, id: \.self) { Text($0).tag($0) }
+                        ForEach(UnitCode.all, id: \.self) { Text(Fmt.unit($0)).tag($0) }
                     }
                     .pickerStyle(.segmented)
-                    if unit == "шт" {
-                        numberField("Вес одной штуки", value: $gramsPerUnit, unit: "г")
+                    if unit == UnitCode.piece {
+                        numberField("Вес одной штуки", value: $gramsPerUnit, unit: UnitCode.gram)
                     }
                 }
 
                 Section("КБЖУ на 100 г") {
                     numberField("Калорийность", value: $calories, unit: "ккал")
-                    numberField("Белки", value: $protein, unit: "г")
-                    numberField("Жиры", value: $fat, unit: "г")
-                    numberField("Углеводы", value: $carbs, unit: "г")
+                    numberField("Белки", value: $protein, unit: UnitCode.gram)
+                    numberField("Жиры", value: $fat, unit: UnitCode.gram)
+                    numberField("Углеводы", value: $carbs, unit: UnitCode.gram)
                 }
 
                 Section {
@@ -109,15 +124,26 @@ struct AddProductView: View {
                 }
 
                 Section {
-                    // Слот под сканер: сам сканер и запрос к Open Food Facts — фаза 2,
-                    // но место в интерфейсе и разрешение на камеру заложены сейчас.
                     Button {
+                        isScanning = true
                     } label: {
-                        Label("Сканировать штрихкод", systemImage: "barcode.viewfinder")
+                        Label(barcode == nil ? "Сканировать штрихкод" : "Штрихкод: \(barcode ?? "")",
+                              systemImage: "barcode.viewfinder")
                     }
-                    .disabled(true)
                 } footer: {
-                    Text("Сканер появится во второй фазе — он подставит название и КБЖУ из базы Open Food Facts. Доступ к камере можно выдать заранее на вкладке «Настройки».")
+                    Text("Сканер подставит название и КБЖУ из открытой базы Open Food Facts, а штрихкод запомнится — в следующий раз продукт узнается сразу.")
+                }
+            }
+            .sheet(isPresented: $isScanning) {
+                ScanSheet { info in
+                    barcode = info.barcode
+                    if !info.name.isEmpty { name = info.name }
+                    if let per100 = info.per100 {
+                        calories = per100.calories
+                        protein = per100.protein
+                        fat = per100.fat
+                        carbs = per100.carbs
+                    }
                 }
             }
             .navigationTitle("Новый продукт")
@@ -133,7 +159,8 @@ struct AddProductView: View {
         }
     }
 
-    private func numberField(_ title: String, value: Binding<Double>, unit: String) -> some View {
+    private func numberField(_ title: LocalizedStringKey, value: Binding<Double>,
+                             unit: String) -> some View {
         HStack {
             Text(title)
             Spacer()
@@ -142,25 +169,24 @@ struct AddProductView: View {
                 .multilineTextAlignment(.trailing)
                 .monospacedDigit()
                 .frame(maxWidth: 110)
-            Text(unit)
+            Text(Fmt.unit(unit))
                 .foregroundStyle(.secondary)
-                .frame(width: 40, alignment: .leading)
+                .frame(minWidth: 40, alignment: .leading)
         }
     }
 
     private func save() {
         let product = Product(
             name: trimmedName, category: resolvedCategory, unit: unit,
-            gramsPerUnit: unit == "шт" ? max(1, gramsPerUnit) : 1,
+            gramsPerUnit: unit == UnitCode.piece ? max(1, gramsPerUnit) : 1,
             caloriesPer100: calories, proteinPer100: protein,
             fatPer100: fat, carbsPer100: carbs,
             lowStockThreshold: lowThreshold,
             shelfLifeDays: shelfLifeEnabled ? shelfLifeDays : nil,
-            isCustom: true)
+            barcode: barcode, isCustom: true)
         context.insert(product)
 
-        let expiry = shelfLifeEnabled
-            ? Date.now.addingTimeInterval(Double(shelfLifeDays) * 86_400) : nil
+        let expiry = shelfLifeEnabled ? Kitchen.expiry(afterDays: shelfLifeDays) : nil
         context.insert(StockItem(product: product, currentAmount: initialAmount,
                                  initialAmount: initialAmount, expiryDate: expiry))
         try? context.save()

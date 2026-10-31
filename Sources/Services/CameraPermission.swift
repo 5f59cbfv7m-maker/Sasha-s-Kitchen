@@ -1,8 +1,8 @@
 import AVFoundation
 import Foundation
 
-/// Сканер штрихкодов — фаза 2, но разрешение на камеру запрашивается уже
-/// сейчас: к моменту, когда сканер появится, доступ у приложения уже будет.
+/// Разрешение на камеру для сканера штрихкодов (`ScanSheet`). Сам сканер
+/// спросит его при первом запуске; здесь — статус и запрос из настроек.
 @MainActor
 enum CameraPermission {
 
@@ -12,11 +12,11 @@ enum CameraPermission {
 
     static var statusText: String {
         switch status {
-        case .authorized: "Доступ разрешён"
-        case .denied: "Доступ запрещён"
-        case .restricted: "Доступ ограничен системой"
-        case .notDetermined: "Разрешение ещё не запрашивалось"
-        @unknown default: "Неизвестно"
+        case .authorized: String(localized: "Доступ разрешён")
+        case .denied: String(localized: "Доступ запрещён")
+        case .restricted: String(localized: "Доступ ограничен системой")
+        case .notDetermined: String(localized: "Разрешение ещё не запрашивалось")
+        @unknown default: String(localized: "Неизвестно")
         }
     }
 

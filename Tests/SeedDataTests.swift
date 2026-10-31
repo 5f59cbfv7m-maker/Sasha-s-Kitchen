@@ -40,8 +40,8 @@ struct SeedDataTests {
         let context = try makeContext(seeded: true)
         let recipes = try context.fetch(FetchDescriptor<Recipe>())
         for recipe in recipes {
-            #expect(!recipe.ingredients.isEmpty, "\(recipe.name): состав потерялся")
-            for ingredient in recipe.ingredients {
+            #expect(!recipe.orderedIngredients.isEmpty, "\(recipe.name): состав потерялся")
+            for ingredient in recipe.orderedIngredients {
                 #expect(ingredient.product != nil,
                         "\(recipe.name): ингредиент без продукта")
                 #expect(ingredient.amountPerBaseServing > 0)
@@ -73,7 +73,7 @@ struct SeedDataTests {
     @Test("Повторная загрузка не дублирует каталог")
     func loadIsIdempotent() throws {
         let context = try makeContext(seeded: true)
-        #expect(SeedLoader.loadIfNeeded(into: context) == false)
+        #expect(SeedLoader.loadIfNeeded(into: context, localized: false) == false)
         #expect(try context.fetchCount(FetchDescriptor<Product>()) == 49)
     }
 

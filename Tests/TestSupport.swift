@@ -6,11 +6,11 @@ import SwiftData
 @MainActor
 func makeContext(seeded: Bool = false) throws -> ModelContext {
     let container = try ModelContainer(
-        for: Product.self, StockItem.self, Recipe.self,
-        RecipeIngredient.self, CookingLog.self,
-        configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        for: FridgeOracleApp.schema,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none))
     let context = ModelContext(container)
-    if seeded { SeedLoader.load(into: context) }
+    // Тесты сверяются с русскими именами, на каком бы языке ни был симулятор.
+    if seeded { SeedLoader.load(into: context, localized: false) }
     return context
 }
 

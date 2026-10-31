@@ -11,7 +11,7 @@ struct StoreComingSoonView: View {
 
     /// Что появится, когда магазин откроется. Список держим здесь, а не в
     /// разметке, чтобы правка текста не задевала вёрстку.
-    private static let features: [(symbol: String, title: String, detail: String)] = [
+    private static let features: [(symbol: String, title: LocalizedStringKey, detail: LocalizedStringKey)] = [
         ("play.rectangle.on.rectangle",
          "Витрина с видео",
          "Рецепты карточками: видео или фото, короткое описание, автор."),
@@ -62,7 +62,7 @@ struct StoreComingSoonView: View {
         }
     }
 
-    private func row(symbol: String, title: String, detail: String) -> some View {
+    private func row(symbol: String, title: LocalizedStringKey, detail: LocalizedStringKey) -> some View {
         HStack(alignment: .top, spacing: 14) {
             Image(systemName: symbol)
                 .font(.title3)
