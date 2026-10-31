@@ -149,67 +149,67 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mit der Kamera scannst du Barcodes von Produkten und legst sie ohne Tippen in den Kühlschrank."
+            "value": "Mit der Kamera scannst du Barcodes von Produkten und fotografierst Rezeptseiten."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The camera is used to scan product barcodes and add them to the fridge without typing."
+            "value": "The camera is used to scan product barcodes and photograph recipe pages."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "La cámara sirve para escanear códigos de barras de productos y añadirlos a la nevera sin escribir."
+            "value": "La cámara sirve para escanear códigos de barras de productos y fotografiar páginas de recetas."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "L’appareil photo sert à scanner les codes-barres des produits pour les ajouter au frigo sans les taper."
+            "value": "L’appareil photo sert à scanner les codes-barres des produits et à photographier des pages de recettes."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "La fotocamera serve a scansionare i codici a barre dei prodotti e aggiungerli al frigo senza digitare."
+            "value": "La fotocamera serve per scansionare i codici a barre dei prodotti e fotografare pagine di ricette."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "食品のバーコードをスキャンして、入力せずに冷蔵庫に追加するためにカメラを使います。"
+            "value": "カメラは食材のバーコードの読み取りと、レシピのページの撮影に使います。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "식품 바코드를 스캔해 입력 없이 냉장고에 추가하는 데 카메라를 사용합니다."
+            "value": "카메라는 제품 바코드를 스캔하고 레시피 페이지를 촬영하는 데 사용됩니다."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "A câmera serve para ler códigos de barras de produtos e colocá-los na geladeira sem digitar."
+            "value": "A câmera é usada para ler códigos de barras de produtos e fotografar páginas de receitas."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Камера нужна, чтобы сканировать штрихкоды продуктов и добавлять их в холодильник без ручного ввода."
+            "value": "Камера нужна, чтобы сканировать штрихкоды продуктов и фотографировать страницы с рецептами."
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "ใช้กล้องสแกนบาร์โค้ดสินค้าเพื่อใส่เข้าตู้เย็นโดยไม่ต้องพิมพ์"
+            "value": "ใช้กล้องเพื่อสแกนบาร์โค้ดสินค้าและถ่ายรูปหน้าสูตรอาหาร"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "相机用于扫描食材条形码，无需手动输入即可放进冰箱。"
+            "value": "相机用于扫描商品条形码和拍摄菜谱页面。"
           }
         }
       }

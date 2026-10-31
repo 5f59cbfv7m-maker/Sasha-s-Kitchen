@@ -292,6 +292,19 @@ UI = [
     "Quando cuciniamo?",
     "Porzioni",
     "Aggiunto al menu",
+    "In questa pagina non c’è una ricetta. Prova con il link alla ricetta o con una foto della pagina.",
+    "Impossibile leggere il testo nella foto.",
+    "Nuovi prodotti senza valori nutrizionali: %@. Controlla le quantità: l’importazione potrebbe aver sbagliato.",
+    "Carica ricetta",
+    "Da link",
+    "Funziona con le pagine delle ricette della maggior parte dei siti di cucina: nome, ingredienti, passaggi e foto si compilano da soli.",
+    "Scegli una foto della pagina",
+    "Fotografa la pagina",
+    "Da foto",
+    "Il testo viene riconosciuto sul dispositivo e non viene inviato da nessuna parte. La prima riga diventa il nome, le righe con le quantità gli ingredienti.",
+    "Lettura della ricetta…",
+    "Importa ricetta",
+    "Importa da link o foto",
 ]
 
 SEED = [
@@ -446,6 +459,6 @@ DATA = ["Carne", "Pesce", "Frutti di mare", "Latticini", "Latticini e uova", "Ve
 
 PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
-    "NSCameraUsageDescription": "La fotocamera serve a scansionare i codici a barre dei prodotti e aggiungerli al frigo senza digitare.",
+    "NSCameraUsageDescription": "La fotocamera serve per scansionare i codici a barre dei prodotti e fotografare pagine di ricette.",
     "NSRemindersFullAccessUsageDescription": "Con l’accesso a Promemoria l’app mette la lista della spesa in una lista «Spesa» con vere caselle di spunta.",
 }

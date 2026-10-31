@@ -292,6 +292,19 @@ UI = [
     "Wann wird gekocht?",
     "Portionen",
     "Zum Menü hinzugefügt",
+    "Auf dieser Seite wurde kein Rezept gefunden. Versuche einen Link zum Rezept selbst oder ein Foto der Seite.",
+    "Der Text auf dem Foto konnte nicht gelesen werden.",
+    "Neue Produkte ohne Nährwerte: %@. Prüfe die Mengen – der Import kann sich geirrt haben.",
+    "Rezept laden",
+    "Per Link",
+    "Klappt mit Rezeptseiten der meisten Kochseiten: Name, Zutaten, Schritte und Foto werden automatisch übernommen.",
+    "Foto der Seite wählen",
+    "Seite fotografieren",
+    "Per Foto",
+    "Der Text wird auf dem Gerät erkannt und nirgendwohin gesendet. Die erste Zeile wird zum Namen, Zeilen mit Mengen zu Zutaten.",
+    "Rezept wird gelesen …",
+    "Rezept importieren",
+    "Per Link oder Foto importieren",
 ]
 
 SEED = [
@@ -446,6 +459,6 @@ DATA = ["Fleisch", "Fisch", "Meeresfrüchte", "Milchprodukte", "Milchprodukte & 
 
 PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
-    "NSCameraUsageDescription": "Mit der Kamera scannst du Barcodes von Produkten und legst sie ohne Tippen in den Kühlschrank.",
+    "NSCameraUsageDescription": "Mit der Kamera scannst du Barcodes von Produkten und fotografierst Rezeptseiten.",
     "NSRemindersFullAccessUsageDescription": "Mit Zugriff auf Erinnerungen legt die App deine Einkaufsliste als Liste „Einkaufen“ mit echten Häkchen an.",
 }

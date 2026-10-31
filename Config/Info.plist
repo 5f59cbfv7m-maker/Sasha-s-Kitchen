@@ -29,7 +29,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Камера нужна, чтобы сканировать штрихкоды продуктов и добавлять их в холодильник без ручного ввода.</string>
+	<string>Камера нужна, чтобы сканировать штрихкоды продуктов и фотографировать страницы с рецептами.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2026 Kirill Rychkov</string>
 	<key>NSRemindersFullAccessUsageDescription</key>

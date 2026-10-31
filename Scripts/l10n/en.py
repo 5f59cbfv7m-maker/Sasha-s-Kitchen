@@ -292,6 +292,19 @@ UI = [
     "When are we cooking?",
     "Servings",
     "Added to the menu",
+    "No recipe was found on this page. Try a link to the recipe itself or a photo of the page.",
+    "Couldn’t read the text in the photo.",
+    "New products without nutrition: %@. Check the amounts — the import may have got something wrong.",
+    "Load Recipe",
+    "From a Link",
+    "Works with recipe pages on most cooking sites: name, ingredients, steps and photo fill in by themselves.",
+    "Choose a Photo of the Page",
+    "Photograph the Page",
+    "From a Photo",
+    "Text is recognized on the device and isn’t sent anywhere. The first line becomes the name, lines with amounts become ingredients.",
+    "Reading the recipe…",
+    "Import Recipe",
+    "Import from a Link or Photo",
 ]
 
 SEED = [
@@ -445,6 +458,6 @@ DATA = ["Meat", "Fish", "Seafood", "Dairy", "Dairy & eggs", "Vegetables", "Herbs
 
 PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
-    "NSCameraUsageDescription": "The camera is used to scan product barcodes and add them to the fridge without typing.",
+    "NSCameraUsageDescription": "The camera is used to scan product barcodes and photograph recipe pages.",
     "NSRemindersFullAccessUsageDescription": "Reminders access lets the app put your shopping list into a “Shopping” list with real checkboxes.",
 }

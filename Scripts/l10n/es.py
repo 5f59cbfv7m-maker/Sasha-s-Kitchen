@@ -292,6 +292,19 @@ UI = [
     "¿Cuándo cocinamos?",
     "Raciones",
     "Añadido al menú",
+    "No se encontró ninguna receta en esta página. Prueba con el enlace de la receta o una foto de la página.",
+    "No se ha podido leer el texto de la foto.",
+    "Productos nuevos sin nutrientes: %@. Revisa las cantidades: la importación puede haberse equivocado.",
+    "Cargar receta",
+    "Desde un enlace",
+    "Funciona con las páginas de recetas de la mayoría de webs de cocina: nombre, ingredientes, pasos y foto se rellenan solos.",
+    "Elegir una foto de la página",
+    "Fotografiar la página",
+    "Desde una foto",
+    "El texto se reconoce en el dispositivo y no se envía a ninguna parte. La primera línea será el nombre; las líneas con cantidades, los ingredientes.",
+    "Leyendo la receta…",
+    "Importar receta",
+    "Importar desde enlace o foto",
 ]
 
 SEED = [
@@ -446,6 +459,6 @@ DATA = ["Carne", "Pescado", "Marisco", "Lácteos", "Lácteos y huevos", "Verdura
 
 PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
-    "NSCameraUsageDescription": "La cámara sirve para escanear códigos de barras de productos y añadirlos a la nevera sin escribir.",
+    "NSCameraUsageDescription": "La cámara sirve para escanear códigos de barras de productos y fotografiar páginas de recetas.",
     "NSRemindersFullAccessUsageDescription": "Con acceso a Recordatorios la app guarda tu lista de la compra en una lista «Comprar» con casillas de verdad.",
 }
