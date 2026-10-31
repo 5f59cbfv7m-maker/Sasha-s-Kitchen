@@ -19,6 +19,9 @@ final class Recipe {
     var ingredients: [RecipeIngredient]? = []
     @Relationship(deleteRule: .nullify, inverse: \CookingLog.recipe)
     var logs: [CookingLog]? = []
+    /// Рецепт удалили — из меню он тоже уходит.
+    @Relationship(deleteRule: .cascade, inverse: \PlannedMeal.recipe)
+    var plannedMeals: [PlannedMeal]? = []
 
     init(name: String, cookingTimeMinutes: Int, baseServings: Int,
          steps: String? = nil, isCustom: Bool = false, photoData: Data? = nil) {

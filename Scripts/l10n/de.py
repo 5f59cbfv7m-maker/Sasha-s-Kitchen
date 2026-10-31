@@ -277,6 +277,21 @@ UI = [
     "Was du kaufen musst – direkt im Widget abhaken.",
     "Was in den nächsten Tagen abläuft.",
     "Was du kaufen musst – auf dem Zifferblatt.",
+    "Menü",
+    "Plane Rezepte für die Woche – die App rechnet aus, was fehlt, und setzt es auf die Einkaufsliste.",
+    "Für das Menü ist alles da",
+    "Fehlendes auf die Einkaufsliste",
+    "Gericht hinzufügen",
+    "Gekocht",
+    "Es fehlt etwas",
+    "Heute",
+    "Morgen",
+    "Zur Einkaufsliste hinzugefügt: %lld",
+    "Rezept wählen",
+    "Zum Menü hinzufügen",
+    "Wann wird gekocht?",
+    "Portionen",
+    "Zum Menü hinzugefügt",
 ]
 
 SEED = [

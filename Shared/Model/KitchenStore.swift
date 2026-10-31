@@ -8,7 +8,8 @@ enum KitchenStore {
     static let shared = makeContainer(isTestRun: UserDefaults.standard.bool(forKey: "resetData"))
 
     static let schema = Schema([Product.self, StockItem.self, Recipe.self,
-                                RecipeIngredient.self, CookingLog.self, ShoppingItem.self])
+                                RecipeIngredient.self, CookingLog.self, ShoppingItem.self,
+                                PlannedMeal.self])
 
     /// Общая папка приложения, виджетов и часов. На Mac виджетов нет, и база
     /// остаётся где была.

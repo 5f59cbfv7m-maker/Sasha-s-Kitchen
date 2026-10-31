@@ -81,6 +81,7 @@ enum Kitchen {
         let log = CookingLog(recipe: recipe, recipeName: recipe.name, servings: servings,
                              actualAmountsUsed: used, nutrition: nutrition)
         context.insert(log)
+        MealPlan.markCooked(recipe, in: context)
         try? context.save()
         return log
     }

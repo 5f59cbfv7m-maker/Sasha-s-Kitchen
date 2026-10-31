@@ -277,6 +277,21 @@ UI = [
     "O que comprar — marque direto no widget.",
     "O que vence nos próximos dias.",
     "O que comprar — no mostrador do relógio.",
+    "Cardápio",
+    "Adicione receitas para a semana — o app calcula o que falta e coloca na lista de compras.",
+    "Tem tudo para o cardápio",
+    "Colocar o que falta na lista",
+    "Adicionar um prato",
+    "Cozinhado",
+    "Falta alguma coisa",
+    "Hoje",
+    "Amanhã",
+    "Adicionado à lista de compras: %lld",
+    "Escolha uma receita",
+    "Adicionar ao cardápio",
+    "Quando vamos cozinhar?",
+    "Porções",
+    "Adicionado ao cardápio",
 ]
 
 SEED = [

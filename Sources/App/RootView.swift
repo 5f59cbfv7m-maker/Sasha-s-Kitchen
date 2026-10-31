@@ -18,7 +18,7 @@ struct RootView: View {
     @State private var showIntro = !IntroView.isSkipped
 
     enum TabID: String, CaseIterable {
-        case fridge, shopping, recipes, store, log, settings
+        case fridge, shopping, recipes, plan, store, log, settings
 
         static var initial: TabID {
             TabID(rawValue: UserDefaults.standard.string(forKey: "startTab") ?? "") ?? .fridge
@@ -29,6 +29,7 @@ struct RootView: View {
             case .fridge: String(localized: "Холодильник")
             case .shopping: String(localized: "Для покупки")
             case .recipes: String(localized: "Рецепты")
+            case .plan: String(localized: "Меню")
             case .store: String(localized: "Магазин")
             case .log: String(localized: "Журнал")
             case .settings: String(localized: "Настройки")
@@ -40,6 +41,7 @@ struct RootView: View {
             case .fridge: "refrigerator"
             case .shopping: "cart"
             case .recipes: "fork.knife"
+            case .plan: "calendar"
             case .store: "storefront"
             case .log: "clock.arrow.circlepath"
             case .settings: "gearshape"
@@ -72,6 +74,9 @@ struct RootView: View {
             .badge(shoppingCount)
             Tab(TabID.recipes.title, systemImage: TabID.recipes.symbol, value: .recipes) {
                 RecipesView()
+            }
+            Tab(TabID.plan.title, systemImage: TabID.plan.symbol, value: .plan) {
+                MealPlanView()
             }
             // Заглушка: к бэкенду магазина приложение намеренно не ходит,
             // пока магазин не достроен. См. Sources/Store/ и server/.
