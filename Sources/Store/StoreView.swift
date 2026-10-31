@@ -5,7 +5,9 @@ import SwiftUI
 /// Вкладка «Магазин»: рецепты других людей полками и лента коротких видео.
 struct StoreView: View {
     private enum Section: Hashable { case recipes, shorts }
-    @State private var section = Section.recipes
+    /// `-storeSection shorts` — сразу ролики (скриншоты и проверка).
+    @State private var section = UserDefaults.standard.string(forKey: "storeSection") == "shorts"
+        ? Section.shorts : Section.recipes
     @State private var showsAccount = false
 
     var body: some View {
@@ -18,6 +20,8 @@ struct StoreView: View {
             }
             // Над роликом заголовок только мешает.
             .navigationTitle(section == .recipes ? Text("Магазин") : Text(verbatim: ""))
+            // Ролик уходит под панель, как в Shorts: фона у неё нет.
+            .toolbarBackground(section == .shorts ? .hidden : .automatic, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Picker("Раздел", selection: $section) {
@@ -238,26 +242,39 @@ private struct ShortsFeedView: View {
     @State private var hasMore = true
     @State private var active: String?
     @State private var error: String?
+    /// Лента на экране: ушли на «Рецепты» или другую вкладку — звук стихает.
+    @State private var isVisible = false
 
     var body: some View {
-        ScrollView(.vertical) {
-            LazyVStack(spacing: 0) {
-                ForEach(posts) { post in
-                    // Ролик — ровно на экран, как в Shorts: листается по одному.
-                    ShortPage(post: post, isActive: active == post.id) {
-                        posts.removeAll { $0.author.id == post.author.id }
-                    }
-                        .containerRelativeFrame([.horizontal, .vertical])
+        // Ролик — на весь экран, под панелями, как в Shorts; подписи и кнопки
+        // — внутри безопасной зоны, иначе их закрывают меню и «чёлка».
+        GeometryReader { proxy in
+            let insets = proxy.safeAreaInsets
+            let page = CGSize(width: proxy.size.width + insets.leading + insets.trailing,
+                              height: proxy.size.height + insets.top + insets.bottom)
+            ScrollView(.vertical) {
+                LazyVStack(spacing: 0) {
+                    ForEach(posts) { post in
+                        ShortPage(post: post, isActive: isVisible && active == post.id, insets: insets) {
+                            posts.removeAll { $0.author.id == post.author.id }
+                        }
+                        .frame(width: page.width, height: page.height)
                         .onAppear { if post.id == posts.last?.id { Task { await loadMore() } } }
+                    }
                 }
+                .scrollTargetLayout()
             }
-            .scrollTargetLayout()
+            // Один свайп — один ролик, как бы сильно ни листнули.
+            .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
+            .scrollPosition(id: $active)
+            .scrollIndicators(.hidden)
+            // Без размытой полосы у краёв: ролик виден целиком.
+            .scrollEdgeEffectHidden(true, for: .all)
+            .ignoresSafeArea()
         }
-        .scrollTargetBehavior(.paging)
-        .scrollPosition(id: $active)
-        .scrollIndicators(.hidden)
         .background(.black)
-        .ignoresSafeArea(edges: .bottom)
+        .onAppear { isVisible = true }
+        .onDisappear { isVisible = false }
         .overlay {
             if posts.isEmpty, let error {
                 ContentUnavailableView("Магазин недоступен", systemImage: "wifi.exclamationmark",
@@ -292,6 +309,7 @@ private struct ShortsFeedView: View {
 private struct ShortPage: View {
     let post: StorePost
     let isActive: Bool
+    let insets: EdgeInsets
     var onBlocked: () -> Void = {}
     @State private var player: AVPlayer?
     @State private var liked: Bool?
@@ -305,6 +323,12 @@ private struct ShortPage: View {
         Color.black
             .overlay { StoreImage(url: post.media?.posterUrl) }
             .overlay { if let player { PlayerLayer(player: player) } }
+            // Затемнение снизу: белые подписи читаются на любом кадре.
+            .overlay(alignment: .bottom) {
+                LinearGradient(colors: [.clear, .black.opacity(0.55)], startPoint: .top, endPoint: .bottom)
+                    .frame(height: 260 + insets.bottom)
+                    .allowsHitTesting(false)
+            }
             .overlay(alignment: .bottomLeading) {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(post.title).font(.title3.bold())
@@ -314,7 +338,9 @@ private struct ShortPage: View {
                 .foregroundStyle(.white)
                 .shadow(radius: 4)
                 .padding()
-                .padding(.bottom, 24)
+                .padding(.leading, insets.leading)
+                .padding(.trailing, 72 + insets.trailing)
+                .padding(.bottom, insets.bottom)
             }
             // Справа, как в любой ленте роликов: лайк, комментарии, «ещё».
             .overlay(alignment: .bottomTrailing) {
@@ -337,7 +363,8 @@ private struct ShortPage: View {
                 .foregroundStyle(.white)
                 .shadow(radius: 4)
                 .padding()
-                .padding(.bottom, 24)
+                .padding(.trailing, insets.trailing)
+                .padding(.bottom, insets.bottom)
             }
             .sheet(isPresented: $showsComments) { StoreCommentsView(kind: "posts", id: post.id) }
             .sheet(isPresented: $needsAccount) { StoreAccountView() }
@@ -356,6 +383,8 @@ private struct ShortPage: View {
                     player?.pause()
                 }
             }
+            // Ушли со страницы (другая вкладка, закрыли магазин) — тишина.
+            .onDisappear { player?.pause() }
             // Шортс крутится по кругу, пока на экране.
             .onReceive(NotificationCenter.default.publisher(for: AVPlayerItem.didPlayToEndTimeNotification)) { note in
                 guard let item = note.object as? AVPlayerItem, item == player?.currentItem else { return }
