@@ -145,7 +145,7 @@ UI = [
     "Nessuna ricetta",
     "Ricette",
     "Ricette a schede: video o foto, breve descrizione, autore.",  # 145
-    "Lo scanner si trova nelle schede Frigo e Da comprare. Nome e valori nutrizionali arrivano dal database aperto Open Food Facts; lì viene inviato solo il codice a barre.",
+    "Lo scanner è nelle schede Frigo e Da comprare. Nome e valori nutrizionali vengono dal database aperto Open Food Facts (© i suoi contributori, ODbL; foto CC BY-SA) e, se il prodotto non c’è, il nome viene da UPCitemdb. Viene inviato solo il codice a barre.",
     "Il ripristino elimina tutte le scorte, le tue ricette, la lista della spesa e il diario — su tutti i tuoi dispositivi — e poi ricarica il kit iniziale di prodotti e ricette.",
     "Ripristina",
     "Ripristinare i dati?",
@@ -216,13 +216,13 @@ UI = [
     "Nel database non ci sono valori nutrizionali.",
     "Inquadra il codice a barre sulla confezione.",  # 215
     "Cerca",
-    "Impossibile raggiungere Open Food Facts. Controlla la connessione.",
+    "Impossibile raggiungere i database dei prodotti. Controlla la connessione.",
     "Compila il modulo",
     "Metti in frigo",
     "Rifornisci: %@",  # 220
-    "I dati arrivano dal database aperto Open Food Facts. Viene inviato solo il codice a barre.",
+    "Le informazioni sui prodotti vengono dai database aperti Open Food Facts e UPCitemdb. Viene inviato solo il codice a barre.",
     "Scansiona ancora",
-    "Questo codice non è in Open Food Facts.",
+    "Questo codice a barre non è nei database aperti.",
     "Cifre sotto il codice a barre",
     "Codice a barre",  # 225
     "Codice a barre: %@",
@@ -265,6 +265,9 @@ UI = [
     "Da comprare: %@",
     "Nei prossimi giorni non scade nulla.",
     "Scade presto: %@",
+    "Fonte: %@",
+    "Aggiungi a Open Food Facts",
+    "Open Food Facts è un database aperto compilato dagli stessi acquirenti. Aggiungi il prodotto e lo troveranno tutti.",
 ]
 
 SEED = [

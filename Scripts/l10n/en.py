@@ -145,7 +145,7 @@ UI = [
     "No recipes",
     "Recipes",
     "Recipes as cards: video or photo, a short description, the author.",  # 145
-    "The scanner is on the Fridge and To Buy tabs. Names and nutrition come from the open Open Food Facts database; only the barcode itself is sent there.",
+    "The scanner is on the Fridge and To Buy tabs. Name and nutrition come from the open Open Food Facts database (© its contributors, ODbL; photos CC BY-SA), and if a product isn’t there, the name comes from UPCitemdb. Only the barcode itself is sent.",
     "Resetting deletes all stock, your recipes, the shopping list and the log — on all your devices — and then reloads the starter set of products and recipes.",
     "Reset",
     "Reset data?",
@@ -216,13 +216,13 @@ UI = [
     "No nutrition data in the database.",
     "Point the camera at the barcode on the package.",  # 215
     "Find",
-    "Couldn’t reach Open Food Facts. Check your internet connection.",
+    "Couldn’t reach the product databases. Check your internet connection.",
     "Fill in the form",
     "Put in the fridge",
     "Top up: %@",  # 220
-    "Product details come from the open Open Food Facts database. Only the barcode itself is sent.",
+    "Product details come from the open Open Food Facts and UPCitemdb databases. Only the barcode itself is sent.",
     "Scan again",
-    "This barcode isn’t in the Open Food Facts database.",
+    "This barcode isn’t in the open databases.",
     "Digits under the barcode",
     "Barcode",  # 225
     "Barcode: %@",
@@ -265,6 +265,9 @@ UI = [
     "To buy: %@",
     "Nothing expires in the next few days.",
     "Expiring soon: %@",
+    "Source: %@",
+    "Add to Open Food Facts",
+    "Open Food Facts is an open database filled in by shoppers themselves. Add the product and everyone will find it.",
 ]
 
 SEED = [

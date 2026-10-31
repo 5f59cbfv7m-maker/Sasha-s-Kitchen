@@ -77,7 +77,7 @@ struct ScanSheet: View {
                 .buttonStyle(.borderedProminent)
                 .disabled(code.isEmpty)
         }
-        Text("Сведения о продуктах — из открытой базы Open Food Facts. Отправляется только сам штрихкод.")
+        Text("Сведения о продуктах — из открытых баз Open Food Facts и UPCitemdb. Отправляется только сам штрихкод.")
             .font(.footnote)
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
@@ -127,6 +127,9 @@ struct ScanSheet: View {
             }
 
             nutrition(info.per100)
+            Text("Источник: \(info.source.rawValue)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
 
             if let onPick {
                 Button {
@@ -196,6 +199,17 @@ struct ScanSheet: View {
                     Label("Завести продукт с этим штрихкодом", systemImage: "plus").frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
+                if let url = FoodFacts.contributeURL(for: barcode) {
+                    Link(destination: url) {
+                        Label("Добавить в Open Food Facts", systemImage: "square.and.arrow.up.on.square")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    Text("Open Food Facts — открытая база, которую пополняют сами покупатели. Добавьте продукт — и он найдётся у всех.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                }
             }
             scanAgainButton
         }

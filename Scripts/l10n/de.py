@@ -145,7 +145,7 @@ UI = [
     "Keine Rezepte",
     "Rezepte",
     "Rezepte als Karten: Video oder Foto, kurze Beschreibung, Autor.",  # 145
-    "Der Scanner ist in den Tabs „Kühlschrank“ und „Einkaufen“. Name und Nährwerte kommen aus der offenen Datenbank Open Food Facts; dorthin geht nur der Barcode selbst.",
+    "Der Scanner ist in den Tabs „Kühlschrank“ und „Einkaufen“. Name und Nährwerte kommen aus der offenen Datenbank Open Food Facts (© ihre Mitwirkenden, ODbL; Fotos CC BY-SA), und fehlt ein Produkt dort, der Name aus UPCitemdb. Gesendet wird nur der Barcode.",
     "Das Zurücksetzen löscht alle Bestände, eigenen Rezepte, die Einkaufsliste und das Protokoll – auf all deinen Geräten – und lädt dann das Startset aus Produkten und Rezepten neu.",
     "Zurücksetzen",
     "Daten zurücksetzen?",
@@ -216,13 +216,13 @@ UI = [
     "Keine Nährwerte in der Datenbank.",
     "Richte die Kamera auf den Barcode auf der Verpackung.",  # 215
     "Suchen",
-    "Open Food Facts ist nicht erreichbar. Prüfe die Internetverbindung.",
+    "Die Produktdatenbanken sind nicht erreichbar. Prüfe die Internetverbindung.",
     "Ins Formular übernehmen",
     "In den Kühlschrank legen",
     "Auffüllen: %@",  # 220
-    "Produktdaten kommen aus der offenen Datenbank Open Food Facts. Gesendet wird nur der Barcode.",
+    "Produktangaben stammen aus den offenen Datenbanken Open Food Facts und UPCitemdb. Gesendet wird nur der Barcode selbst.",
     "Erneut scannen",
-    "Dieser Barcode ist nicht in Open Food Facts.",
+    "Dieser Barcode ist in den offenen Datenbanken nicht vorhanden.",
     "Ziffern unter dem Barcode",
     "Barcode",  # 225
     "Barcode: %@",
@@ -265,6 +265,9 @@ UI = [
     "Einkaufen: %@",
     "In den nächsten Tagen läuft nichts ab.",
     "Läuft bald ab: %@",
+    "Quelle: %@",
+    "Zu Open Food Facts hinzufügen",
+    "Open Food Facts ist eine offene Datenbank, die Käufer selbst füllen. Füge das Produkt hinzu – dann finden es alle.",
 ]
 
 SEED = [
