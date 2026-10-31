@@ -186,7 +186,7 @@ UI = [
     "Foto",
     "Kühlschrank",  # 185
     "Der Kühlschrank ist leer",
-    "Kühlschrank, Rezepte, Einkaufsliste und Protokoll liegen in deiner iCloud und erscheinen auf iPhone, iPad und Mac mit demselben Apple Account.",
+    "Kühlschrank, Rezepte, Einkaufsliste und Protokoll liegen in deiner iCloud und erscheinen auf iPhone, iPad, Mac und Apple Watch mit demselben Apple Account. Die Einkaufsliste kannst du auch mit anderen teilen: „Teilen“ → „Zur gemeinsamen Liste einladen“.",
     "Zubereitungsschritte",
     "Die Sprache der App änderst du in ihren Systemeinstellungen. Namen von Produkten und Rezepten kannst du in jeder Sprache eingeben.",
     "Sprache der App",  # 190
@@ -227,6 +227,12 @@ UI = [
     "Barcode",  # 225
     "Barcode: %@",
     "Das sieht nicht nach einem Barcode aus: Es braucht 8–14 Ziffern.",
+    "Gemeinsame Liste: %@",
+    "Zur gemeinsamen Liste einladen",
+    "Wer die Liste sieht",
+    "Als Text senden",
+    "Zu dieser Liste hinzufügen",
+    "Besitzer der Liste",
 ]
 
 SEED = [

@@ -1,8 +1,10 @@
+import CloudKit
 import SwiftData
 import SwiftUI
 
 @main
 struct FridgeOracleApp: App {
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     let container: ModelContainer
 
     init() {
@@ -10,26 +12,13 @@ struct FridgeOracleApp: App {
         // стартовые данные заново — UI-тестам нужен одинаковый холодильник
         // на каждом прогоне, а база переживает переустановку приложения.
         let isTestRun = UserDefaults.standard.bool(forKey: "resetData")
-        container = Self.makeContainer(isTestRun: isTestRun)
-        if isTestRun { SeedLoader.reset(container.mainContext) }
-        Feedback.shared.warmUp()
-    }
-
-    static let schema = Schema([Product.self, StockItem.self, Recipe.self,
-                                RecipeIngredient.self, CookingLog.self, ShoppingItem.self])
-
-    /// Обычная база синхронизируется через iCloud (приватная база CloudKit
-    /// пользователя). Тестовая лежит в отдельном файле и без iCloud: сброс в
-    /// UI-тесте иначе стёр бы данные на всех устройствах.
-    private static func makeContainer(isTestRun: Bool) -> ModelContainer {
-        let configuration = isTestRun
-            ? ModelConfiguration("UITests", schema: schema, cloudKitDatabase: .none)
-            : ModelConfiguration(schema: schema, cloudKitDatabase: .automatic)
-        do {
-            return try ModelContainer(for: schema, configurations: configuration)
-        } catch {
-            fatalError("Не удалось открыть базу SwiftData: \(error)")
+        container = KitchenStore.makeContainer(isTestRun: isTestRun)
+        if isTestRun {
+            SeedLoader.reset(container.mainContext)
+        } else {
+            SharedLists.shared.start(context: container.mainContext)
         }
+        Feedback.shared.warmUp()
     }
 
     var body: some Scene {
@@ -37,5 +26,29 @@ struct FridgeOracleApp: App {
             RootView()
         }
         .modelContainer(container)
+    }
+}
+
+/// Приглашение в общий список приходит сцене: открыли ссылку из «Сообщений»
+/// при запущенном приложении — `userDidAcceptCloudKitShareWith`, при холодном
+/// старте — в параметрах подключения сцены.
+final class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, configurationForConnecting session: UISceneSession,
+                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let configuration = UISceneConfiguration(name: nil, sessionRole: session.role)
+        configuration.delegateClass = SceneDelegate.self
+        return configuration
+    }
+}
+
+final class SceneDelegate: NSObject, UIWindowSceneDelegate {
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
+        if let metadata = connectionOptions.cloudKitShareMetadata { SharedLists.accept(metadata) }
+    }
+
+    func windowScene(_ windowScene: UIWindowScene,
+                     userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
+        SharedLists.accept(cloudKitShareMetadata)
     }
 }

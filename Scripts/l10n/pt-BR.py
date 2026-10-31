@@ -186,7 +186,7 @@ UI = [
     "Foto",
     "Geladeira",  # 185
     "A geladeira está vazia",
-    "Geladeira, receitas, lista de compras e diário ficam no seu iCloud e aparecem no iPhone, iPad e Mac com a mesma Conta Apple.",
+    "Geladeira, receitas, lista de compras e diário ficam no seu iCloud e aparecem no iPhone, iPad, Mac e Apple Watch com a mesma Conta Apple. Você também pode abrir a lista de compras para outras pessoas: “Compartilhar” → “Convidar para a lista compartilhada”.",
     "Etapas de preparo",
     "O idioma da interface muda nos ajustes do sistema do app. Nomes de produtos e receitas podem ser digitados em qualquer idioma.",
     "Idioma do app",  # 190
@@ -227,6 +227,12 @@ UI = [
     "Código de barras",  # 225
     "Código de barras: %@",
     "Isso não parece um código de barras: são necessários de 8 a 14 dígitos.",
+    "Lista compartilhada: %@",
+    "Convidar para a lista compartilhada",
+    "Quem vê a lista",
+    "Enviar como texto",
+    "Adicionar a esta lista",
+    "Dono da lista",
 ]
 
 SEED = [

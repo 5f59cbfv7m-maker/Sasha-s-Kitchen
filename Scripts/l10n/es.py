@@ -186,7 +186,7 @@ UI = [
     "Foto",
     "Nevera",  # 185
     "La nevera está vacía",
-    "La nevera, las recetas, la lista de la compra y el diario se guardan en tu iCloud y aparecen en el iPhone, el iPad y el Mac con la misma cuenta de Apple.",
+    "La nevera, las recetas, la lista de la compra y el diario se guardan en tu iCloud y aparecen en el iPhone, el iPad, el Mac y el Apple Watch con la misma cuenta de Apple. También puedes abrir tu lista de la compra a otras personas: «Compartir» → «Invitar a la lista compartida».",
     "Pasos de preparación",
     "El idioma de la interfaz se cambia en los ajustes del sistema de la app. Los nombres de productos y recetas se pueden escribir en cualquier idioma.",
     "Idioma de la app",  # 190
@@ -227,6 +227,12 @@ UI = [
     "Código de barras",  # 225
     "Código de barras: %@",
     "Eso no parece un código de barras: hacen falta de 8 a 14 dígitos.",
+    "Lista compartida: %@",
+    "Invitar a la lista compartida",
+    "Quién ve la lista",
+    "Enviar como texto",
+    "Añadir a esta lista",
+    "Dueño de la lista",
 ]
 
 SEED = [

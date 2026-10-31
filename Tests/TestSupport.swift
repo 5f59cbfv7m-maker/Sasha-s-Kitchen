@@ -6,7 +6,7 @@ import SwiftData
 @MainActor
 func makeContext(seeded: Bool = false) throws -> ModelContext {
     let container = try ModelContainer(
-        for: FridgeOracleApp.schema,
+        for: KitchenStore.schema,
         configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none))
     let context = ModelContext(container)
     // Тесты сверяются с русскими именами, на каком бы языке ни был симулятор.

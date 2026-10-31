@@ -1535,6 +1535,70 @@
         }
       }
     },
+    "Владелец списка": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Besitzer der Liste"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "List owner"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dueño de la lista"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Propriétaire de la liste"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proprietario della lista"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "リストの所有者"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "목록 소유자"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dono da lista"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เจ้าของรายการ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清单所有者"
+          }
+        }
+      }
+    },
     "Войдите в iCloud в настройках устройства": {
       "localizations": {
         "de": {
@@ -2907,6 +2971,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "用“+”按钮添加第一种食材，或从入门套装开始：49 种食材和 40 道菜谱。"
+          }
+        }
+      }
+    },
+    "Дописать в этот список": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu dieser Liste hinzufügen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add to this list"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir a esta lista"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter à cette liste"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiungi a questa lista"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このリストに追加"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 목록에 추가"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar a esta lista"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เพิ่มลงในรายการนี้"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加到此清单"
           }
         }
       }
@@ -5631,6 +5759,70 @@
         }
       }
     },
+    "Кто видит список": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wer die Liste sieht"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Who Can See the List"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quién ve la lista"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qui voit la liste"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chi vede la lista"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "リストを見られる人"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "목록을 보는 사람"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quem vê a lista"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ใครเห็นรายการนี้"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "谁能看到清单"
+          }
+        }
+      }
+    },
     "Купил": {
       "localizations": {
         "de": {
@@ -7935,6 +8127,70 @@
         }
       }
     },
+    "Общий список: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemeinsame Liste: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shared list: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lista compartida: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liste partagée : %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lista condivisa: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共有リスト：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "공유 목록: %@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lista compartilhada: %@"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "รายการที่แชร์: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共享清单：%@"
+          }
+        }
+      }
+    },
     "Остаток": {
       "localizations": {
         "de": {
@@ -8123,6 +8379,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "取消"
+          }
+        }
+      }
+    },
+    "Отправить текстом": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Als Text senden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send as Text"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviar como texto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer en texte"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invia come testo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テキストで送信"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "텍스트로 보내기"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviar como texto"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ส่งเป็นข้อความ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以文本发送"
           }
         }
       }
@@ -9339,6 +9659,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "编辑菜谱"
+          }
+        }
+      }
+    },
+    "Пригласить в общий список": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zur gemeinsamen Liste einladen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite to Shared List"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitar a la lista compartida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inviter à la liste partagée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invita alla lista condivisa"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共有リストに招待"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "공유 목록에 초대"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Convidar para a lista compartilhada"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เชิญเข้ารายการที่แชร์"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "邀请加入共享清单"
           }
         }
       }
@@ -13119,66 +13503,66 @@
         }
       }
     },
-    "Холодильник, рецепты, список покупок и журнал хранятся в вашем iCloud и сами появляются на iPhone, iPad и Mac с той же учётной записью Apple.": {
+    "Холодильник, рецепты, список покупок и журнал хранятся в вашем iCloud и сами появляются на iPhone, iPad, Mac и Apple Watch с той же учётной записью Apple. Список покупок можно открыть и другим людям: «Поделиться» → «Пригласить в общий список».": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kühlschrank, Rezepte, Einkaufsliste und Protokoll liegen in deiner iCloud und erscheinen auf iPhone, iPad und Mac mit demselben Apple Account."
+            "value": "Kühlschrank, Rezepte, Einkaufsliste und Protokoll liegen in deiner iCloud und erscheinen auf iPhone, iPad, Mac und Apple Watch mit demselben Apple Account. Die Einkaufsliste kannst du auch mit anderen teilen: „Teilen“ → „Zur gemeinsamen Liste einladen“."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your fridge, recipes, shopping list and log are stored in your iCloud and appear on your iPhone, iPad and Mac signed in to the same Apple Account."
+            "value": "Your fridge, recipes, shopping list and log are stored in your iCloud and appear on your iPhone, iPad, Mac and Apple Watch signed in to the same Apple Account. You can also open your shopping list to other people: Share → Invite to Shared List."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "La nevera, las recetas, la lista de la compra y el diario se guardan en tu iCloud y aparecen en el iPhone, el iPad y el Mac con la misma cuenta de Apple."
+            "value": "La nevera, las recetas, la lista de la compra y el diario se guardan en tu iCloud y aparecen en el iPhone, el iPad, el Mac y el Apple Watch con la misma cuenta de Apple. También puedes abrir tu lista de la compra a otras personas: «Compartir» → «Invitar a la lista compartida»."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Frigo, recettes, liste de courses et journal sont stockés dans votre iCloud et apparaissent sur l’iPhone, l’iPad et le Mac connectés au même compte Apple."
+            "value": "Frigo, recettes, liste de courses et journal sont stockés dans votre iCloud et apparaissent sur l’iPhone, l’iPad, le Mac et l’Apple Watch connectés au même compte Apple. Vous pouvez aussi ouvrir votre liste de courses à d’autres personnes : « Partager » → « Inviter à la liste partagée »."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Frigo, ricette, lista della spesa e diario sono salvati nel tuo iCloud e compaiono su iPhone, iPad e Mac con lo stesso Account Apple."
+            "value": "Frigo, ricette, lista della spesa e diario sono salvati nel tuo iCloud e compaiono su iPhone, iPad, Mac e Apple Watch con lo stesso Account Apple. Puoi anche aprire la lista della spesa ad altre persone: «Condividi» → «Invita alla lista condivisa»."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "冷蔵庫、レシピ、買い物リスト、記録はiCloudに保存され、同じApple AccountのiPhone、iPad、Macに自動で表示されます。"
+            "value": "冷蔵庫、レシピ、買い物リスト、記録はiCloudに保存され、同じApple AccountのiPhone、iPad、Mac、Apple Watchに自動で表示されます。買い物リストはほかの人と共有することもできます：「共有」→「共有リストに招待」。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "냉장고, 레시피, 장보기 목록, 기록은 iCloud에 저장되어 같은 Apple 계정의 iPhone, iPad, Mac에 자동으로 나타납니다."
+            "value": "냉장고, 레시피, 장보기 목록, 기록은 iCloud에 저장되어 같은 Apple 계정의 iPhone, iPad, Mac, Apple Watch에 자동으로 나타납니다. 장보기 목록은 다른 사람과 함께 쓸 수도 있습니다: ‘공유’ → ‘공유 목록에 초대’."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Geladeira, receitas, lista de compras e diário ficam no seu iCloud e aparecem no iPhone, iPad e Mac com a mesma Conta Apple."
+            "value": "Geladeira, receitas, lista de compras e diário ficam no seu iCloud e aparecem no iPhone, iPad, Mac e Apple Watch com a mesma Conta Apple. Você também pode abrir a lista de compras para outras pessoas: “Compartilhar” → “Convidar para a lista compartilhada”."
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "ตู้เย็น สูตรอาหาร รายการซื้อของ และบันทึก เก็บไว้ใน iCloud ของคุณ และแสดงบน iPhone, iPad และ Mac ที่ใช้บัญชี Apple เดียวกัน"
+            "value": "ตู้เย็น สูตรอาหาร รายการซื้อของ และบันทึก เก็บไว้ใน iCloud ของคุณ และแสดงบน iPhone, iPad, Mac และ Apple Watch ที่ใช้บัญชี Apple เดียวกัน คุณยังเปิดรายการซื้อของให้คนอื่นดูได้ด้วย: “แชร์” → “เชิญเข้ารายการที่แชร์”"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "冰箱、菜谱、购物清单和记录都保存在你的 iCloud 中，会自动出现在登录同一 Apple 账户的 iPhone、iPad 和 Mac 上。"
+            "value": "冰箱、菜谱、购物清单和记录都保存在你的 iCloud 中，会自动出现在登录同一 Apple 账户的 iPhone、iPad、Mac 和 Apple Watch 上。购物清单也可以与他人共享：“分享”→“邀请加入共享清单”。"
           }
         }
       }
