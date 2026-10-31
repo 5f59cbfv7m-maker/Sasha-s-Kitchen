@@ -113,6 +113,12 @@ func (a *API) handleDetail(w http.ResponseWriter, r *http.Request) {
 		httpx.Respond(w, r, httpx.Internal("Не удалось загрузить рецепт").WithCause(err))
 		return
 	}
+	// recipes.view_count existed from the first schema but was never written.
+	// Best effort, like the import metric.
+	if _, err := a.pool.Exec(r.Context(),
+		`UPDATE recipes SET view_count = view_count + 1 WHERE id = $1::uuid`, r.PathValue("id")); err != nil {
+		httpx.LogWarn(r, "recipe view not recorded", err)
+	}
 	httpx.JSONWithETag(w, r, http.StatusOK, detail)
 }
 
@@ -133,11 +139,16 @@ func (a *API) handleBundle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Best effort: a failed metric write must not deny the user their recipe.
-	if _, err := a.pool.Exec(r.Context(), `
-		INSERT INTO recipe_imports (user_id, recipe_id, client)
-		VALUES (nullif($1,'')::uuid, $2::uuid, $3)`,
-		viewer, b.Recipe.SourceID, clip(r.UserAgent(), 200)); err != nil {
-		httpx.LogWarn(r, "recipe import not recorded", err)
+	// One import per signed-in person: re-fetching the same bundle is not a
+	// second import, and an anonymous fetch has nobody to count it against.
+	if viewer != "" {
+		if _, err := a.pool.Exec(r.Context(), `
+			INSERT INTO recipe_imports (user_id, recipe_id, client)
+			VALUES ($1::uuid, $2::uuid, $3)
+			ON CONFLICT (user_id, recipe_id) WHERE user_id IS NOT NULL DO NOTHING`,
+			viewer, b.Recipe.SourceID, clip(r.UserAgent(), 200)); err != nil {
+			httpx.LogWarn(r, "recipe import not recorded", err)
+		}
 	}
 	httpx.JSON(w, http.StatusOK, b)
 }

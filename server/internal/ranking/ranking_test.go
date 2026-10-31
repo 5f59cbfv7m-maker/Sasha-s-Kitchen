@@ -71,7 +71,8 @@ func (r *rig) importer(t *testing.T, handle string, ageDays int) string {
 func (r *rig) importRecipe(t *testing.T, userID, recipeID string) {
 	t.Helper()
 	if _, err := r.pool.Exec(context.Background(), `
-		INSERT INTO recipe_imports (user_id, recipe_id) VALUES ($1::uuid, $2::uuid)`,
+		INSERT INTO recipe_imports (user_id, recipe_id) VALUES ($1::uuid, $2::uuid)
+		ON CONFLICT (user_id, recipe_id) WHERE user_id IS NOT NULL DO NOTHING`,
 		userID, recipeID); err != nil {
 		t.Fatalf("import: %v", err)
 	}
