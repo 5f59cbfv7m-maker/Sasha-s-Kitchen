@@ -1727,6 +1727,70 @@
         }
       }
     },
+    "Время уведомления": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uhrzeit der Mitteilung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notification Time"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hora del aviso"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heure de la notification"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orario della notifica"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通知の時刻"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "알림 시간"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horário do aviso"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เวลาแจ้งเตือน"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通知时间"
+          }
+        }
+      }
+    },
     "Время: %@": {
       "localizations": {
         "de": {
@@ -3803,6 +3867,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "用此条形码创建食材"
+          }
+        }
+      }
+    },
+    "Завтра истекает срок годности": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Läuft morgen ab"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expiring tomorrow"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caduca mañana"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Périme demain"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scade domani"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "明日期限切れ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "내일 유통기한 만료"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vence amanhã"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "หมดอายุพรุ่งนี้"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "明天到期"
           }
         }
       }
@@ -6271,6 +6399,70 @@
         }
       }
     },
+    "Можно приготовить: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daraus kannst du kochen: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can make: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puedes preparar: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous pouvez préparer : %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puoi preparare: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "作れる料理：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "만들 수 있는 요리: %@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dá para fazer: %@"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ทำได้: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可以做：%@"
+          }
+        }
+      }
+    },
     "Мои": {
       "localizations": {
         "de": {
@@ -7039,6 +7231,70 @@
         }
       }
     },
+    "Накануне дня, когда истекает срок, придёт уведомление: что испортится и что из этого можно приготовить. Включается на каждом устройстве отдельно.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Am Tag vor dem Ablauf bekommst du eine Mitteilung: was verdirbt und was du daraus kochen kannst. Wird auf jedem Gerät einzeln eingeschaltet."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The day before something expires, you’ll get a notification: what is about to go off and what you can make from it. Turn it on on each device separately."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El día antes de que caduque algo recibirás un aviso: qué se va a estropear y qué puedes cocinar con ello. Se activa en cada dispositivo por separado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La veille de la date de péremption, une notification vous indique ce qui va se gâter et ce que vous pouvez en faire. À activer sur chaque appareil."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il giorno prima della scadenza arriva una notifica: cosa sta per andare a male e cosa puoi prepararci. Si attiva su ogni dispositivo separatamente."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "期限の前日に、何が傷みそうか、それで何が作れるかを通知します。デバイスごとにオンにしてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "유통기한 전날, 무엇이 상할지와 그것으로 무엇을 만들 수 있는지 알려 드립니다. 기기마다 따로 켜세요."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Na véspera do vencimento chega uma notificação: o que vai estragar e o que dá para fazer com isso. Ative em cada aparelho separadamente."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "หนึ่งวันก่อนหมดอายุ จะมีการแจ้งเตือนว่าอะไรใกล้เสียและทำอะไรจากมันได้ เปิดใช้แยกกันในแต่ละอุปกรณ์"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "到期前一天会收到通知：哪些东西快坏了，可以用它们做什么。需要在每台设备上分别开启。"
+          }
+        }
+      }
+    },
     "Напоминания": {
       "localizations": {
         "de": {
@@ -7099,6 +7355,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "提醒事项"
+          }
+        }
+      }
+    },
+    "Напоминать о сроках годности": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An Haltbarkeit erinnern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remind Me About Expiry Dates"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avisar de la caducidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rappels de dates de péremption"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvisami delle scadenze"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "期限が近づいたら通知"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "유통기한 알림 받기"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avisar sobre a validade"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แจ้งเตือนวันหมดอายุ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保质期提醒"
           }
         }
       }
@@ -12287,6 +12607,70 @@
         }
       }
     },
+    "Сроки годности": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haltbarkeit"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expiry Dates"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caducidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dates de péremption"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scadenze"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "賞味期限"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "유통기한"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Validade"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "วันหมดอายุ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保质期"
+          }
+        }
+      }
+    },
     "Считать «на исходе» ниже": {
       "localizations": {
         "de": {
@@ -12667,6 +13051,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "移除照片"
+          }
+        }
+      }
+    },
+    "Уведомления для Sasha’s Kitchen запрещены в настройках устройства — разрешите их там.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitteilungen für Sasha’s Kitchen sind in den Geräteeinstellungen ausgeschaltet – erlaube sie dort."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications for Sasha’s Kitchen are turned off in the device settings — allow them there."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las notificaciones de Sasha’s Kitchen están desactivadas en los ajustes del dispositivo; actívalas allí."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les notifications de Sasha’s Kitchen sont désactivées dans les réglages de l’appareil — autorisez-les là-bas."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le notifiche di Sasha’s Kitchen sono disattivate nelle impostazioni del dispositivo: attivale lì."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sasha’s Kitchenの通知がデバイスの設定でオフになっています。設定で許可してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기기 설정에서 Sasha’s Kitchen 알림이 꺼져 있습니다. 설정에서 허용해 주세요."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As notificações do Sasha’s Kitchen estão desativadas nos ajustes do aparelho — permita-as lá."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "การแจ้งเตือนของ Sasha’s Kitchen ถูกปิดในการตั้งค่าอุปกรณ์ โปรดอนุญาตที่นั่น"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sasha’s Kitchen 的通知已在设备设置中关闭，请在那里允许。"
           }
         }
       }

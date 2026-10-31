@@ -234,6 +234,13 @@ UI = [
     "Zu dieser Liste hinzufügen",
     "Besitzer der Liste",
     "Anna",
+    "Läuft morgen ab",
+    "Daraus kannst du kochen: %@",
+    "An Haltbarkeit erinnern",
+    "Uhrzeit der Mitteilung",
+    "Haltbarkeit",
+    "Mitteilungen für Sasha’s Kitchen sind in den Geräteeinstellungen ausgeschaltet – erlaube sie dort.",
+    "Am Tag vor dem Ablauf bekommst du eine Mitteilung: was verdirbt und was du daraus kochen kannst. Wird auf jedem Gerät einzeln eingeschaltet.",
 ]
 
 SEED = [

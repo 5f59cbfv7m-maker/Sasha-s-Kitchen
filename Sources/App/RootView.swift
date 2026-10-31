@@ -48,6 +48,12 @@ struct RootView: View {
 
     static let showsStore = false
 
+    /// Меняется, когда у остатка меняется срок или он кончается, — тогда
+    /// уведомления о сроках планируются заново.
+    private var expirySignature: [String] {
+        stock.map { "\($0.name)|\($0.expiryDate?.timeIntervalSinceReferenceDate ?? 0)|\($0.isEmpty)" }
+    }
+
     private var shoppingCount: Int {
         Kitchen.shoppingEntries(from: stock).count + listed.count + SharedLists.shared.guestCount
     }
@@ -87,6 +93,7 @@ struct RootView: View {
         // слить одноимённые дубликаты.
         .task(id: products.count + recipes.count) { SyncCleanup.run(in: context) }
         .modifier(SharedListSync())
+        .task(id: expirySignature) { await ExpiryReminders.reschedule(in: context) }
         .overlay {
             if showIntro {
                 IntroView { withAnimation(.easeOut(duration: 0.45)) { showIntro = false } }

@@ -234,6 +234,13 @@ UI = [
     "Aggiungi a questa lista",
     "Proprietario della lista",
     "Giulia",
+    "Scade domani",
+    "Puoi preparare: %@",
+    "Avvisami delle scadenze",
+    "Orario della notifica",
+    "Scadenze",
+    "Le notifiche di Sasha’s Kitchen sono disattivate nelle impostazioni del dispositivo: attivale lì.",
+    "Il giorno prima della scadenza arriva una notifica: cosa sta per andare a male e cosa puoi prepararci. Si attiva su ogni dispositivo separatamente.",
 ]
 
 SEED = [

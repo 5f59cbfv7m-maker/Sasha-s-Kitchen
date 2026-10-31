@@ -234,6 +234,13 @@ UI = [
     "Adicionar a esta lista",
     "Dono da lista",
     "Ana",
+    "Vence amanhã",
+    "Dá para fazer: %@",
+    "Avisar sobre a validade",
+    "Horário do aviso",
+    "Validade",
+    "As notificações do Sasha’s Kitchen estão desativadas nos ajustes do aparelho — permita-as lá.",
+    "Na véspera do vencimento chega uma notificação: o que vai estragar e o que dá para fazer com isso. Ative em cada aparelho separadamente.",
 ]
 
 SEED = [

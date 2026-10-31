@@ -234,6 +234,13 @@ UI = [
     "Añadir a esta lista",
     "Dueño de la lista",
     "Lucía",
+    "Caduca mañana",
+    "Puedes preparar: %@",
+    "Avisar de la caducidad",
+    "Hora del aviso",
+    "Caducidad",
+    "Las notificaciones de Sasha’s Kitchen están desactivadas en los ajustes del dispositivo; actívalas allí.",
+    "El día antes de que caduque algo recibirás un aviso: qué se va a estropear y qué puedes cocinar con ello. Se activa en cada dispositivo por separado.",
 ]
 
 SEED = [
