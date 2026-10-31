@@ -13,6 +13,7 @@ struct SettingsView: View {
     @AppStorage(Feedback.hapticsKey) private var hapticsEnabled = true
     @AppStorage(ExpiryReminders.enabledKey) private var expiryEnabled = false
     @AppStorage(ExpiryReminders.timeKey) private var expiryMinutes = 600
+    @AppStorage(UnitSystem.key) private var unitSystem = UnitSystem.automatic.rawValue
     @State private var notificationsDenied = false
 
     @State private var cameraStatus = CameraPermission.statusText
@@ -34,6 +35,16 @@ struct SettingsView: View {
                     Text("Отклик")
                 } footer: {
                     Text("Вибро работает на iPhone; на iPad и Mac основной отклик — звук и анимация.")
+                }
+
+                Section {
+                    Picker("Единицы измерения", selection: $unitSystem) {
+                        Text("Как в системе").tag(UnitSystem.automatic.rawValue)
+                        Text("Метрические — г, мл").tag(UnitSystem.metric.rawValue)
+                        Text("Американские — oz, cups").tag(UnitSystem.us.rawValue)
+                    }
+                } footer: {
+                    Text("Продукты хранятся в граммах и миллилитрах; от выбора зависит только то, как количества показываются и вводятся. КБЖУ — всегда на 100 г.")
                 }
 
                 Section {

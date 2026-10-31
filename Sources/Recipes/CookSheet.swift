@@ -77,17 +77,9 @@ struct CookSheet: View {
             HStack {
                 Text(requirement.productName)
                 Spacer()
-                TextField("0", value: Binding(
+                AmountField(amount: Binding(
                     get: { amounts[requirement.productName] ?? requirement.amount },
-                    set: { amounts[requirement.productName] = max(0, $0) }),
-                          format: Fmt.amountStyle)
-                    .keyboardType(.decimalPad)
-                    .multilineTextAlignment(.trailing)
-                    .monospacedDigit()
-                    .frame(maxWidth: 90)
-                Text(Fmt.unit(requirement.unit))
-                    .foregroundStyle(.secondary)
-                    .frame(minWidth: 30, alignment: .leading)
+                    set: { amounts[requirement.productName] = $0 }), unit: requirement.unit)
             }
             Text(short
                  ? "в холодильнике только \(Fmt.amount(have, unit: requirement.unit)) — спишется этот остаток"

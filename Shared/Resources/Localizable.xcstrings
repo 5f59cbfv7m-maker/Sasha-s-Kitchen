@@ -895,6 +895,70 @@
         }
       }
     },
+    "Американские — oz, cups": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "US – oz, cups"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "US — oz, cups"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EE. UU.: oz, cups"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Américaines — oz, cups"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USA – oz, cups"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "米国式（oz、cups）"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "미국식 — oz, cups"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EUA — oz, cups"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "อเมริกัน — oz, cups"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "美制（oz、cups）"
+          }
+        }
+      }
+    },
     "Белки": {
       "localizations": {
         "de": {
@@ -3423,6 +3487,70 @@
         }
       }
     },
+    "Единицы измерения": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maßeinheiten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Units"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unidades"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unités"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unità di misura"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "単位"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "단위"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unidades"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "หน่วยวัด"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "计量单位"
+          }
+        }
+      }
+    },
     "Есть срок годности": {
       "localizations": {
         "de": {
@@ -5503,6 +5631,70 @@
         }
       }
     },
+    "Как в системе": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wie im System"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Match System"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Como el sistema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comme le système"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Come il sistema"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システムに合わせる"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정 따르기"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Como no sistema"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ตามระบบ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟随系统"
+          }
+        }
+      }
+    },
     "Калорийность": {
       "localizations": {
         "de": {
@@ -6331,6 +6523,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "小雨"
+          }
+        }
+      }
+    },
+    "Метрические — г, мл": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metrisch – g, ml"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metric — g, ml"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Métricas: g, ml"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Métriques — g, ml"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metriche – g, ml"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メートル法（g、ml）"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "미터법 — g, ml"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Métricas — g, ml"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เมตริก — g, ml"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "公制（克、毫升）"
           }
         }
       }
@@ -10491,6 +10747,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "目录中的食材"
+          }
+        }
+      }
+    },
+    "Продукты хранятся в граммах и миллилитрах; от выбора зависит только то, как количества показываются и вводятся. КБЖУ — всегда на 100 г.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Produkte werden in Gramm und Millilitern gespeichert; die Wahl ändert nur, wie Mengen angezeigt und eingegeben werden. Nährwerte gelten immer pro 100 g."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Products are stored in grams and milliliters; this only changes how amounts are shown and entered. Nutrition is always per 100 g."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los productos se guardan en gramos y mililitros; esto solo cambia cómo se muestran y escriben las cantidades. Los nutrientes siempre son por 100 g."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les produits sont enregistrés en grammes et millilitres ; ce choix ne change que l’affichage et la saisie des quantités. Les valeurs nutritionnelles restent pour 100 g."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I prodotti sono salvati in grammi e millilitri; la scelta cambia solo come le quantità vengono mostrate e inserite. I valori nutrizionali sono sempre per 100 g."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "食材はグラムとミリリットルで保存されます。この設定で変わるのは量の表示と入力だけです。栄養素は常に100gあたりです。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "재료는 그램과 밀리리터로 저장되며, 이 설정은 양을 표시하고 입력하는 방식만 바꿉니다. 영양 성분은 항상 100g 기준입니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Os produtos ficam guardados em gramas e mililitros; a escolha só muda como as quantidades aparecem e são digitadas. Os nutrientes são sempre por 100 g."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "วัตถุดิบเก็บเป็นกรัมและมิลลิลิตร ตัวเลือกนี้เปลี่ยนแค่การแสดงและการป้อนปริมาณ คุณค่าทางโภชนาการคิดต่อ 100 กรัมเสมอ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "食材始终以克和毫升保存，此设置只影响数量的显示和输入方式。营养成分始终按每 100 克计算。"
           }
         }
       }

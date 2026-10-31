@@ -241,6 +241,11 @@ UI = [
     "Expiry Dates",
     "Notifications for Sasha’s Kitchen are turned off in the device settings — allow them there.",
     "The day before something expires, you’ll get a notification: what is about to go off and what you can make from it. Turn it on on each device separately.",
+    "Units",
+    "Match System",
+    "Metric — g, ml",
+    "US — oz, cups",
+    "Products are stored in grams and milliliters; this only changes how amounts are shown and entered. Nutrition is always per 100 g.",
 ]
 
 SEED = [

@@ -69,7 +69,7 @@ final class Product {
     func amountLabel(_ amount: Double) -> String {
         let base = Fmt.amount(amount, unit: unit)
         guard unit == UnitCode.piece, gramsPerUnit != 1 else { return base }
-        return "\(base) (\(Fmt.grams(amount * gramsPerUnit)))"
+        return "\(base) (\(Fmt.amount(amount * gramsPerUnit, unit: UnitCode.gram)))"
     }
 }
 

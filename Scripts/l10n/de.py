@@ -241,6 +241,11 @@ UI = [
     "Haltbarkeit",
     "Mitteilungen für Sasha’s Kitchen sind in den Geräteeinstellungen ausgeschaltet – erlaube sie dort.",
     "Am Tag vor dem Ablauf bekommst du eine Mitteilung: was verdirbt und was du daraus kochen kannst. Wird auf jedem Gerät einzeln eingeschaltet.",
+    "Maßeinheiten",
+    "Wie im System",
+    "Metrisch – g, ml",
+    "US – oz, cups",
+    "Produkte werden in Gramm und Millilitern gespeichert; die Wahl ändert nur, wie Mengen angezeigt und eingegeben werden. Nährwerte gelten immer pro 100 g.",
 ]
 
 SEED = [

@@ -152,6 +152,13 @@ UI-тесты собираются с `SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolat
 стартовый набор с `localized: false`, а UI-тесты запускают приложение с
 `-AppleLanguages (ru)`.
 
+**Единицы.** В базе — только «г», «мл», «шт». Американские (oz/lb,
+tsp/tbsp/cups/qt) — слой показа и ввода: `Fmt.amount` переводит по величине,
+`Fmt.inputUnit` + `AmountField` вводят в oz/fl oz. Выбор — `UnitSystem`
+(настройки, по умолчанию по региону). `Fmt.grams` — КБЖУ, всегда граммы.
+Новое поле количества — только через `AmountField`, иначе в США введут унции
+как граммы.
+
 **Сканер.** `DataScannerViewController` (VisionKit) на Mac Catalyst недоступен
 и в симуляторе не поддерживается — там `ScanSheet` показывает только ввод цифр.
 Проверять камеру — только на устройстве. Open Food Facts получает лишь штрихкод,

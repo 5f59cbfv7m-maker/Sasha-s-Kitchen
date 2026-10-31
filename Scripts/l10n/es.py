@@ -241,6 +241,11 @@ UI = [
     "Caducidad",
     "Las notificaciones de Sasha’s Kitchen están desactivadas en los ajustes del dispositivo; actívalas allí.",
     "El día antes de que caduque algo recibirás un aviso: qué se va a estropear y qué puedes cocinar con ello. Se activa en cada dispositivo por separado.",
+    "Unidades",
+    "Como el sistema",
+    "Métricas: g, ml",
+    "EE. UU.: oz, cups",
+    "Los productos se guardan en gramos y mililitros; esto solo cambia cómo se muestran y escriben las cantidades. Los nutrientes siempre son por 100 g.",
 ]
 
 SEED = [

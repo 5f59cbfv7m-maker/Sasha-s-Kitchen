@@ -241,6 +241,11 @@ UI = [
     "Scadenze",
     "Le notifiche di Sasha’s Kitchen sono disattivate nelle impostazioni del dispositivo: attivale lì.",
     "Il giorno prima della scadenza arriva una notifica: cosa sta per andare a male e cosa puoi prepararci. Si attiva su ogni dispositivo separatamente.",
+    "Unità di misura",
+    "Come il sistema",
+    "Metriche – g, ml",
+    "USA – oz, cups",
+    "I prodotti sono salvati in grammi e millilitri; la scelta cambia solo come le quantità vengono mostrate e inserite. I valori nutrizionali sono sempre per 100 g.",
 ]
 
 SEED = [
