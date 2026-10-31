@@ -196,7 +196,7 @@ func (r *Repo) Build(ctx context.Context, recipeID, viewerID string) (*Bundle, e
 	if b.Recipe.Diets == nil {
 		b.Recipe.Diets = []string{}
 	}
-	b.Recipe.Steps = decodeSteps(stepsRaw)
+	b.Recipe.Steps = DecodeSteps(stepsRaw)
 	if heroKey.Valid && heroKey.String != "" && r.media != nil {
 		b.Recipe.PhotoURL = r.media.PublicURL(heroKey.String)
 	}
@@ -254,9 +254,10 @@ func (r *Repo) Build(ctx context.Context, recipeID, viewerID string) (*Bundle, e
 	return &b, nil
 }
 
-// decodeSteps tolerates both shapes the steps column has carried: a JSON array
-// of objects and a plain array of strings.
-func decodeSteps(raw []byte) []Step {
+// DecodeSteps tolerates both shapes the steps column has carried: a JSON array
+// of objects and a plain array of strings. Steps are numbered from 1 — the
+// plain-string shape used to come out as "0. …".
+func DecodeSteps(raw []byte) []Step {
 	if len(raw) == 0 {
 		return []Step{}
 	}
@@ -268,7 +269,7 @@ func decodeSteps(raw []byte) []Step {
 		out := make([]Step, 0, len(objects))
 		for i, o := range objects {
 			if o.Order == 0 {
-				o.Order = i
+				o.Order = i + 1
 			}
 			out = append(out, Step{Order: o.Order, Text: o.Text})
 		}
@@ -278,7 +279,7 @@ func decodeSteps(raw []byte) []Step {
 	if err := json.Unmarshal(raw, &plain); err == nil {
 		out := make([]Step, 0, len(plain))
 		for i, s := range plain {
-			out = append(out, Step{Order: i, Text: s})
+			out = append(out, Step{Order: i + 1, Text: s})
 		}
 		return out
 	}

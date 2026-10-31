@@ -91,3 +91,12 @@ func TestBundleCarriesHeroPhoto(t *testing.T) {
 		t.Errorf("photo_url = %q", b.Recipe.PhotoURL)
 	}
 }
+
+func TestStepsAreNumberedFromOne(t *testing.T) {
+	for _, raw := range []string{`["Mix.","Fry."]`, `[{"text":"Mix."},{"text":"Fry."}]`} {
+		steps := DecodeSteps([]byte(raw))
+		if len(steps) != 2 || steps[0].Order != 1 || steps[1].Order != 2 {
+			t.Errorf("%s → %+v, want orders 1 and 2", raw, steps)
+		}
+	}
+}
