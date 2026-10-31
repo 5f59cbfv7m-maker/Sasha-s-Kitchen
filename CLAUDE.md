@@ -41,7 +41,7 @@ Mac-сборка без подписи (проверить, что компил�
 | Путь | Роль |
 |---|---|
 | `Shared/` | Общее для приложения и часов (оба таргета собирают эту папку целиком) |
-| `Shared/Model/` | `@Model`-классы SwiftData и `KitchenStore` (схема, контейнер) |
+| `Shared/Model/` | `@Model`-классы SwiftData (включая `PlannedMeal` — меню) и `KitchenStore` (схема, контейнер) |
 | `Shared/Services/` | `Kitchen` (списание, пополнение, список покупок), `RecipeAvailability`, `SharedLists` (общий список) |
 | `Shared/Support/` | `Nutrition`, форматирование чисел, цвета категорий — чистые типы без SwiftData |
 | `Shared/Resources/` | `Localizable` и `Data` — каталоги строк, нужные и часам |

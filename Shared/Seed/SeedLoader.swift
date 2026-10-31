@@ -24,6 +24,7 @@ enum SeedLoader {
         deleteAll(Product.self, in: context)
         deleteAll(RecipeIngredient.self, in: context)
         deleteAll(StockItem.self, in: context)
+        deleteAll(PlannedMeal.self, in: context)
         load(into: context, set: set)
     }
 

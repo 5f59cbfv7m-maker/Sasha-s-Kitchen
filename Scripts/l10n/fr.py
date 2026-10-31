@@ -277,6 +277,21 @@ UI = [
     "Quoi acheter — cochez directement dans le widget.",
     "Ce qui périme dans les prochains jours.",
     "Quoi acheter — sur le cadran.",
+    "Menu",
+    "Ajoutez des recettes pour la semaine : l’app calcule ce qui manque et l’ajoute à la liste de courses.",
+    "Tout est là pour le menu",
+    "Ajouter le manquant à la liste",
+    "Ajouter un plat",
+    "Cuisiné",
+    "Il manque quelque chose",
+    "Aujourd’hui",
+    "Demain",
+    "Ajouté à la liste de courses : %lld",
+    "Choisir une recette",
+    "Ajouter au menu",
+    "On cuisine quand ?",
+    "Portions",
+    "Ajouté au menu",
 ]
 
 SEED = [

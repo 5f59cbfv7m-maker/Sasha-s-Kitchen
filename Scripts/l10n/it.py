@@ -277,6 +277,21 @@ UI = [
     "Cosa comprare: spunta direttamente nel widget.",
     "Cosa scade nei prossimi giorni.",
     "Cosa comprare, sul quadrante.",
+    "Menu",
+    "Aggiungi ricette per la settimana: l’app calcola cosa manca e lo mette nella lista della spesa.",
+    "Per il menu c’è tutto",
+    "Aggiungi il mancante alla lista",
+    "Aggiungi un piatto",
+    "Cucinato",
+    "Manca qualcosa",
+    "Oggi",
+    "Domani",
+    "Aggiunto alla lista della spesa: %lld",
+    "Scegli una ricetta",
+    "Aggiungi al menu",
+    "Quando cuciniamo?",
+    "Porzioni",
+    "Aggiunto al menu",
 ]
 
 SEED = [

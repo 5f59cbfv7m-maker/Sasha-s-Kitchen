@@ -15,6 +15,8 @@ struct RecipeDetailView: View {
     @State private var isEditing = false
     @State private var isConfirmingDelete = false
     @State private var banner: LocalizedStringKey?
+    @State private var isPlanning = false
+    @State private var planDay = Date.now
 
     private var snapshot: StockSnapshot { Kitchen.snapshot(of: stock) }
     private var requirements: [IngredientRequirement] {
@@ -47,6 +49,11 @@ struct RecipeDetailView: View {
         .navigationTitle(recipe.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button { isPlanning = true } label: {
+                    Label("Добавить в меню", systemImage: "calendar.badge.plus")
+                }
+            }
             if recipe.isCustom {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
@@ -65,6 +72,29 @@ struct RecipeDetailView: View {
             }
         }
         .sheet(isPresented: $isEditing) { RecipeEditorView(editing: recipe) }
+        .sheet(isPresented: $isPlanning) {
+            NavigationStack {
+                Form {
+                    DatePicker("Когда готовим?", selection: $planDay, in: Calendar.current.startOfDay(for: .now)...,
+                               displayedComponents: .date)
+                        .datePickerStyle(.graphical)
+                    LabeledContent("Порций", value: "\(servings)")
+                }
+                .navigationTitle("Добавить в меню")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) { Button("Отмена") { isPlanning = false } }
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Добавить") {
+                            MealPlan.add(recipe, on: planDay, servings: servings, in: context)
+                            isPlanning = false
+                            showBanner("Добавлено в меню")
+                        }
+                    }
+                }
+            }
+            .presentationDetents([.large])
+        }
         .sheet(isPresented: $isCooking) {
             CookSheet(recipe: recipe, servings: servings) { showBanner("Списано с остатков") }
         }

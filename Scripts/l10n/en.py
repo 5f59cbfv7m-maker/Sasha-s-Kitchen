@@ -277,6 +277,21 @@ UI = [
     "What to buy — tick items right on the widget.",
     "What will expire in the next few days.",
     "What to buy — on your watch face.",
+    "Menu",
+    "Add recipes for the week — the app works out what’s missing and puts it on the shopping list.",
+    "Everything for the menu is in stock",
+    "Add What’s Missing to the List",
+    "Add a Dish",
+    "Cooked",
+    "Something’s missing",
+    "Today",
+    "Tomorrow",
+    "Added to the shopping list: %lld",
+    "Choose a Recipe",
+    "Add to Menu",
+    "When are we cooking?",
+    "Servings",
+    "Added to the menu",
 ]
 
 SEED = [
