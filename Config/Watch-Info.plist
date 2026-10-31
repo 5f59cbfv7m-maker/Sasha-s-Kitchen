@@ -24,6 +24,8 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2026 Kirill Rychkov</string>
+	<key>SKCloudKit</key>
+	<string>$(SK_CLOUDKIT)</string>
 	<key>WKApplication</key>
 	<true/>
 	<key>WKCompanionAppBundleIdentifier</key>
