@@ -307,8 +307,28 @@ xcrun simctl launch <udid> com.kirillrychkov.FridgeOracle -startTab recipes
 
 Чеклист — `docs/app-store.md`, тексты на 11 языках — `docs/store-listing.md`
 (лимиты проверяет `Scripts/check-store-listing.py`), скриншоты — `docs/store/`.
-Вкладка «Магазин» в выпуске скрыта (`RootView.showsStore = false`): заглушку
-«Скоро» ревью отклоняет. Код магазина и `server/` не тронуты.
+Вкладка «Магазин» видна, только когда задан адрес сервера: ключ
+`SKStoreBaseURL` в Info.plist (`SK_STORE_URL=https://…` при сборке) или
+`-storeURL` в аргументах запуска. В выпуске адреса нет — вкладки нет.
+
+## Магазин рецептов
+
+Клиент — `Sources/Store/`: `StoreAPI` (контракт — `server/docs/API.md`),
+`StoreView` (полки, карточка с «Забрать себе», лента роликов на HLS),
+`StoreImport` (bundle → свои рецепты). Пока без входа в аккаунт: лайки,
+комментарии, жалобы и публикация — следующий шаг (нужен Sign in with Apple —
+личная команда его не умеет).
+
+- **Ключ продукта — как на сервере** (`StoreImport.key` = `sk_normalize_key`:
+  ё→е, регистр, пробелы). Тест повторяет кейсы `TestNormalizeKeyMatchesSQL`.
+- **Чужой язык**: если ключ не нашёлся, имя ищется среди переводов стартового
+  набора (таблица `Seed` всех языков) — «Chicken eggs» находит «Яйца куриные».
+- Повторный импорт не плодит копию: `Recipe.storeSourceID`.
+
+Проверять локально: PostgreSQL, `go run ./cmd/migrate`, `go run ./cmd/api` с
+`REDIS_DISABLED=true MEDIA_CDN_BASE=http://127.0.0.1:8090`, медиа — любым
+статическим сервером, приложение с `-storeURL http://127.0.0.1:8080` на
+симуляторе (ATS пускает локальную сеть: `NSAllowsLocalNetworking`).
 
 ## Расхождение с исходными данными
 
