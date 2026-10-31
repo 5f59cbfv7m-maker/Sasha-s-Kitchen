@@ -158,8 +158,14 @@ final class SharedLists {
 
     var ownShare: CKShare? { shares[CKCurrentUserDefaultName] }
 
+    /// Сборка подписана командой с iCloud. Личная команда iCloud не умеет, а
+    /// `CKContainer` без права на контейнер роняет приложение при запуске —
+    /// `Scripts/install-device.sh` собирает с `SK_CLOUDKIT=NO`.
+    static let isCloudKitSigned = Bundle.main.object(forInfoDictionaryKey: "SKCloudKit") as? String != "NO"
+
     func start(context: ModelContext) {
-        guard privateEngine == nil, FileManager.default.ubiquityIdentityToken != nil else { return }
+        guard privateEngine == nil, Self.isCloudKitSigned,
+              FileManager.default.ubiquityIdentityToken != nil else { return }
         self.context = context
         load()
         let container = CKContainer(identifier: Self.containerID)
@@ -316,6 +322,7 @@ final class SharedLists {
 
     /// Приглашение открыли — принимаем и сразу забираем список.
     static func accept(_ metadata: CKShare.Metadata) {
+        guard isCloudKitSigned else { return }
         Task {
             do {
                 _ = try await CKContainer(identifier: containerID).accept(metadata)

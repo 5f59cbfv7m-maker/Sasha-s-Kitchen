@@ -32,6 +32,12 @@ xcodebuild -project FridgeOracle.xcodeproj -scheme FridgeOracle \
 `xcodebuild … -target FridgeOracleWatch -sdk watchsimulator CODE_SIGNING_ALLOWED=NO build`.
 Симулятора watchOS на этом Mac нет — запускать часы только на устройстве.
 
+На своё iPhone/iPad без команды J656PYWTCP — `Scripts/install-device.sh [UDID]`
+(личная команда, `Config/PersonalTeam.entitlements`, `SK_CLOUDKIT=NO`). Личная
+команда не умеет iCloud, а `CKContainer` без права на контейнер **роняет
+приложение на запуске** — поэтому `SharedLists.isCloudKitSigned` (ключ
+`SKCloudKit` в Info.plist) выключает CloudKit целиком. Профиль живёт 7 дней.
+
 Mac-сборка без подписи (проверить, что компилируется):
 `xcodebuild … -destination 'platform=macOS,variant=Mac Catalyst' CODE_SIGNING_ALLOWED=NO build`.
 С подписью нужна команда J656PYWTCP — у неё есть iCloud; личная команда iCloud не умеет.

@@ -29,9 +29,10 @@ enum KitchenStore {
         } else if let group = groupDirectory {
             moveStore(into: group)
             configuration = ModelConfiguration(schema: schema, groupContainer: .identifier(appGroup),
-                                               cloudKitDatabase: isExtension ? .none : .automatic)
+                                               cloudKitDatabase: isExtension || !SharedLists.isCloudKitSigned ? .none : .automatic)
         } else {
-            configuration = ModelConfiguration(schema: schema, groupContainer: .none, cloudKitDatabase: .automatic)
+            configuration = ModelConfiguration(schema: schema, groupContainer: .none,
+                                               cloudKitDatabase: SharedLists.isCloudKitSigned ? .automatic : .none)
         }
         do {
             return try ModelContainer(for: schema, configurations: configuration)
