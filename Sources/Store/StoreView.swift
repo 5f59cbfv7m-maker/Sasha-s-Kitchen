@@ -6,6 +6,7 @@ import SwiftUI
 struct StoreView: View {
     private enum Section: Hashable { case recipes, shorts }
     @State private var section = Section.recipes
+    @State private var showsAccount = false
 
     var body: some View {
         NavigationStack {
@@ -26,7 +27,13 @@ struct StoreView: View {
                     .pickerStyle(.segmented)
                     .frame(maxWidth: 260)
                 }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { showsAccount = true } label: {
+                        Label("Аккаунт", systemImage: StoreAccount.shared.user == nil ? "person.crop.circle" : "person.crop.circle.fill")
+                    }
+                }
             }
+            .sheet(isPresented: $showsAccount) { StoreAccountView() }
         }
     }
 }
@@ -130,6 +137,8 @@ private struct StoreRecipeView: View {
     @State private var imported = false
     @State private var importing = false
     @State private var error: String?
+    @State private var showsComments = false
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         Loading(load: { try await StoreAPI.get("v1/recipes/\(card.id)") as StoreRecipeDetail }) { detail in
@@ -173,6 +182,16 @@ private struct StoreRecipeView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button { showsComments = true } label: { Label("Комментарии", systemImage: "bubble.left") }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                // Заблокированный автор пропадает — уходим с его рецепта.
+                StoreModerationMenu(targetType: "recipe", targetID: card.id, author: card.author) { dismiss() }
+            }
+        }
+        .sheet(isPresented: $showsComments) { StoreCommentsView(kind: "recipes", id: card.id) }
         .onAppear { imported = StoreImport.existing(card.id, in: context) != nil }
     }
 
@@ -225,7 +244,9 @@ private struct ShortsFeedView: View {
             LazyVStack(spacing: 0) {
                 ForEach(posts) { post in
                     // Ролик — ровно на экран, как в Shorts: листается по одному.
-                    ShortPage(post: post, isActive: active == post.id)
+                    ShortPage(post: post, isActive: active == post.id) {
+                        posts.removeAll { $0.author.id == post.author.id }
+                    }
                         .containerRelativeFrame([.horizontal, .vertical])
                         .onAppear { if post.id == posts.last?.id { Task { await loadMore() } } }
                 }
@@ -271,7 +292,12 @@ private struct ShortsFeedView: View {
 private struct ShortPage: View {
     let post: StorePost
     let isActive: Bool
+    var onBlocked: () -> Void = {}
     @State private var player: AVPlayer?
+    @State private var liked: Bool?
+    @State private var likeCount: Int?
+    @State private var showsComments = false
+    @State private var needsAccount = false
 
     var body: some View {
         // Постер и плеер — фоном: картинка с scaledToFill иначе растягивает
@@ -283,17 +309,38 @@ private struct ShortPage: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(post.title).font(.title3.bold())
                     Text(verbatim: "@" + post.author.handle).font(.subheadline)
-                    HStack(spacing: 16) {
-                        Label("\(post.likeCount)", systemImage: "heart")
-                        Label("\(post.viewCount)", systemImage: "eye")
-                    }
-                    .font(.footnote)
+                    Label("\(post.viewCount)", systemImage: "eye").font(.footnote)
                 }
                 .foregroundStyle(.white)
                 .shadow(radius: 4)
                 .padding()
                 .padding(.bottom, 24)
             }
+            // Справа, как в любой ленте роликов: лайк, комментарии, «ещё».
+            .overlay(alignment: .bottomTrailing) {
+                VStack(spacing: 18) {
+                    Button { Task { await toggleLike() } } label: {
+                        VStack(spacing: 2) {
+                            Image(systemName: (liked ?? post.liked ?? false) ? "heart.fill" : "heart").font(.title)
+                            Text("\(likeCount ?? post.likeCount)").font(.caption)
+                        }
+                    }
+                    .foregroundStyle((liked ?? post.liked ?? false) ? .red : .white)
+                    Button { showsComments = true } label: {
+                        VStack(spacing: 2) {
+                            Image(systemName: "bubble.right").font(.title)
+                            Text("\(post.commentCount)").font(.caption)
+                        }
+                    }
+                    StoreModerationMenu(targetType: "post", targetID: post.id, author: post.author, onBlocked: onBlocked)
+                }
+                .foregroundStyle(.white)
+                .shadow(radius: 4)
+                .padding()
+                .padding(.bottom, 24)
+            }
+            .sheet(isPresented: $showsComments) { StoreCommentsView(kind: "posts", id: post.id) }
+            .sheet(isPresented: $needsAccount) { StoreAccountView() }
             .clipped()
             .contentShape(.rect)
             // Нажатие — пауза и продолжение, как в любой ленте роликов.
@@ -315,6 +362,27 @@ private struct ShortPage: View {
                 player?.seek(to: .zero)
                 if isActive { player?.play() }
             }
+    }
+}
+
+private struct LikeResponse: Decodable {
+    let likeCount: Int
+    let liked: Bool
+}
+
+extension ShortPage {
+    /// Лайк сразу на экране, потом — подтверждение сервера.
+    fileprivate func toggleLike() async {
+        guard StoreAccount.shared.user != nil else { needsAccount = true; return }
+        let wasLiked = liked ?? post.liked ?? false
+        liked = !wasLiked
+        do {
+            let response: LikeResponse = try await StoreAPI.send(wasLiked ? "DELETE" : "PUT", "v1/posts/\(post.id)/like")
+            liked = response.liked
+            likeCount = response.likeCount
+        } catch {
+            liked = wasLiked
+        }
     }
 }
 
