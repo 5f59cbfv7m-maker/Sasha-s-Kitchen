@@ -254,21 +254,28 @@ func (rl *ipRateLimiter) evictLoop() {
 	}
 }
 
-// clientIP resolves the caller address. X-Forwarded-For is only meaningful
-// behind a proxy that overwrites it; the leftmost entry is used and the result
-// is always a bare IP so a spoofed port cannot fragment the bucket.
+// clientIP resolves the caller address. X-Forwarded-For is client-controlled:
+// it is honoured only when the direct peer is our own reverse proxy (loopback
+// or a private address), and then only its rightmost entry — the one that
+// proxy appended. Otherwise anyone could rotate a fake header and step around
+// the rate limit. The result is always a bare IP so a port cannot fragment
+// the bucket.
 func clientIP(r *http.Request) string {
+	peer, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		peer = r.RemoteAddr
+	}
+	if ip := net.ParseIP(peer); ip == nil || !(ip.IsLoopback() || ip.IsPrivate()) {
+		return peer
+	}
 	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
-		if first := strings.TrimSpace(strings.Split(xff, ",")[0]); first != "" {
-			return first
+		parts := strings.Split(xff, ",")
+		if last := strings.TrimSpace(parts[len(parts)-1]); net.ParseIP(last) != nil {
+			return last
 		}
 	}
-	if real := strings.TrimSpace(r.Header.Get("X-Real-IP")); real != "" {
+	if real := strings.TrimSpace(r.Header.Get("X-Real-IP")); net.ParseIP(real) != nil {
 		return real
 	}
-	host, _, err := net.SplitHostPort(r.RemoteAddr)
-	if err != nil {
-		return r.RemoteAddr
-	}
-	return host
+	return peer
 }

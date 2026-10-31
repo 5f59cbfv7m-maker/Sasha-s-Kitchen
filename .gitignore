@@ -31,3 +31,8 @@ Package.resolved
 # macOS
 .DS_Store
 docs/store-raw/
+
+# Go: собранные бинарники сервера
+server/api
+server/worker
+server/migrate
