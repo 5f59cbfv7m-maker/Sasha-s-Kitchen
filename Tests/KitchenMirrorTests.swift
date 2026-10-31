@@ -24,8 +24,12 @@ struct KitchenMirrorTests {
         let exported = KitchenMirror.export(owner, access: .everything)
         #expect(Set(exported.map(\.type)) == Set(KitchenMirror.types(for: .everything)))
 
+        // Фото рецептов в CloudKit едут отдельными файлами — здесь так же.
+        let photos = Dictionary(uniqueKeysWithValues: try owner.fetch(FetchDescriptor<Recipe>())
+            .compactMap { recipe in recipe.photoData.map { ("Recipe-\(recipe.uid)", $0) } })
+        #expect(!photos.isEmpty)
         let guest = try makeContext()
-        KitchenMirror.apply(exported.shuffled(), to: guest)
+        KitchenMirror.apply(exported.shuffled(), photos: photos, to: guest)
         let copied = KitchenMirror.export(guest, access: .everything)
         let original = Dictionary(exported.map { ($0.recordName, $0) }, uniquingKeysWith: { a, _ in a })
         let copy = Dictionary(copied.map { ($0.recordName, $0) }, uniquingKeysWith: { a, _ in a })

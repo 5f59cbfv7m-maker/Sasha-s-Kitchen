@@ -18431,6 +18431,134 @@
         }
       }
     },
+    "Фото рецептов": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rezeptfotos"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recipe Photos"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotos de recetas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photos des recettes"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foto delle ricette"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "レシピの写真"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "레시피 사진"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotos das receitas"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "รูปสูตรอาหาร"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "菜谱图片"
+          }
+        }
+      }
+    },
+    "Фото стартовых рецептов — с Wikimedia Commons, под свободными лицензиями. Спасибо авторам!": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Fotos der Startrezepte stammen von Wikimedia Commons und stehen unter freien Lizenzen. Danke an die Fotografen!"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starter recipe photos come from Wikimedia Commons under free licenses. Thanks to the authors!"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las fotos de las recetas iniciales son de Wikimedia Commons, con licencias libres. ¡Gracias a sus autores!"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les photos des recettes de départ viennent de Wikimedia Commons, sous licences libres. Merci aux auteurs !"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le foto delle ricette iniziali vengono da Wikimedia Commons, con licenze libere. Grazie agli autori!"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スターターレシピの写真は、自由なライセンスで公開されているWikimedia Commonsのものです。撮影者の皆さんに感謝します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시작 레시피 사진은 자유 라이선스로 공개된 Wikimedia Commons의 사진입니다. 작가분들께 감사드립니다!"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As fotos das receitas iniciais vêm do Wikimedia Commons, com licenças livres. Obrigado aos autores!"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "รูปของสูตรเริ่มต้นมาจาก Wikimedia Commons ภายใต้สัญญาอนุญาตแบบเสรี ขอบคุณผู้ถ่ายภาพทุกคน"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "初始菜谱的图片来自 Wikimedia Commons，采用自由许可。感谢各位作者！"
+          }
+        }
+      }
+    },
     "Холодильник": {
       "localizations": {
         "de": {
