@@ -251,6 +251,20 @@ UI = [
     "Europa y América",
     "Japón, Corea, China",
     "Tailandia",
+    "Añade un producto a la lista de la compra de Sasha’s Kitchen.",
+    "Añadir a la lista de la compra",
+    "Dice todo lo que hay ahora en la lista de la compra.",
+    "Dice los productos que caducan en los próximos dos días.",
+    "Marcar como comprado",
+    "Qué caduca",
+    "Qué comprar",
+    "Qué caduca pronto",
+    "¿Qué añado a la lista?",
+    "No he entendido qué añadir.",
+    "He añadido «%@» a la lista de la compra.",
+    "Por comprar: %@",
+    "Nada caduca en los próximos días.",
+    "Caduca pronto: %@",
 ]
 
 SEED = [

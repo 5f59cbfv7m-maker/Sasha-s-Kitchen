@@ -251,6 +251,20 @@ UI = [
     "Europa & Amerika",
     "Japan, Korea, China",
     "Thailand",
+    "Setzt ein Produkt auf die Einkaufsliste von Sasha’s Kitchen.",
+    "Zur Einkaufsliste hinzufügen",
+    "Nennt alles, was gerade auf der Einkaufsliste steht.",
+    "Nennt Produkte, die in den nächsten zwei Tagen ablaufen.",
+    "Als gekauft markieren",
+    "Was abläuft",
+    "Was kaufen",
+    "Was bald abläuft",
+    "Was soll auf die Liste?",
+    "Ich habe nicht verstanden, was hinzugefügt werden soll.",
+    "„%@“ steht jetzt auf der Einkaufsliste.",
+    "Einkaufen: %@",
+    "In den nächsten Tagen läuft nichts ab.",
+    "Läuft bald ab: %@",
 ]
 
 SEED = [

@@ -15,7 +15,7 @@ struct KitchenWatchApp: App {
         // Те же ключи запуска, что в приложении: `-resetData YES -storeDemo YES`
         // раскладывают кухню для скриншотов в отдельной базе без iCloud.
         let isTestRun = UserDefaults.standard.bool(forKey: "resetData")
-        container = KitchenStore.makeContainer(isTestRun: isTestRun)
+        container = KitchenStore.shared
         if isTestRun {
             SeedLoader.reset(container.mainContext)
             if StoreDemo.isOn { StoreDemo.apply(to: container.mainContext) }

@@ -1,0 +1,45 @@
+"""Фразы Siri для App Shortcuts (Shared/Intents/KitchenIntents.swift) →
+Shared/Resources/AppShortcuts.xcstrings. Ключ — русская фраза из кода,
+`${applicationName}` подставляет система. Новая фраза → сюда во все языки."""
+
+KEYS = [
+    "Добавь в список покупок в ${applicationName}",
+    "Добавить покупку в ${applicationName}",
+    "Что купить в ${applicationName}",
+    "Покажи список покупок в ${applicationName}",
+    "Что скоро испортится в ${applicationName}",
+    "Что истекает в ${applicationName}",
+]
+
+PHRASES = {
+    "en": ["Add to my shopping list in ${applicationName}", "Add an item in ${applicationName}",
+           "What to buy in ${applicationName}", "Show my shopping list in ${applicationName}",
+           "What’s expiring soon in ${applicationName}", "What expires in ${applicationName}"],
+    "de": ["Zur Einkaufsliste in ${applicationName} hinzufügen", "Einkauf in ${applicationName} hinzufügen",
+           "Was kaufen in ${applicationName}", "Zeig meine Einkaufsliste in ${applicationName}",
+           "Was läuft bald ab in ${applicationName}", "Was läuft ab in ${applicationName}"],
+    "fr": ["Ajouter à ma liste de courses dans ${applicationName}", "Ajouter un article dans ${applicationName}",
+           "Quoi acheter dans ${applicationName}", "Montre ma liste de courses dans ${applicationName}",
+           "Qu’est-ce qui périme bientôt dans ${applicationName}", "Qu’est-ce qui périme dans ${applicationName}"],
+    "es": ["Añade a mi lista de la compra en ${applicationName}", "Añadir un producto en ${applicationName}",
+           "Qué comprar en ${applicationName}", "Muestra mi lista de la compra en ${applicationName}",
+           "Qué caduca pronto en ${applicationName}", "Qué caduca en ${applicationName}"],
+    "it": ["Aggiungi alla lista della spesa in ${applicationName}", "Aggiungi un prodotto in ${applicationName}",
+           "Cosa comprare in ${applicationName}", "Mostra la lista della spesa in ${applicationName}",
+           "Cosa scade presto in ${applicationName}", "Cosa scade in ${applicationName}"],
+    "pt-BR": ["Adicionar à lista de compras no ${applicationName}", "Adicionar um item no ${applicationName}",
+              "O que comprar no ${applicationName}", "Mostre minha lista de compras no ${applicationName}",
+              "O que vence logo no ${applicationName}", "O que está vencendo no ${applicationName}"],
+    "ja": ["${applicationName}で買い物リストに追加", "${applicationName}に買うものを追加",
+           "${applicationName}で買うものは", "${applicationName}で買い物リストを見せて",
+           "${applicationName}でもうすぐ期限切れのものは", "${applicationName}で期限が近いものは"],
+    "ko": ["${applicationName}에서 장보기 목록에 추가", "${applicationName}에 살 것 추가",
+           "${applicationName}에서 살 것 알려 줘", "${applicationName}에서 장보기 목록 보여 줘",
+           "${applicationName}에서 곧 상하는 것", "${applicationName}에서 유통기한 임박한 것"],
+    "zh-Hans": ["在${applicationName}里加入购物清单", "在${applicationName}里添加要买的东西",
+                "在${applicationName}里要买什么", "在${applicationName}里显示购物清单",
+                "在${applicationName}里什么快过期了", "在${applicationName}里什么要到期了"],
+    "th": ["เพิ่มลงรายการซื้อของใน ${applicationName}", "เพิ่มของที่ต้องซื้อใน ${applicationName}",
+           "ต้องซื้ออะไรใน ${applicationName}", "แสดงรายการซื้อของใน ${applicationName}",
+           "อะไรใกล้หมดอายุใน ${applicationName}", "อะไรจะหมดอายุใน ${applicationName}"],
+}

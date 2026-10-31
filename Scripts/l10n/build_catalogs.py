@@ -86,3 +86,10 @@ write("Data.xcstrings", catalog("DATA", ru.DATA_KEYS, manual=True), SHARED)
 for mod in langs.values():
     mod.PLIST.setdefault("CFBundleName", mod.PLIST["CFBundleDisplayName"])
 write("InfoPlist.xcstrings", catalog("PLIST", list(ru.PLIST), manual=True))
+
+# Фразы Siri: свой каталог, его ищет компилятор App Shortcuts.
+phrases = load("phrases")
+for lang, mod in langs.items():
+    mod.PHRASES = dict(zip(phrases.KEYS, phrases.PHRASES[lang]))
+    assert all("${applicationName}" in v for v in mod.PHRASES.values()), lang
+write("AppShortcuts.xcstrings", catalog("PHRASES", phrases.KEYS, manual=True), SHARED)

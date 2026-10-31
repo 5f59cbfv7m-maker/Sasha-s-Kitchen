@@ -251,6 +251,20 @@ UI = [
     "Europa e Americhe",
     "Giappone, Corea, Cina",
     "Thailandia",
+    "Aggiunge un prodotto alla lista della spesa di Sasha’s Kitchen.",
+    "Aggiungi alla lista della spesa",
+    "Elenca tutto ciò che c’è ora nella lista della spesa.",
+    "Elenca i prodotti che scadono nei prossimi due giorni.",
+    "Segna come comprato",
+    "Cosa scade",
+    "Cosa comprare",
+    "Cosa scade presto",
+    "Cosa aggiungo alla lista?",
+    "Non ho capito cosa aggiungere.",
+    "Ho aggiunto «%@» alla lista della spesa.",
+    "Da comprare: %@",
+    "Nei prossimi giorni non scade nulla.",
+    "Scade presto: %@",
 ]
 
 SEED = [
