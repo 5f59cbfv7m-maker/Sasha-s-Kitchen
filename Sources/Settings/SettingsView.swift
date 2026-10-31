@@ -14,6 +14,7 @@ struct SettingsView: View {
     @AppStorage(ExpiryReminders.enabledKey) private var expiryEnabled = false
     @AppStorage(ExpiryReminders.timeKey) private var expiryMinutes = 600
     @AppStorage(UnitSystem.key) private var unitSystem = UnitSystem.automatic.rawValue
+    @AppStorage(SeedSet.key) private var starterSet = SeedSet.current.rawValue
     @State private var notificationsDenied = false
 
     @State private var cameraStatus = CameraPermission.statusText
@@ -98,6 +99,9 @@ struct SettingsView: View {
                     LabeledContent("Продуктов в каталоге", value: "\(products.count)")
                     LabeledContent("Рецептов", value: "\(recipes.count)")
                     LabeledContent("Записей в журнале", value: "\(logs.count)")
+                    Picker("Стартовый набор", selection: $starterSet) {
+                        ForEach(SeedSet.allCases, id: \.self) { Text($0.title).tag($0.rawValue) }
+                    }
                     Button(role: .destructive) {
                         isResetting = true
                     } label: {
@@ -106,7 +110,7 @@ struct SettingsView: View {
                 } header: {
                     Text("Данные")
                 } footer: {
-                    Text("Сброс удалит все остатки, свои рецепты, список покупок и журнал — на всех ваших устройствах, — а затем разложит заново стартовые 49 продуктов и 40 рецептов.")
+                    Text("Сброс удалит все остатки, свои рецепты, список покупок и журнал — на всех ваших устройствах, — а затем разложит заново стартовый набор продуктов и рецептов.")
                 }
 
                 Section {
@@ -197,5 +201,16 @@ struct SettingsView: View {
         let short = info?["CFBundleShortVersionString"] as? String ?? "1.0"
         let build = info?["CFBundleVersion"] as? String ?? "1"
         return "\(short) (\(build))"
+    }
+}
+
+extension SeedSet {
+    var title: String {
+        switch self {
+        case .russia: String(localized: "Россия и СНГ")
+        case .west: String(localized: "Европа и Америка")
+        case .eastAsia: String(localized: "Япония, Корея, Китай")
+        case .thailand: String(localized: "Таиланд")
+        }
     }
 }

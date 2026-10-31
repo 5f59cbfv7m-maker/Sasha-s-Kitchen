@@ -10,7 +10,7 @@ func makeContext(seeded: Bool = false) throws -> ModelContext {
         configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none))
     let context = ModelContext(container)
     // Тесты сверяются с русскими именами, на каком бы языке ни был симулятор.
-    if seeded { SeedLoader.load(into: context, localized: false) }
+    if seeded { SeedLoader.load(into: context, localized: false, set: .russia) }
     return context
 }
 
