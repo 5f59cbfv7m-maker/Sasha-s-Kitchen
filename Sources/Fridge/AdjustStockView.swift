@@ -23,13 +23,15 @@ struct AdjustStockView: View {
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                             .monospacedDigit()
-                        Text(unit).foregroundStyle(.secondary)
+                        Text(Fmt.unit(unit)).foregroundStyle(.secondary)
                     }
                     HStack(spacing: 8) {
                         ForEach(quickSteps, id: \.self) { step in
-                            Button("+\(Fmt.number(step))") {
+                            Button {
                                 amount += step
                                 Feedback.shared.play(.added)
+                            } label: {
+                                Text(verbatim: "+\(Fmt.number(step))")
                             }
                             .buttonStyle(.bordered)
                         }
@@ -77,7 +79,7 @@ struct AdjustStockView: View {
 
     /// Шаги подгоняются под единицу: штуки прибавляем по одной, граммы — сотнями.
     private var quickSteps: [Double] {
-        unit == "шт" ? [1, 5, 10] : [50, 100, 500]
+        unit == UnitCode.piece ? [1, 5, 10] : [50, 100, 500]
     }
 
     private func save() {

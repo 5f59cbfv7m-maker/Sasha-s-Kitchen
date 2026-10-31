@@ -13,9 +13,11 @@ struct RecipesView: View {
     @State private var isCreating = false
 
     enum Scope: String, CaseIterable, Identifiable {
-        case all = "Все"
-        case custom = "Мои"
+        case all, custom
         var id: String { rawValue }
+        var title: String {
+            self == .all ? String(localized: "Все") : String(localized: "Мои")
+        }
     }
 
     private var snapshot: StockSnapshot { Kitchen.snapshot(of: stock) }
@@ -25,14 +27,14 @@ struct RecipesView: View {
         let snapshot = snapshot
         return recipes
             .filter { scope == .all || $0.isCustom }
-            .filter { query.isEmpty || $0.name.localizedCaseInsensitiveContains(query)
-                || $0.orderedIngredients.contains { $0.productName.localizedCaseInsensitiveContains(query) } }
+            .filter { query.isEmpty || $0.name.localizedStandardContains(query)
+                || $0.orderedIngredients.contains { $0.productName.localizedStandardContains(query) } }
             .map { (recipe: $0, status: Kitchen.status(for: $0, servings: $0.baseServings, stock: snapshot)) }
             .filter { !onlyAvailable || $0.status.isReady }
             // Готовые к готовке — вперёд, дальше по алфавиту.
             .sorted {
                 if $0.status.isReady != $1.status.isReady { return $0.status.isReady }
-                return $0.recipe.name.localizedCaseInsensitiveCompare($1.recipe.name) == .orderedAscending
+                return $0.recipe.name.localizedStandardCompare($1.recipe.name) == .orderedAscending
             }
     }
 
@@ -79,14 +81,35 @@ struct RecipesView: View {
                     Button { isCreating = true } label: {
                         Label("Создать рецепт", systemImage: "plus")
                     }
+                    .keyboardShortcut("n", modifiers: .command)
                 }
             }
             .sheet(isPresented: $isCreating) { RecipeEditorView() }
         }
     }
 
+    /// В одну строку на iPad и Mac, в две — на iPhone.
     private var filterBar: some View {
-        HStack(spacing: 12) {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 12) {
+                availableToggle
+                scopePicker
+                Spacer()
+                readyText
+            }
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 12) {
+                    availableToggle
+                    scopePicker
+                }
+                readyText
+            }
+        }
+        .padding(.horizontal)
+        .padding(.bottom, 12)
+    }
+
+    private var availableToggle: some View {
             Toggle(isOn: $onlyAvailable.animation()) {
                 Label("Могу приготовить сейчас", systemImage: "checkmark.circle")
                     .font(.subheadline)
@@ -95,20 +118,20 @@ struct RecipesView: View {
             .buttonStyle(.bordered)
             .buttonBorderShape(.capsule)
             .tint(onlyAvailable ? .green : .secondary)
+            .fixedSize()
+    }
 
-            Picker("Показывать", selection: $scope) {
-                ForEach(Scope.allCases) { Text($0.rawValue).tag($0) }
-            }
-            .pickerStyle(.segmented)
-            .frame(maxWidth: 200)
-
-            Spacer()
-
-            Text("\(readyCount) из \(recipes.count) готовы к готовке")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+    private var scopePicker: some View {
+        Picker("Показывать", selection: $scope) {
+            ForEach(Scope.allCases) { Text($0.title).tag($0) }
         }
-        .padding(.horizontal)
-        .padding(.bottom, 12)
+        .pickerStyle(.segmented)
+        .frame(maxWidth: 200)
+    }
+
+    private var readyText: some View {
+        Text("\(readyCount) из \(recipes.count) готовы к готовке")
+            .font(.caption)
+            .foregroundStyle(.secondary)
     }
 }

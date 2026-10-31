@@ -11,16 +11,16 @@ struct StockCard: View {
     }
 
     private var statusText: String? {
-        if item.isEmpty { return "закончилось" }
-        if item.isLow { return "на исходе" }
+        if item.isEmpty { return String(localized: "закончилось") }
+        if item.isLow { return String(localized: "на исходе") }
         return nil
     }
 
     private var expiryNote: String? {
         guard !item.isEmpty, let days = item.daysUntilExpiry else { return nil }
-        if days < 0 { return "срок вышел \(-days) дн. назад" }
-        if days == 0 { return "годен сегодня" }
-        if days <= 2 { return "годен ещё \(days) дн." }
+        if days < 0 { return String(localized: "срок вышел \(-days) дн. назад") }
+        if days == 0 { return String(localized: "годен сегодня") }
+        if days <= 2 { return String(localized: "годен ещё \(days) дн.") }
         return nil
     }
 
@@ -38,7 +38,7 @@ struct StockCard: View {
                         .font(.headline)
                         .lineLimit(2)
                         .fixedSize(horizontal: false, vertical: true)
-                    Text(item.category)
+                    Text(Fmt.category(item.category))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

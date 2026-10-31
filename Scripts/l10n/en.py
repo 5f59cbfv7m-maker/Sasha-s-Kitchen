@@ -1,0 +1,266 @@
+UI = [
+    "%@ (%@ left)",  # 0
+    "%@ / 100 g · %@",
+    "%lld",
+    "%lld out of stock",
+    "%lld of %lld ready to cook",
+    "%lld running low",  # 5
+    "Servings: %lld · %@ per serving",
+    {"one": "%lld product", "other": "%lld products"},
+    "%lld expiring soon",
+    "0",
+    "iCloud",  # 10
+    "“%@” is already in the catalog — top it up on the Fridge tab.",
+    "Protein",
+    "To Reminders",
+    "Into the fridge",
+    "This amount has %@.",  # 15
+    "Version",
+    "Weight of one piece",
+    "Haptics work on iPhone; on iPad and Mac the feedback is sound and animation.",
+    "Video showcase",
+    "On",  # 20
+    "Sign in to iCloud in the device settings",
+    "Type anything or scan a barcode. If it’s a product from your fridge, “Bought” will top up its stock.",
+    "Time: %@",
+    "All",
+    "All ingredients in stock",  # 25
+    "Whole dish",
+    "Everything your recipes need is in the fridge. The list fills itself as products run out.",
+    "Choose photo",
+    {"one": "Keeps %lld day after purchase", "other": "Keeps %lld days after purchase"},
+    "Best before",  # 30
+    "Done",
+    "Data",
+    "To Buy",
+    "Add",
+    "Add to list",  # 35
+    "Add ingredient",
+    "Add missing items to shopping",
+    "Add product",
+    "Add your first product with the “plus” button in the top right corner.",
+    "Add your first product with the “plus” button or start with the starter set: 49 products and 40 recipes.",  # 40
+    "Access denied",
+    "Access restricted by the system",
+    "Access granted",
+    "Unit",
+    "Unit of measure",  # 45
+    "Has a shelf life",
+    "More",
+    "Fat",
+    "Log",
+    "The log is empty",  # 50
+    "Save a recipe for yourself",
+    "Reload starter data",
+    "Load starter set",
+    "Out of stock",
+    "Out of stock:",  # 55
+    "Replace photo",
+    "Log entries",
+    "Log entries will stay.",
+    "Request access to Reminders",
+    "Request camera access",  # 60
+    "Sasha’s Kitchen intro",
+    "Sound effects",
+    "Dishes you’ve cooked will appear here, with the actual amounts and nutrition.",
+    "Recipes from other people will appear here — with photos, videos and ingredients you can save with one tap.",
+    "Edit",  # 65
+    "Edit stock",
+    "Ingredient",
+    "Ingredients",
+    {"one": "Ingredients for %lld serving", "other": "Ingredients for %lld servings"},
+    "Nutrition",  # 70
+    "Nutrition in this stock",
+    "Nutrition per 100 g",
+    "Calories",
+    "Camera",
+    "Category",  # 75
+    "The “To Reminders” button on the To Buy tab creates a “%@” list with real checkboxes.",
+    "Amount",
+    "Tap to skip",
+    "Bought",
+    "Bought everything from the fridge list",  # 80
+    "Shopping",
+    "Store",
+    "Recipe Store",
+    "Can cook now",
+    "Mine",  # 85
+    "Mine",
+    "My list",
+    "My list:",
+    "Running low",
+    "Running low:",  # 90
+    "Per serving",
+    "Name",
+    "Category name",
+    "Find a product",
+    "Reminders",  # 95
+    "Settings",
+    "No Reminders account was found to save the list to.",
+    "Something went wrong",
+    "%lld missing",
+    "Missing: %@",  # 100
+    "Missing items are on the shopping list",
+    "Unknown",
+    "Optional: how to cook it",
+    "No access to Reminders. Allow it in Settings → Sasha’s Kitchen.",
+    "No recipe can be made from what you have. Turn off the filter to see what’s missing.",  # 105
+    "Nothing found",
+    "New category…",
+    "New product",
+    "New recipe",
+    "About",  # 110
+    "Clear",
+    "Stock",
+    "Feedback",
+    "Cancel",
+    "By time, nutrition, cuisine and diet. And “can cook now” — from what’s already in your fridge.",  # 115
+    "By category",
+    "By name",
+    "By expiry date",
+    "Calculated by default. Adjust if you used more or less — exactly what you enter here will be deducted. Servings: %lld.",
+    "Share",  # 120
+    "Nothing to cook yet",
+    "Show",
+    "Nothing to buy",
+    "Result",
+    "Got it",  # 125
+    "Top up",
+    "Try another name or category.",
+    "Servings",
+    "Servings: %lld",
+    "Edit recipe",  # 130
+    "Cooked",
+    "Preparation",
+    "Test sound",
+    "Product",
+    "The product will also disappear from the recipes that use it: %lld.",  # 135
+    "Products in catalog",
+    "Not requested yet",
+    "Recipe",
+    "A recipe without ingredients can’t be saved — there’d be nothing to deduct.",
+    "The recipe goes to Recipes, its products to the catalog, and whatever is missing straight to To Buy.",  # 140
+    "Recipe or ingredient",
+    "Recipes",
+    "No recipes",
+    "Recipes",
+    "Recipes as cards: video or photo, a short description, the author.",  # 145
+    "The scanner is on the Fridge and To Buy tabs. Names and nutrition come from the open Open Food Facts database; only the barcode itself is sent there.",
+    "Resetting deletes all stock, your recipes, the shopping list and the log — on all your devices — and then reloads the 49 starter products and 40 recipes.",
+    "Reset",
+    "Reset data?",
+    "Your products, recipes and log will be deleted permanently.",  # 150
+    "Sync",
+    "The scanner fills in the name and nutrition from the open Open Food Facts database and remembers the barcode, so next time the product is recognized at once.",
+    "Barcode scanner",
+    "Scan barcode",
+    "Amount to add",  # 155
+    "Coming soon",
+    "Running out first",
+    "Create your own recipe with the “plus” button.",
+    "Create recipe",
+    "Sort",  # 160
+    "Save",
+    "Deducted from stock",
+    "Deduct",
+    "List “%@” updated: %lld added.",
+    "Shopping list",  # 165
+    "The shopping list is empty — you have everything.",
+    "Shelf life",
+    "Count as “running low” below",
+    "Haptic feedback",
+    "Write only",  # 170
+    "Remove bought items",
+    "Remove photo",
+    "Carbs",
+    "Delete",
+    "Delete “%@”?",  # 175
+    "Delete product",
+    "Delete recipe",
+    "Delete recipe “%@”?",
+    "Already on the list: %lld.",
+    "Already using the app on another device? Wait a minute — products and recipes will arrive from iCloud.",  # 180
+    "Set a date",
+    "Smart filters",
+    "Actually used",
+    "Photo",
+    "Fridge",  # 185
+    "The fridge is empty",
+    "Your fridge, recipes, shopping list and log are stored in your iCloud and appear on your iPhone, iPad and Mac signed in to the same Apple Account.",
+    "Cooking steps",
+    "The interface language is changed in the app’s system settings. Product and recipe names can be entered in any language.",
+    "App language",  # 190
+    {"one": "base %lld serving", "other": "base %lld servings"},
+    "protein",
+    "%@ in the fridge",
+    "only %@ in the fridge — that will be deducted",
+    {"one": "good for %lld more day", "other": "good for %lld more days"},  # 195
+    "expires today",
+    "added to the fridge",
+    "fat",
+    "out of stock",
+    "of %@",  # 200
+    "kcal",
+    "running low",
+    "%@ short",
+    "out of stock · buy %@",
+    "%@ left · buy %@",  # 205
+    "%@ will remain",
+    "will top up the fridge",
+    {"one": "expired %lld day ago", "other": "expired %lld days ago"},
+    "carbs",
+    "🛒 To buy (Sasha’s Kitchen)",  # 210
+    "Add to shopping list",
+    "Create a product with this barcode",
+    "Looking up the product…",
+    "No nutrition data in the database.",
+    "Point the camera at the barcode on the package.",  # 215
+    "Find",
+    "Couldn’t reach Open Food Facts. Check your internet connection.",
+    "Fill in the form",
+    "Put in the fridge",
+    "Top up: %@",  # 220
+    "Product details come from the open Open Food Facts database. Only the barcode itself is sent.",
+    "Scan again",
+    "This barcode isn’t in the Open Food Facts database.",
+    "Digits under the barcode",
+    "Barcode",  # 225
+    "Barcode: %@",
+    "That doesn’t look like a barcode: 8–14 digits are needed.",
+]
+
+SEED = [
+    "Chicken breast fillet", "Ground beef (15% fat)", "Pork (neck)", "Chicken eggs", "Milk 2.5%",
+    "Cottage cheese 5%", "Hard cheese (Gouda)", "Butter", "Rice (dry)", "Buckwheat (dry)",  # 9
+    "Pasta (dry)", "Potatoes", "Carrots", "Onion", "Garlic",
+    "Tomatoes", "Cucumbers", "Bell pepper", "White cabbage", "Lemon",  # 19
+    "Apple", "Vegetable oil", "Salt", "Sugar", "Wheat flour",
+    "Soy sauce", "Mayonnaise", "Green onion", "Dill", "White bread",  # 29
+    "Ground pork", "Ground pork and beef (50/50)", "Dorblu cheese (blue)", "Cream cheese", "Processed cheese",
+    "Beef tenderloin (lean)", "Chicken thighs", "Chicken leg quarters", "Chicken drumsticks", "Iceberg lettuce",  # 39
+    "Rye bread", "Borodinsky bread", "Chilled trout", "Shrimp (peeled)", "Pickled cucumbers",
+    "Ketchup", "Lavash / pita", "Turkey (breast fillet)", "Turkey (thigh)",  # 48
+    "Classic omelette", "Buckwheat with chicken", "Chicken and rice soup",
+    "Pasta with garlic and oil (Aglio e Olio)", "Vegetable salad", "Fried potatoes with onion",
+    "Cottage cheese bake", "Cheese sandwich", "Pork fried with onion", "Beef patties",  # 58
+    "Cabbage salad", "Rice with vegetables", "Fried eggs with tomatoes",
+    "Chicken nuggets (simple, no breading)", "Cheese and cucumber salad", "Navy-style pasta",
+    "Garlic croutons", "Vegetable stew", "Grilled chicken breast with lemon", "Apple pancakes",  # 68
+    "Pork patties", "Homemade mixed patties (pork and beef)", "Cheese plate",
+    "Cream cheese and herb sandwich", "Hot sandwich with processed cheese", "Beef tenderloin steak",
+    "Chicken thighs baked with garlic", "Chicken leg quarters fried with onion",
+    "Chicken drumsticks braised with vegetables", "Iceberg and chicken salad",  # 78
+    "Trout baked with lemon", "Shrimp fried with garlic", "Shrimp and iceberg salad",
+    "Pasta with shrimp in cream sauce", "Baked turkey (fillet)", "Turkey (thigh) braised with vegetables",
+    "Turkey shawarma wrap in lavash", "Turkey and cheese sandwich on Borodinsky bread",
+    "Trout and cream cheese sandwich", "Trout with rice and vegetables",  # 88
+]
+
+DATA = ["Meat", "Fish", "Seafood", "Dairy", "Dairy & eggs", "Vegetables", "Herbs", "Fruit",
+        "Grains", "Pantry", "Bread", "Sauces", "Oils", "Spices", "Other", "g", "ml", "pcs", "kcal"]
+
+PLIST = {
+    "CFBundleDisplayName": "Sasha’s Kitchen",
+    "NSCameraUsageDescription": "The camera is used to scan product barcodes and add them to the fridge without typing.",
+    "NSRemindersFullAccessUsageDescription": "Reminders access lets the app put your shopping list into a “Shopping” list with real checkboxes.",
+}

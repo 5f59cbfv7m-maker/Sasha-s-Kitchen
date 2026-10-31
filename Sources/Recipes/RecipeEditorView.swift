@@ -57,9 +57,9 @@ struct RecipeEditorView: View {
                     }
                     // Замыкание-подпись у PhotosPicker — @Sendable (SDK iOS 27),
                     // поэтому состояние вью в него не тащим.
-                    let pickerTitle = photoData == nil ? "Выбрать фото" : "Заменить фото"
+                    let pickerTitle: LocalizedStringResource = photoData == nil ? "Выбрать фото" : "Заменить фото"
                     PhotosPicker(selection: $photoItem, matching: .images) {
-                        Label(pickerTitle, systemImage: "photo.on.rectangle")
+                        Label { Text(pickerTitle) } icon: { Image(systemName: "photo.on.rectangle") }
                     }
                     if photoData != nil {
                         Button(role: .destructive) {
@@ -85,9 +85,9 @@ struct RecipeEditorView: View {
                                 .multilineTextAlignment(.trailing)
                                 .monospacedDigit()
                                 .frame(maxWidth: 80)
-                            Text(draft.product.unit)
+                            Text(Fmt.unit(draft.product.unit))
                                 .foregroundStyle(.secondary)
-                                .frame(width: 30, alignment: .leading)
+                                .frame(minWidth: 30, alignment: .leading)
                         }
                     }
                     .onDelete { drafts.remove(atOffsets: $0) }
@@ -147,8 +147,8 @@ struct RecipeEditorView: View {
     /// Разумная стартовая граммовка, чтобы не набирать её с нуля.
     private func defaultAmount(for product: Product) -> Double {
         switch product.unit {
-        case "шт": 1
-        case "мл": 100
+        case UnitCode.piece: 1
+        case UnitCode.milliliter: 100
         default: product.category == "Специи" || product.category == "Зелень" ? 5 : 100
         }
     }
@@ -169,8 +169,7 @@ struct RecipeEditorView: View {
         let recipe: Recipe
         if let editing {
             recipe = editing
-            for ingredient in editing.ingredients { context.delete(ingredient) }
-            recipe.ingredients.removeAll()
+            for ingredient in editing.ingredients ?? [] { context.delete(ingredient) }
         } else {
             recipe = Recipe(name: trimmedName, cookingTimeMinutes: minutes,
                             baseServings: servings, isCustom: true)
@@ -190,7 +189,6 @@ struct RecipeEditorView: View {
                                               order: index)
             context.insert(ingredient)
             ingredient.recipe = recipe
-            recipe.ingredients.append(ingredient)
         }
 
         try? context.save()

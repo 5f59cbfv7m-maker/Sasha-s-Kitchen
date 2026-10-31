@@ -1,72 +1,71 @@
 import Foundation
 
-/// Числа в интерфейсе: «330 г», «0,5 шт», «1 250 ккал».
+/// Числа, единицы и даты в интерфейсе — по правилам языка и региона
+/// устройства: «0,5 шт» по-русски, «0.5 pcs» по-английски, «1 250 ккал» с
+/// разрядами, как принято в этой локали. `locale` задают только тесты.
 enum Fmt {
 
-    nonisolated static func number(_ value: Double, maxFraction: Int = 1) -> String {
-        let rounded = (value * 100).rounded() / 100
-        if rounded == rounded.rounded() && abs(rounded) < 1e9 {
-            return integer(Int(rounded))
-        }
-        var s = String(format: "%.\(maxFraction)f", rounded)
-        while s.contains(".") && (s.hasSuffix("0") || s.hasSuffix(".")) {
-            s.removeLast()
-        }
-        return s.replacingOccurrences(of: ".", with: ",")
+    nonisolated static func number(_ value: Double, maxFraction: Int = 1,
+                                   locale: Locale = .autoupdatingCurrent) -> String {
+        value.formatted(.number.precision(.fractionLength(0...maxFraction)).locale(locale))
     }
 
-    /// Разряды неразрывным пробелом, как принято в русской типографике.
-    nonisolated static func integer(_ value: Int) -> String {
-        let digits = String(abs(value))
-        var grouped = ""
-        for (offset, ch) in digits.reversed().enumerated() {
-            if offset > 0 && offset % 3 == 0 { grouped.append("\u{00A0}") }
-            grouped.append(ch)
-        }
-        return (value < 0 ? "-" : "") + String(grouped.reversed())
+    nonisolated static func integer(_ value: Int, locale: Locale = .autoupdatingCurrent) -> String {
+        value.formatted(.number.locale(locale))
     }
 
-    nonisolated static func amount(_ value: Double, unit: String) -> String {
-        "\(number(value)) \(unit)"
+    /// Код единицы из базы («г», «мл», «шт») — в подпись на языке устройства.
+    /// Неизвестный код (вдруг кто-то завёл свою единицу) выводится как есть.
+    nonisolated static func unit(_ code: String, locale: Locale = .autoupdatingCurrent) -> String {
+        localizedData(code, locale: locale)
     }
 
-    nonisolated static func kcal(_ value: Double) -> String {
-        "\(integer(Int(value.rounded()))) ккал"
+    /// Категория из базы. Стартовые («Мясо», «Овощи»…) переводятся, свои — как ввели.
+    nonisolated static func category(_ name: String) -> String {
+        localizedData(name)
     }
 
-    nonisolated static func grams(_ value: Double) -> String {
-        "\(number(value)) г"
+    nonisolated static func amount(_ value: Double, unit: String,
+                                   locale: Locale = .autoupdatingCurrent) -> String {
+        "\(number(value, locale: locale)) \(self.unit(unit, locale: locale))"
     }
 
-    /// Формат для `TextField(value:format:)`. Локаль задаётся явно: стиль
-    /// форматирования берёт её из себя, а не из `\.locale` окружения, поэтому
-    /// без этого поле показывает «22.5» рядом с нашим «437,5».
+    nonisolated static func kcal(_ value: Double, locale: Locale = .autoupdatingCurrent) -> String {
+        "\(integer(Int(value.rounded()), locale: locale)) \(localizedData("ккал", locale: locale))"
+    }
+
+    nonisolated static func grams(_ value: Double, locale: Locale = .autoupdatingCurrent) -> String {
+        amount(value, unit: UnitCode.gram, locale: locale)
+    }
+
+    /// Формат для `TextField(value:format:)`: десятичный разделитель — тот,
+    /// что на клавиатуре пользователя.
     nonisolated static var amountStyle: FloatingPointFormatStyle<Double> {
-        .number
-            .precision(.fractionLength(0...1))
-            .locale(Locale(identifier: "ru_RU"))
+        .number.precision(.fractionLength(0...1))
     }
 
-    nonisolated static func minutes(_ value: Int) -> String {
-        guard value >= 60 else { return "\(value) мин" }
-        let h = value / 60, m = value % 60
-        return m == 0 ? "\(h) ч" : "\(h) ч \(m) мин"
+    nonisolated static func minutes(_ value: Int, locale: Locale = .autoupdatingCurrent) -> String {
+        Duration.seconds(value * 60).formatted(
+            .units(allowed: [.hours, .minutes], width: .abbreviated).locale(locale))
     }
 
-    static let date: DateFormatter = {
-        let f = DateFormatter()
-        f.locale = Locale(identifier: "ru_RU")
-        f.dateFormat = "d MMMM"
-        return f
-    }()
+    nonisolated static func day(_ date: Date) -> String {
+        date.formatted(.dateTime.day().month(.wide))
+    }
 
-    static let dateTime: DateFormatter = {
-        let f = DateFormatter()
-        f.locale = Locale(identifier: "ru_RU")
-        f.dateStyle = .medium
-        f.timeStyle = .short
-        return f
-    }()
+    /// Строки, которые живут в базе, переводятся из таблицы `Data`.
+    private nonisolated static func localizedData(_ key: String,
+                                                  locale: Locale = .autoupdatingCurrent) -> String {
+        guard locale != .autoupdatingCurrent else {
+            return Bundle.main.localizedString(forKey: key, value: key, table: "Data")
+        }
+        // Явная локаль (тесты): ключи и есть русский текст, так что без
+        // перевода на этот язык показываем ключ.
+        guard let code = locale.language.languageCode?.identifier,
+              let path = Bundle.main.path(forResource: code, ofType: "lproj"),
+              let bundle = Bundle(path: path) else { return key }
+        return bundle.localizedString(forKey: key, value: key, table: "Data")
+    }
 }
 
 /// Устойчивый хеш строки. `String.hashValue` в Swift солится на каждый запуск

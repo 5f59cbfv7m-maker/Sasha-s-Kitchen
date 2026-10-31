@@ -1,35 +1,49 @@
 import Foundation
 import SwiftData
 
-/// Первичное наполнение базы. Идемпотентно: если каталог уже не пуст, ничего
-/// не делает, поэтому вызывать можно на каждом запуске.
+/// Стартовый набор: 49 продуктов и 40 рецептов. Сам при запуске не грузится —
+/// с iCloud новое устройство получает данные с других, и демо-остатки
+/// смешались бы с настоящими. Грузится кнопкой на пустом холодильнике.
 enum SeedLoader {
 
     @discardableResult
-    static func loadIfNeeded(into context: ModelContext) -> Bool {
+    static func loadIfNeeded(into context: ModelContext, localized: Bool = true) -> Bool {
         let existing = (try? context.fetchCount(FetchDescriptor<Product>())) ?? 0
         guard existing == 0 else { return false }
-        load(into: context)
+        load(into: context, localized: localized)
         return true
     }
 
     /// Полная перезагрузка: стирает всё и раскладывает стартовые данные заново.
+    /// Удаляем по одному, а не `delete(model:)`: пакетное удаление идёт мимо
+    /// контекста, и до iCloud — а значит, до других устройств — не доходит.
     static func reset(_ context: ModelContext) {
-        for model in [CookingLog.self] { try? context.delete(model: model) }
-        try? context.delete(model: RecipeIngredient.self)
-        try? context.delete(model: Recipe.self)
-        try? context.delete(model: StockItem.self)
-        try? context.delete(model: Product.self)
+        deleteAll(CookingLog.self, in: context)
+        deleteAll(ShoppingItem.self, in: context)
+        deleteAll(Recipe.self, in: context)
+        deleteAll(Product.self, in: context)
+        deleteAll(RecipeIngredient.self, in: context)
+        deleteAll(StockItem.self, in: context)
         load(into: context)
     }
 
-    static func load(into context: ModelContext) {
+    private static func deleteAll<T: PersistentModel>(_ type: T.Type, in context: ModelContext) {
+        for object in (try? context.fetch(FetchDescriptor<T>())) ?? [] { context.delete(object) }
+    }
+
+    /// Имена продуктов и рецептов переводятся на язык устройства (таблица
+    /// `Seed`): после загрузки имя — обычные данные, как у своих продуктов.
+    /// Тесты грузят исходные русские имена.
+    static func load(into context: ModelContext, localized: Bool = true) {
+        func name(_ key: String) -> String {
+            localized ? Bundle.main.localizedString(forKey: key, value: key, table: "Seed") : key
+        }
         var catalog: [String: Product] = [:]
         let today = Date.now
 
         for seed in SeedData.products {
             let product = Product(
-                name: seed.name, category: seed.category, unit: seed.unit,
+                name: name(seed.name), category: seed.category, unit: seed.unit,
                 gramsPerUnit: seed.gramsPerUnit,
                 caloriesPer100: seed.caloriesPer100, proteinPer100: seed.proteinPer100,
                 fatPer100: seed.fatPer100, carbsPer100: seed.carbsPer100,
@@ -41,9 +55,7 @@ enum SeedLoader {
             // Покупка «состоялась» несколько дней назад, чтобы сроки годности
             // выглядели живыми уже на первом экране.
             let purchase = today.addingTimeInterval(-Double(seed.purchasedDaysAgo) * 86_400)
-            let expiry = seed.shelfLifeDays.map {
-                purchase.addingTimeInterval(Double($0) * 86_400)
-            }
+            let expiry = seed.shelfLifeDays.map { Kitchen.expiry(afterDays: $0, from: purchase) }
             let stock = StockItem(product: product,
                                   currentAmount: seed.currentAmount,
                                   initialAmount: seed.initialAmount,
@@ -53,7 +65,7 @@ enum SeedLoader {
         }
 
         for seed in SeedData.recipes {
-            let recipe = Recipe(name: seed.name,
+            let recipe = Recipe(name: name(seed.name),
                                 cookingTimeMinutes: seed.cookingTimeMinutes,
                                 baseServings: seed.baseServings)
             context.insert(recipe)
@@ -67,7 +79,6 @@ enum SeedLoader {
                                                   order: index)
                 context.insert(ingredient)
                 ingredient.recipe = recipe
-                recipe.ingredients.append(ingredient)
             }
         }
 

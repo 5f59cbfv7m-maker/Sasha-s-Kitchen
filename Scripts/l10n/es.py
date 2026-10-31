@@ -1,0 +1,267 @@
+UI = [
+    "%@ (quedan %@)",  # 0
+    "%@ / 100 g · %@",
+    "%lld",
+    "%lld agotados",
+    "%lld de %lld listas para cocinar",
+    "%lld a punto de acabarse",  # 5
+    "Raciones: %lld · %@ por ración",
+    {"one": "%lld producto", "other": "%lld productos"},
+    "%lld caducan pronto",
+    "0",
+    "iCloud",  # 10
+    "«%@» ya está en el catálogo: repón el stock en la pestaña Nevera.",
+    "Proteínas",
+    "A Recordatorios",
+    "A la nevera",
+    "Esta cantidad tiene %@.",  # 15
+    "Versión",
+    "Peso de una unidad",
+    "La vibración funciona en el iPhone; en el iPad y el Mac la app responde con sonido y animación.",
+    "Escaparate de vídeos",
+    "Activada",  # 20
+    "Inicia sesión en iCloud en los ajustes del dispositivo",
+    "Escribe lo que quieras o escanea un código de barras. Si es un producto de la nevera, «Comprado» repondrá su stock.",
+    "Tiempo: %@",
+    "Todas",
+    "Todos los ingredientes en casa",  # 25
+    "Plato entero",
+    "Todo lo que necesitan tus recetas está en la nevera. La lista se llena sola cuando algo se acaba.",
+    "Elegir foto",
+    {"one": "Dura %lld día tras la compra", "other": "Dura %lld días tras la compra"},
+    "Consumir antes de",  # 30
+    "Listo",
+    "Datos",
+    "Por comprar",
+    "Añadir",
+    "Añadir a la lista",  # 35
+    "Añadir ingrediente",
+    "Añadir lo que falta a la compra",
+    "Añadir producto",
+    "Añade tu primer producto con el botón «más» de arriba a la derecha.",
+    "Añade tu primer producto con el botón «más» o empieza con el kit inicial: 49 productos y 40 recetas.",  # 40
+    "Acceso denegado",
+    "Acceso restringido por el sistema",
+    "Acceso permitido",
+    "Unidad",
+    "Unidad de medida",  # 45
+    "Tiene fecha de caducidad",
+    "Más",
+    "Grasas",
+    "Diario",
+    "El diario está vacío",  # 50
+    "Guardar una receta",
+    "Volver a cargar los datos iniciales",
+    "Cargar el kit inicial",
+    "Agotado",
+    "Agotado:",  # 55
+    "Cambiar foto",
+    "Entradas del diario",
+    "Las entradas del diario se quedan.",
+    "Pedir acceso a Recordatorios",
+    "Pedir acceso a la cámara",  # 60
+    "Intro de Sasha’s Kitchen",
+    "Efectos de sonido",
+    "Aquí aparecerán los platos que has cocinado, con las cantidades reales y los valores nutricionales.",
+    "Aquí aparecerán recetas de otras personas, con fotos, vídeos e ingredientes que puedes guardar con un toque.",
+    "Editar",  # 65
+    "Cambiar stock",
+    "Ingrediente",
+    "Ingredientes",
+    {"one": "Ingredientes para %lld ración", "other": "Ingredientes para %lld raciones"},
+    "Valores nutricionales",  # 70
+    "Valores nutricionales de este stock",
+    "Valores por 100 g",
+    "Calorías",
+    "Cámara",
+    "Categoría",  # 75
+    "El botón «A Recordatorios» de la pestaña Por comprar crea una lista «%@» con casillas de verdad.",
+    "Cantidad",
+    "Toca para saltar",
+    "Comprado",
+    "Comprado todo lo de la nevera",  # 80
+    "Comprar",
+    "Tienda",
+    "Tienda de recetas",
+    "Puedo cocinarlo ya",
+    "Mías",  # 85
+    "Mía",
+    "Mi lista",
+    "Mi lista:",
+    "Se acaba",
+    "Se acaba:",  # 90
+    "Por ración",
+    "Nombre",
+    "Nombre de la categoría",
+    "Buscar producto",
+    "Recordatorios",  # 95
+    "Ajustes",
+    "No se encontró ninguna cuenta de Recordatorios donde guardar la lista.",
+    "No se pudo",
+    "Faltan %lld",
+    "Falta: %@",  # 100
+    "Lo que falta está en la lista de la compra",
+    "Desconocido",
+    "Opcional: cómo se prepara",
+    "Sin acceso a Recordatorios. Permítelo en Ajustes → Sasha’s Kitchen.",
+    "Ninguna receta sale con lo que tienes. Quita el filtro para ver qué falta.",  # 105
+    "No hay resultados",
+    "Nueva categoría…",
+    "Nuevo producto",
+    "Nueva receta",
+    "Acerca de",  # 110
+    "Poner a cero",
+    "Stock",
+    "Respuesta",
+    "Cancelar",
+    "Por tiempo, valores nutricionales, cocina y dieta. Y «puedo cocinarlo ya», con lo que ya hay en la nevera.",  # 115
+    "Por categorías",
+    "Por nombre",
+    "Por caducidad",
+    "Cálculo por defecto. Corrige si usaste más o menos: se descontará exactamente lo que pongas aquí. Raciones: %lld.",
+    "Compartir",  # 120
+    "Aún no hay nada que cocinar",
+    "Mostrar",
+    "Nada que comprar",
+    "Resultado",
+    "Entendido",  # 125
+    "Reponer",
+    "Prueba otro nombre u otra categoría.",
+    "Raciones",
+    "Raciones: %lld",
+    "Editar receta",  # 130
+    "Cocinado",
+    "Preparación",
+    "Probar sonido",
+    "Producto",
+    "El producto también desaparecerá de las recetas que lo usan: %lld.",  # 135
+    "Productos en el catálogo",
+    "Aún no solicitado",
+    "Receta",
+    "Una receta sin ingredientes no se guardará: no habría nada que descontar.",
+    "La receta irá a Recetas, sus productos al catálogo y lo que falte directamente a Por comprar.",  # 140
+    "Receta o ingrediente",
+    "Recetas",
+    "No hay recetas",
+    "Recetas",
+    "Recetas en tarjetas: vídeo o foto, descripción breve y autor.",  # 145
+    "El escáner está en las pestañas Nevera y Por comprar. El nombre y los valores nutricionales vienen de la base abierta Open Food Facts; allí solo se envía el código de barras.",
+    "Restablecer borra todo el stock, tus recetas, la lista de la compra y el diario —en todos tus dispositivos— y vuelve a cargar los 49 productos y 40 recetas iniciales.",
+    "Restablecer",
+    "¿Restablecer los datos?",
+    "Tus productos, recetas y diario se borrarán para siempre.",  # 150
+    "Sincronización",
+    "El escáner rellena el nombre y los valores nutricionales desde la base abierta Open Food Facts y recuerda el código de barras: la próxima vez el producto se reconoce al instante.",
+    "Escáner de códigos de barras",
+    "Escanear código de barras",
+    "Cantidad que guardas",  # 155
+    "Próximamente",
+    "Primero lo que se acaba",
+    "Crea tu propia receta con el botón «más».",
+    "Crear receta",
+    "Orden",  # 160
+    "Guardar",
+    "Descontado del stock",
+    "Descontar",
+    "Lista «%@» actualizada: %lld añadidos.",
+    "Lista de la compra",  # 165
+    "La lista de la compra está vacía: tienes de todo.",
+    "Caducidad",
+    "Contar como «se acaba» por debajo de",
+    "Respuesta háptica",
+    "Solo escritura",  # 170
+    "Quitar lo comprado",
+    "Quitar foto",
+    "Hidratos",
+    "Eliminar",
+    "¿Eliminar «%@»?",  # 175
+    "Eliminar producto",
+    "Eliminar receta",
+    "¿Eliminar la receta «%@»?",
+    "Ya estaban en la lista: %lld.",
+    "¿Ya usas la app en otro dispositivo? Espera un minuto: los productos y las recetas llegarán desde iCloud.",  # 180
+    "Indicar fecha",
+    "Filtros inteligentes",
+    "Realmente usado",
+    "Foto",
+    "Nevera",  # 185
+    "La nevera está vacía",
+    "La nevera, las recetas, la lista de la compra y el diario se guardan en tu iCloud y aparecen en el iPhone, el iPad y el Mac con la misma cuenta de Apple.",
+    "Pasos de preparación",
+    "El idioma de la interfaz se cambia en los ajustes del sistema de la app. Los nombres de productos y recetas se pueden escribir en cualquier idioma.",
+    "Idioma de la app",  # 190
+    {"one": "base %lld ración", "other": "base %lld raciones"},
+    "proteínas",
+    "%@ en la nevera",
+    "solo %@ en la nevera: se descontará eso",
+    {"one": "dura %lld día más", "other": "dura %lld días más"},  # 195
+    "caduca hoy",
+    "añadido a la nevera",
+    "grasas",
+    "agotado",
+    "de %@",  # 200
+    "kcal",
+    "se acaba",
+    "faltan %@",
+    "agotado · comprar %@",
+    "quedan %@ · comprar %@",  # 205
+    "quedarán %@",
+    "repondrá la nevera",
+    {"one": "caducó hace %lld día", "other": "caducó hace %lld días"},
+    "hidratos",
+    "🛒 Por comprar (Sasha’s Kitchen)",  # 210
+    "A la lista de la compra",
+    "Crear un producto con este código",
+    "Buscando el producto…",
+    "La base no tiene valores nutricionales.",
+    "Apunta la cámara al código de barras del envase.",  # 215
+    "Buscar",
+    "No se pudo conectar con Open Food Facts. Revisa tu conexión a Internet.",
+    "Rellenar el formulario",
+    "Guardar en la nevera",
+    "Reponer: %@",  # 220
+    "Los datos vienen de la base abierta Open Food Facts. Solo se envía el código de barras.",
+    "Escanear otra vez",
+    "Este código no está en Open Food Facts.",
+    "Números bajo el código de barras",
+    "Código de barras",  # 225
+    "Código de barras: %@",
+    "Eso no parece un código de barras: hacen falta de 8 a 14 dígitos.",
+]
+
+SEED = [
+    "Filete de pollo", "Carne picada de ternera (15 % grasa)", "Cerdo (aguja)", "Huevos de gallina", "Leche 2,5 %",
+    "Requesón 5 %", "Queso curado (gouda)", "Mantequilla", "Arroz (seco)", "Trigo sarraceno (seco)",  # 9
+    "Pasta (seca)", "Patatas", "Zanahorias", "Cebolla", "Ajo",
+    "Tomates", "Pepinos", "Pimiento", "Repollo", "Limón",  # 19
+    "Manzana", "Aceite vegetal", "Sal", "Azúcar", "Harina de trigo",
+    "Salsa de soja", "Mayonesa", "Cebolleta", "Eneldo", "Pan blanco",  # 29
+    "Carne picada de cerdo", "Picada mixta cerdo y ternera (50/50)", "Queso Dorblu (azul)", "Queso crema", "Queso fundido",
+    "Solomillo de ternera (magro)", "Contramuslos de pollo", "Cuartos traseros de pollo", "Jamoncitos de pollo", "Lechuga iceberg",  # 39
+    "Pan de centeno", "Pan Borodinsky", "Trucha fresca", "Gambas (peladas)", "Pepinillos en vinagre",
+    "Kétchup", "Lavash / pita", "Pavo (filete de pechuga)", "Pavo (muslo)",  # 48
+    "Tortilla francesa clásica", "Trigo sarraceno con pollo", "Sopa de pollo con arroz",
+    "Pasta con ajo y aceite (Aglio e Olio)", "Ensalada de verduras", "Patatas fritas con cebolla",
+    "Pastel de requesón", "Bocadillo de queso", "Cerdo salteado con cebolla", "Hamburguesas de ternera",  # 58
+    "Ensalada de repollo", "Arroz con verduras", "Huevos fritos con tomate",
+    "Nuggets de pollo (sencillos, sin rebozar)", "Ensalada de queso y pepino", "Macarrones a la marinera rusa",
+    "Picatostes al ajo", "Guiso de verduras", "Pechuga de pollo a la plancha con limón", "Tortitas de manzana",  # 68
+    "Albóndigas de cerdo", "Albóndigas caseras mixtas (cerdo y ternera)", "Tabla de quesos",
+    "Tostada con queso crema y hierbas", "Tostada caliente con queso fundido", "Filete de solomillo de ternera",
+    "Contramuslos de pollo al horno con ajo", "Cuartos de pollo fritos con cebolla",
+    "Jamoncitos de pollo guisados con verduras", "Ensalada de iceberg y pollo",  # 78
+    "Trucha al horno con limón", "Gambas al ajillo", "Ensalada de gambas e iceberg",
+    "Pasta con gambas en salsa de nata", "Filete de pavo al horno", "Muslo de pavo guisado con verduras",
+    "Wrap de shawarma de pavo en lavash", "Sándwich de pavo y queso en pan Borodinsky",
+    "Tostada de trucha y queso crema", "Trucha con arroz y verduras",  # 88
+]
+
+DATA = ["Carne", "Pescado", "Marisco", "Lácteos", "Lácteos y huevos", "Verduras", "Hierbas",
+        "Fruta", "Cereales", "Despensa", "Pan", "Salsas", "Aceites", "Especias", "Otros",
+        "g", "ml", "ud.", "kcal"]
+
+PLIST = {
+    "CFBundleDisplayName": "Sasha’s Kitchen",
+    "NSCameraUsageDescription": "La cámara sirve para escanear códigos de barras de productos y añadirlos a la nevera sin escribir.",
+    "NSRemindersFullAccessUsageDescription": "Con acceso a Recordatorios la app guarda tu lista de la compra en una lista «Comprar» con casillas de verdad.",
+}

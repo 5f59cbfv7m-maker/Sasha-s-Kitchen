@@ -9,15 +9,22 @@ struct FridgeView: View {
     @State private var search = ""
     @State private var sortMode: SortMode = .category
     @State private var isAddingProduct = false
+    @State private var isScanning = false
     @State private var adjusting: StockItem?
+    @State private var deleting: StockItem?
 
     enum SortMode: String, CaseIterable, Identifiable {
-        case category = "По категориям"
-        case running = "Сначала заканчивается"
-        case expiry = "По сроку годности"
-        case name = "По названию"
+        case category, running, expiry, name
 
         var id: String { rawValue }
+        var title: String {
+            switch self {
+            case .category: String(localized: "По категориям")
+            case .running: String(localized: "Сначала заканчивается")
+            case .expiry: String(localized: "По сроку годности")
+            case .name: String(localized: "По названию")
+            }
+        }
         var symbol: String {
             switch self {
             case .category: "square.grid.2x2"
@@ -33,8 +40,8 @@ struct FridgeView: View {
         return stock.filter { item in
             guard item.product != nil else { return false }
             guard !query.isEmpty else { return true }
-            return item.name.localizedCaseInsensitiveContains(query)
-                || item.category.localizedCaseInsensitiveContains(query)
+            return item.name.localizedStandardContains(query)
+                || Fmt.category(item.category).localizedStandardContains(query)
         }
     }
 
@@ -44,7 +51,7 @@ struct FridgeView: View {
             items.sorted {
                 let (l, r) = (CategoryStyle.rank($0.category), CategoryStyle.rank($1.category))
                 if l != r { return l < r }
-                return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+                return $0.name.localizedStandardCompare($1.name) == .orderedAscending
             }
         case .running:
             items.sorted { $0.progress < $1.progress }
@@ -53,7 +60,7 @@ struct FridgeView: View {
                 ($0.daysUntilExpiry ?? .max, $0.name) < ($1.daysUntilExpiry ?? .max, $1.name)
             }
         case .name:
-            items.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+            items.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
         }
     }
 
@@ -68,7 +75,7 @@ struct FridgeView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                summaryBar
+                if !stock.isEmpty { summaryBar }
                 LazyVGrid(columns: columns, alignment: .leading, spacing: 14) {
                     if sortMode == .category {
                         ForEach(grouped, id: \.category) { group in
@@ -85,7 +92,9 @@ struct FridgeView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 40)
 
-                if items.isEmpty {
+                if stock.isEmpty {
+                    firstLaunch
+                } else if items.isEmpty {
                     EmptyStateView(
                         symbol: search.isEmpty ? "refrigerator" : "magnifyingglass",
                         title: search.isEmpty ? "Холодильник пуст" : "Ничего не нашлось",
@@ -103,10 +112,28 @@ struct FridgeView: View {
                     } label: {
                         Label("Добавить продукт", systemImage: "plus")
                     }
+                    .keyboardShortcut("n", modifiers: .command)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        isScanning = true
+                    } label: {
+                        Label("Сканировать штрихкод", systemImage: "barcode.viewfinder")
+                    }
                 }
             }
             .sheet(isPresented: $isAddingProduct) { AddProductView() }
+            .sheet(isPresented: $isScanning) { ScanSheet() }
             .sheet(item: $adjusting) { item in AdjustStockView(item: item) }
+            .confirmationDialog(deleteTitle, isPresented: isDeleting, titleVisibility: .visible,
+                                presenting: deleting) { item in
+                Button("Удалить", role: .destructive) { delete(item) }
+            } message: { item in
+                let uses = item.product?.recipeUses?.count ?? 0
+                if uses > 0 {
+                    Text("Продукт пропадёт и из рецептов, где он есть: \(uses).")
+                }
+            }
         }
     }
 
@@ -126,7 +153,7 @@ struct FridgeView: View {
                         Label("Изменить остаток", systemImage: "slider.horizontal.3")
                     }
                     Button(role: .destructive) {
-                        delete(item)
+                        deleting = item
                     } label: {
                         Label("Удалить продукт", systemImage: "trash")
                     }
@@ -138,7 +165,7 @@ struct FridgeView: View {
         HStack(spacing: 8) {
             Image(systemName: CategoryStyle.symbol(for: category))
                 .foregroundStyle(CategoryStyle.color(for: category))
-            Text(category).font(.headline)
+            Text(Fmt.category(category)).font(.headline)
             Text("\(count)")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
@@ -155,12 +182,16 @@ struct FridgeView: View {
         let empty = total.filter(\.isEmpty).count
         let low = total.filter(\.isLow).count
         let expiring = total.filter { !$0.isEmpty && $0.isExpiringSoon }.count
+        // Чипы листаются вбок: на iPhone и в длинных переводах они не влезают в строку.
         return HStack(spacing: 10) {
-            summaryChip("\(total.count) продуктов", symbol: "shippingbox", color: .secondary)
-            if low > 0 { summaryChip("\(low) на исходе", symbol: "exclamationmark.circle", color: .orange) }
-            if empty > 0 { summaryChip("\(empty) закончилось", symbol: "xmark.circle", color: .red) }
-            if expiring > 0 { summaryChip("\(expiring) скоро испортится", symbol: "clock", color: .yellow) }
-            Spacer()
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    summaryChip("\(total.count) продуктов", symbol: "shippingbox", color: .secondary)
+                    if low > 0 { summaryChip("\(low) на исходе", symbol: "exclamationmark.circle", color: .orange) }
+                    if empty > 0 { summaryChip("\(empty) закончилось", symbol: "xmark.circle", color: .red) }
+                    if expiring > 0 { summaryChip("\(expiring) скоро испортится", symbol: "clock", color: .yellow) }
+                }
+            }
             sortMenu
         }
         .padding(.horizontal)
@@ -171,11 +202,11 @@ struct FridgeView: View {
         Menu {
             Picker("Сортировка", selection: $sortMode) {
                 ForEach(SortMode.allCases) { mode in
-                    Label(mode.rawValue, systemImage: mode.symbol).tag(mode)
+                    Label(mode.title, systemImage: mode.symbol).tag(mode)
                 }
             }
         } label: {
-            Label(sortMode.rawValue, systemImage: "arrow.up.arrow.down")
+            Label(sortMode.title, systemImage: "arrow.up.arrow.down")
                 .font(.caption.weight(.medium))
                 .labelStyle(.titleAndIcon)
         }
@@ -185,7 +216,7 @@ struct FridgeView: View {
         .controlSize(.small)
     }
 
-    private func summaryChip(_ text: String, symbol: String, color: Color) -> some View {
+    private func summaryChip(_ text: LocalizedStringKey, symbol: String, color: Color) -> some View {
         Label(text, systemImage: symbol)
             .font(.caption.weight(.medium))
             .foregroundStyle(color == .secondary ? Color.secondary : color)
@@ -193,6 +224,42 @@ struct FridgeView: View {
             .padding(.vertical, 5)
             .background(color == .secondary ? Color.gray.opacity(0.12) : color.opacity(0.14),
                         in: .capsule)
+    }
+
+    private var deleteTitle: String {
+        String(localized: "Удалить «\(deleting?.name ?? "")»?")
+    }
+
+    private var isDeleting: Binding<Bool> {
+        Binding { deleting != nil } set: { if !$0 { deleting = nil } }
+    }
+
+    /// Первый запуск: база пуста. С iCloud данные с других устройств придут
+    /// сами, поэтому стартовый набор — по кнопке, а не молча.
+    private var firstLaunch: some View {
+        VStack(spacing: 18) {
+            EmptyStateView(
+                symbol: "refrigerator",
+                title: "Холодильник пуст",
+                message: "Добавьте первый продукт кнопкой «плюс» или начните со стартового набора: 49 продуктов и 40 рецептов.")
+            Button {
+                SeedLoader.loadIfNeeded(into: context)
+                Feedback.shared.play(.cooked)
+            } label: {
+                Label("Загрузить стартовый набор", systemImage: "sparkles")
+                    .padding(.horizontal, 8)
+            }
+            .buttonStyle(.borderedProminent)
+            if FileManager.default.ubiquityIdentityToken != nil {
+                Label("Уже пользуетесь приложением на другом устройстве? Подождите минуту — продукты и рецепты придут из iCloud.",
+                      systemImage: "icloud")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: 420)
+            }
+        }
+        .padding(.horizontal)
     }
 
     private func delete(_ item: StockItem) {

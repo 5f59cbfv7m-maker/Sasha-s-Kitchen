@@ -2,7 +2,11 @@ import SwiftData
 import SwiftUI
 
 struct RootView: View {
+    @Environment(\.modelContext) private var context
     @Query private var stock: [StockItem]
+    @Query(filter: #Predicate<ShoppingItem> { !$0.isBought }) private var listed: [ShoppingItem]
+    @Query private var products: [Product]
+    @Query private var recipes: [Recipe]
 
     /// Вкладка, с которой открывается приложение. Обычно «Холодильник», но
     /// её можно задать аргументом запуска — так снимаются скриншоты экранов
@@ -21,12 +25,12 @@ struct RootView: View {
 
         var title: String {
             switch self {
-            case .fridge: "Холодильник"
-            case .shopping: "Для покупки"
-            case .recipes: "Рецепты"
-            case .store: "Магазин"
-            case .log: "Журнал"
-            case .settings: "Настройки"
+            case .fridge: String(localized: "Холодильник")
+            case .shopping: String(localized: "Для покупки")
+            case .recipes: String(localized: "Рецепты")
+            case .store: String(localized: "Магазин")
+            case .log: String(localized: "Журнал")
+            case .settings: String(localized: "Настройки")
             }
         }
 
@@ -43,7 +47,7 @@ struct RootView: View {
     }
 
     private var shoppingCount: Int {
-        stock.filter { $0.product != nil && ($0.isEmpty || $0.isLow) }.count
+        Kitchen.shoppingEntries(from: stock).count + listed.count
     }
 
     var body: some View {
@@ -73,6 +77,9 @@ struct RootView: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+        // Число записей меняется и когда iCloud привозит чужие: самое время
+        // слить одноимённые дубликаты.
+        .task(id: products.count + recipes.count) { SyncCleanup.run(in: context) }
         .overlay {
             if showIntro {
                 IntroView { withAnimation(.easeOut(duration: 0.45)) { showIntro = false } }

@@ -13,7 +13,8 @@ struct RecipeDetailView: View {
     @State private var servings: Int = 2
     @State private var isCooking = false
     @State private var isEditing = false
-    @State private var didCook = false
+    @State private var isConfirmingDelete = false
+    @State private var banner: LocalizedStringKey?
 
     private var snapshot: StockSnapshot { Kitchen.snapshot(of: stock) }
     private var requirements: [IngredientRequirement] {
@@ -53,9 +54,7 @@ struct RecipeDetailView: View {
                             Label("Изменить", systemImage: "pencil")
                         }
                         Button(role: .destructive) {
-                            context.delete(recipe)
-                            try? context.save()
-                            dismiss()
+                            isConfirmingDelete = true
                         } label: {
                             Label("Удалить рецепт", systemImage: "trash")
                         }
@@ -67,7 +66,17 @@ struct RecipeDetailView: View {
         }
         .sheet(isPresented: $isEditing) { RecipeEditorView(editing: recipe) }
         .sheet(isPresented: $isCooking) {
-            CookSheet(recipe: recipe, servings: servings) { didCook = true }
+            CookSheet(recipe: recipe, servings: servings) { showBanner("Списано с остатков") }
+        }
+        .confirmationDialog("Удалить рецепт «\(recipe.name)»?", isPresented: $isConfirmingDelete,
+                            titleVisibility: .visible) {
+            Button("Удалить", role: .destructive) {
+                context.delete(recipe)
+                try? context.save()
+                dismiss()
+            }
+        } message: {
+            Text("Записи в журнале останутся.")
         }
         .overlay(alignment: .top) { cookedBanner }
         .onAppear { servings = recipe.baseServings }
@@ -85,15 +94,27 @@ struct RecipeDetailView: View {
                     .frame(maxWidth: .infinity)
                     .clipShape(.rect(cornerRadius: 18))
             }
-            HStack(spacing: 14) {
-                Label(Fmt.minutes(recipe.cookingTimeMinutes), systemImage: "clock")
-                Label("базово \(recipe.baseServings) порц.", systemImage: "person.2")
-                Spacer()
-                statusChip
+            // На iPhone значок «всё есть» уходит на свою строку.
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 14) {
+                    facts
+                    Spacer()
+                    statusChip
+                }
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 14) { facts }
+                    statusChip
+                }
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
         }
+    }
+
+    @ViewBuilder
+    private var facts: some View {
+        Label(Fmt.minutes(recipe.cookingTimeMinutes), systemImage: "clock")
+        Label("базово \(recipe.baseServings) порц.", systemImage: "person.2")
     }
 
     @ViewBuilder
@@ -115,16 +136,14 @@ struct RecipeDetailView: View {
     private var servingsPicker: some View {
         section("Порции") {
             HStack {
+                // Слово «порции» уже в заголовке секции — здесь только число.
                 Stepper(value: $servings, in: 1...20) {
-                    HStack(alignment: .firstTextBaseline, spacing: 6) {
-                        Text("\(servings)")
-                            .font(.title2.weight(.bold))
-                            .monospacedDigit()
-                            .contentTransition(.numericText())
-                        Text(servingsWord)
-                            .foregroundStyle(.secondary)
-                    }
+                    Text(verbatim: "\(servings)")
+                        .font(.title2.weight(.bold))
+                        .monospacedDigit()
+                        .contentTransition(.numericText())
                 }
+                .accessibilityLabel(Text("Порций: \(servings)"))
                 Spacer()
                 if servings != recipe.baseServings {
                     Button("Сбросить") { withAnimation { servings = recipe.baseServings } }
@@ -132,16 +151,6 @@ struct RecipeDetailView: View {
                 }
             }
             .animation(.snappy, value: servings)
-        }
-    }
-
-    private var servingsWord: String {
-        let n = servings % 100
-        if (11...14).contains(n) { return "порций" }
-        switch n % 10 {
-        case 1: return "порция"
-        case 2...4: return "порции"
-        default: return "порций"
         }
     }
 
@@ -224,20 +233,26 @@ struct RecipeDetailView: View {
             .tint(status.isReady ? .accentColor : .orange)
 
             if case .missing(let shortages) = status {
-                Text("Не хватает: " + shortages.map {
-                    "\($0.productName) (\(Fmt.amount($0.missing, unit: $0.unit)))"
-                }.joined(separator: ", "))
+                Text("Не хватает: \(shortages.map { "\($0.productName) (\(Fmt.amount($0.missing, unit: $0.unit)))" }.formatted(.list(type: .and)))")
                     .font(.caption)
                     .foregroundStyle(.orange)
                     .multilineTextAlignment(.center)
+                Button {
+                    Kitchen.addMissing(shortages, in: context)
+                    Feedback.shared.play(.added)
+                    showBanner("Недостающее — в списке покупок")
+                } label: {
+                    Label("Добавить недостающее в покупки", systemImage: "cart.badge.plus")
+                }
+                .buttonStyle(.bordered)
             }
         }
     }
 
     @ViewBuilder
     private var cookedBanner: some View {
-        if didCook {
-            Label("Списано с остатков", systemImage: "checkmark.circle.fill")
+        if let banner {
+            Label(banner, systemImage: "checkmark.circle.fill")
                 .font(.subheadline.weight(.semibold))
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
@@ -247,14 +262,18 @@ struct RecipeDetailView: View {
                 .transition(.move(edge: .top).combined(with: .opacity))
                 .task {
                     try? await Task.sleep(for: .seconds(2))
-                    withAnimation { didCook = false }
+                    withAnimation { self.banner = nil }
                 }
         }
     }
 
     // MARK: Каркас секции
 
-    private func section<Content: View>(_ title: String,
+    private func showBanner(_ text: LocalizedStringKey) {
+        withAnimation { banner = text }
+    }
+
+    private func section<Content: View>(_ title: LocalizedStringKey,
                                         @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(title)

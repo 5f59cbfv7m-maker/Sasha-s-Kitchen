@@ -3,13 +3,13 @@ import SwiftUI
 /// Один макрос в виде плитки. Цвета одни и те же во всём приложении, чтобы
 /// «синее — белки» читалось без подписи.
 struct MacroTile: View {
-    let title: String
+    let title: LocalizedStringKey
     let grams: Double
     let color: Color
 
     var body: some View {
         VStack(spacing: 2) {
-            Text("\(Fmt.number(grams)) г")
+            Text(Fmt.grams(grams))
                 .font(.subheadline.weight(.semibold))
                 .monospacedDigit()
             Text(title)
@@ -24,7 +24,7 @@ struct MacroTile: View {
 
 struct NutritionRow: View {
     let nutrition: Nutrition
-    var caloriesCaption: String = "ккал"
+    var caloriesCaption: LocalizedStringKey = "ккал"
 
     var body: some View {
         HStack(spacing: 8) {
@@ -50,8 +50,8 @@ struct NutritionRow: View {
 /// Пустой экран с иконкой и подсказкой — используется на всех вкладках.
 struct EmptyStateView: View {
     let symbol: String
-    let title: String
-    let message: String
+    let title: LocalizedStringKey
+    let message: LocalizedStringKey
 
     var body: some View {
         VStack(spacing: 12) {

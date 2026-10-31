@@ -7,7 +7,7 @@ import Foundation
 final class RemindersService {
     static let shared = RemindersService()
 
-    static let listName = "Купить"
+    static var listName: String { String(localized: "Купить") }
 
     enum ExportError: LocalizedError {
         case accessDenied
@@ -17,9 +17,9 @@ final class RemindersService {
         var errorDescription: String? {
             switch self {
             case .accessDenied:
-                "Нет доступа к Напоминаниям. Разрешите его в Настройках → Sasha’s Kitchen."
+                String(localized: "Нет доступа к Напоминаниям. Разрешите его в Настройках → Sasha’s Kitchen.")
             case .noSource:
-                "Не нашёлся ни один аккаунт Напоминаний, куда можно записать список."
+                String(localized: "Не нашёлся ни один аккаунт Напоминаний, куда можно записать список.")
             case .underlying(let message):
                 message
             }

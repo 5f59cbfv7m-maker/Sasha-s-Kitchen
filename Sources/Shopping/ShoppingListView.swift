@@ -1,13 +1,19 @@
 import SwiftData
 import SwiftUI
 
-/// Что закончилось или заканчивается — и три способа с этим что-то сделать.
+/// Что купить: своё, вписанное руками, и то, что закончилось или заканчивается
+/// в холодильнике. Всё синхронизируется через iCloud — список, начатый на
+/// iPad, отмечается в магазине с iPhone.
 struct ShoppingListView: View {
     @Environment(\.modelContext) private var context
     @Query private var stock: [StockItem]
+    @Query(sort: \ShoppingItem.createdAt) private var listed: [ShoppingItem]
 
+    @State private var newItem = ""
+    @State private var isScanning = false
     @State private var isExporting = false
     @State private var alert: AlertPayload?
+    @FocusState private var isAddFocused: Bool
 
     private struct AlertPayload: Identifiable {
         let id = UUID()
@@ -15,48 +21,55 @@ struct ShoppingListView: View {
         let message: String
     }
 
-    private var entries: [Kitchen.ShoppingEntry] {
-        stock
-            .filter { $0.product != nil && ($0.isEmpty || $0.isLow) }
-            .map { Kitchen.ShoppingEntry(item: $0, state: $0.isEmpty ? .out : .low) }
-            .sorted {
-                if ($0.state == .out) != ($1.state == .out) { return $0.state == .out }
-                return $0.item.name.localizedCaseInsensitiveCompare($1.item.name) == .orderedAscending
-            }
-    }
-
+    private var entries: [Kitchen.ShoppingEntry] { Kitchen.shoppingEntries(from: stock) }
     private var out: [Kitchen.ShoppingEntry] { entries.filter { $0.state == .out } }
     private var low: [Kitchen.ShoppingEntry] { entries.filter { $0.state == .low } }
+    private var toBuy: [ShoppingItem] { listed.filter { !$0.isBought } }
+    private var isEmpty: Bool { entries.isEmpty && toBuy.isEmpty }
 
     var body: some View {
         NavigationStack {
-            Group {
-                if entries.isEmpty {
+            List {
+                Section {
+                    addRow
+                } footer: {
+                    Text("Впишите что угодно или отсканируйте штрихкод. Если это продукт из холодильника, «Купил» пополнит его остаток.")
+                }
+
+                if !listed.isEmpty {
+                    Section("Мой список") {
+                        ForEach(listed) { listedRow($0) }
+                            .onDelete { offsets in
+                                for index in offsets { context.delete(listed[index]) }
+                                try? context.save()
+                            }
+                    }
+                }
+                if !out.isEmpty {
+                    Section("Закончилось") {
+                        ForEach(out) { row($0) }
+                    }
+                }
+                if !low.isEmpty {
+                    Section("На исходе") {
+                        ForEach(low) { row($0) }
+                    }
+                }
+                if isEmpty {
                     EmptyStateView(symbol: "checkmark.circle",
                                    title: "Покупать нечего",
                                    message: "Всё, что нужно рецептам, есть в холодильнике. Список наполнится сам, когда продукты начнут заканчиваться.")
-                } else {
-                    List {
-                        if !out.isEmpty {
-                            Section("Закончилось") {
-                                ForEach(out) { row($0) }
-                            }
-                        }
-                        if !low.isEmpty {
-                            Section("На исходе") {
-                                ForEach(low) { row($0) }
-                            }
-                        }
-                    }
+                        .listRowBackground(Color.clear)
                 }
             }
             .navigationTitle("Для покупки")
+            .sheet(isPresented: $isScanning) { ScanSheet() }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    ShareLink(item: Kitchen.shareText(for: entries)) {
+                    ShareLink(item: Kitchen.shareText(for: entries, extra: listed)) {
                         Label("Поделиться", systemImage: "square.and.arrow.up")
                     }
-                    .disabled(entries.isEmpty)
+                    .disabled(isEmpty)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -68,7 +81,26 @@ struct ShoppingListView: View {
                             Label("В Напоминания", systemImage: "checklist")
                         }
                     }
-                    .disabled(entries.isEmpty || isExporting)
+                    .disabled(isEmpty || isExporting)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Button {
+                            Kitchen.buyAll(entries, in: context)
+                            Feedback.shared.play(.added)
+                        } label: {
+                            Label("Купил всё из холодильника", systemImage: "cart.badge.plus")
+                        }
+                        .disabled(entries.isEmpty)
+                        Button(role: .destructive) {
+                            Kitchen.removeBought(in: context)
+                        } label: {
+                            Label("Убрать купленное", systemImage: "checkmark.circle.badge.xmark")
+                        }
+                        .disabled(!listed.contains(where: \.isBought))
+                    } label: {
+                        Label("Ещё", systemImage: "ellipsis.circle")
+                    }
                 }
             }
             .alert(item: $alert) { payload in
@@ -76,6 +108,73 @@ struct ShoppingListView: View {
                       dismissButton: .default(Text("Понятно")))
             }
         }
+    }
+
+    private var addRow: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "plus.circle.fill")
+                .font(.title3)
+                .foregroundStyle(.tint)
+            TextField("Добавить в список", text: $newItem)
+                .focused($isAddFocused)
+                .submitLabel(.done)
+                .onSubmit(add)
+            if !newItem.trimmingCharacters(in: .whitespaces).isEmpty {
+                Button("Добавить", action: add)
+                    .buttonStyle(.borderless)
+            } else {
+                Button {
+                    isScanning = true
+                } label: {
+                    Label("Сканировать штрихкод", systemImage: "barcode.viewfinder")
+                        .labelStyle(.iconOnly)
+                }
+                .buttonStyle(.borderless)
+            }
+        }
+    }
+
+    private func add() {
+        guard Kitchen.addToList(newItem, in: context) != nil else { return }
+        newItem = ""
+        isAddFocused = true
+        Feedback.shared.play(.added)
+    }
+
+    private func listedRow(_ item: ShoppingItem) -> some View {
+        Button {
+            withAnimation(.snappy) { Kitchen.setBought(item, !item.isBought, in: context) }
+            Feedback.shared.play(item.isBought ? .added : .removed)
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: item.isBought ? "checkmark.circle.fill" : "circle")
+                    .font(.title3)
+                    .foregroundStyle(item.isBought ? Color.green : Color.secondary)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(item.name)
+                        .strikethrough(item.isBought)
+                        .foregroundStyle(item.isBought ? .secondary : .primary)
+                    if let subtitle = subtitle(for: item) {
+                        Text(subtitle)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                Spacer()
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(item.isBought ? .isSelected : [])
+    }
+
+    private func subtitle(for item: ShoppingItem) -> String? {
+        let amount = item.amount > 0 ? item.product?.amountLabel(item.amount) : nil
+        guard item.product != nil else { return amount }
+        let hint = item.isBought
+            ? String(localized: "добавлено в холодильник")
+            : String(localized: "пополнит холодильник")
+        return [amount, hint].compactMap { $0 }.joined(separator: " · ")
     }
 
     private func row(_ entry: Kitchen.ShoppingEntry) -> some View {
@@ -111,28 +210,28 @@ struct ShoppingListView: View {
 
     private func subtitle(for entry: Kitchen.ShoppingEntry) -> String {
         guard let product = entry.item.product else { return "" }
-        let suggested = "взять \(product.amountLabel(entry.suggested))"
+        let suggested = product.amountLabel(entry.suggested)
         return entry.state == .out
-            ? "нет в наличии · \(suggested)"
-            : "осталось \(product.amountLabel(entry.item.currentAmount)) · \(suggested)"
+            ? String(localized: "нет в наличии · взять \(suggested)")
+            : String(localized: "осталось \(product.amountLabel(entry.item.currentAmount)) · взять \(suggested)")
     }
 
     private func exportToReminders() {
-        let titles = entries.map(Kitchen.purchaseTitle)
+        let titles = toBuy.map(Kitchen.purchaseTitle) + entries.map(Kitchen.purchaseTitle)
         isExporting = true
         Task {
             defer { isExporting = false }
             do {
                 let result = try await RemindersService.shared.export(titles: titles)
                 Feedback.shared.play(.cooked)
-                var message = "Список «\(RemindersService.listName)» обновлён: добавлено \(result.added)."
+                var message = String(localized: "Список «\(RemindersService.listName)» обновлён: добавлено \(result.added).")
                 if result.alreadyThere > 0 {
-                    message += " Уже были в списке: \(result.alreadyThere)."
+                    message += " " + String(localized: "Уже были в списке: \(result.alreadyThere).")
                 }
-                alert = AlertPayload(title: "Готово", message: message)
+                alert = AlertPayload(title: String(localized: "Готово"), message: message)
             } catch {
                 Feedback.shared.play(.warning)
-                alert = AlertPayload(title: "Не получилось",
+                alert = AlertPayload(title: String(localized: "Не получилось"),
                                      message: error.localizedDescription)
             }
         }

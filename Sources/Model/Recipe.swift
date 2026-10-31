@@ -11,9 +11,14 @@ final class Recipe {
     var steps: String?
     var isCustom: Bool = false
     var createdAt: Date = Date.now
+    /// См. `Product.uid`.
+    var uid: String = ""
 
+    /// Опциональна, потому что этого требует CloudKit; читать через `orderedIngredients`.
     @Relationship(deleteRule: .cascade, inverse: \RecipeIngredient.recipe)
-    var ingredients: [RecipeIngredient] = []
+    var ingredients: [RecipeIngredient]? = []
+    @Relationship(deleteRule: .nullify, inverse: \CookingLog.recipe)
+    var logs: [CookingLog]? = []
 
     init(name: String, cookingTimeMinutes: Int, baseServings: Int,
          steps: String? = nil, isCustom: Bool = false, photoData: Data? = nil) {
@@ -24,11 +29,12 @@ final class Recipe {
         self.isCustom = isCustom
         self.photoData = photoData
         self.createdAt = .now
+        self.uid = UUID().uuidString
     }
 
     /// SwiftData не гарантирует порядок в связи «ко многим» — держим его сами.
     var orderedIngredients: [RecipeIngredient] {
-        ingredients.sorted { ($0.order, $0.productName) < ($1.order, $1.productName) }
+        (ingredients ?? []).sorted { ($0.order, $0.productName) < ($1.order, $1.productName) }
     }
 
     /// Во сколько раз пересчитать граммовки под нужное число порций.
@@ -39,7 +45,7 @@ final class Recipe {
     /// КБЖУ всего блюда на `servings` порций.
     func nutrition(for servings: Int) -> Nutrition {
         let factor = scale(for: servings)
-        return ingredients.map { $0.nutrition(scaledBy: factor) }.total
+        return orderedIngredients.map { $0.nutrition(scaledBy: factor) }.total
     }
 
     func nutritionPerServing(for servings: Int) -> Nutrition {
