@@ -274,7 +274,7 @@ extension RecipeImport {
     /// Граммы в штуки и обратно — через вес штуки; миллилитры считаем
     /// граммами (для кухни точности хватает).
     @MainActor
-    private static func convert(_ ingredient: ParsedIngredient, to product: Product) -> Double {
+    static func convert(_ ingredient: ParsedIngredient, to product: Product) -> Double {
         let amount = ingredient.amount
         switch (ingredient.unit, product.unit) {
         case let (from, to) where from == to: return amount

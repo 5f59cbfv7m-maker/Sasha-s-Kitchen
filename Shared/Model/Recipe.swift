@@ -13,6 +13,8 @@ final class Recipe {
     var createdAt: Date = Date.now
     /// См. `Product.uid`.
     var uid: String = ""
+    /// Id рецепта в магазине, если он забран оттуда: повторный импорт не плодит копию.
+    var storeSourceID: String?
 
     /// Опциональна, потому что этого требует CloudKit; читать через `orderedIngredients`.
     @Relationship(deleteRule: .cascade, inverse: \RecipeIngredient.recipe)

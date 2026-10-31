@@ -28,6 +28,11 @@
 	<string>public.app-category.lifestyle</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Камера нужна, чтобы сканировать штрихкоды продуктов и фотографировать страницы с рецептами.</string>
 	<key>NSHealthUpdateUsageDescription</key>
@@ -40,6 +45,8 @@
 	<true/>
 	<key>SKCloudKit</key>
 	<string>$(SK_CLOUDKIT)</string>
+	<key>SKStoreBaseURL</key>
+	<string>$(SK_STORE_URL)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

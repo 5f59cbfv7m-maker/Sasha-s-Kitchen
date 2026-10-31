@@ -324,6 +324,16 @@ UI = [
     "Os produtos e receitas da cozinha da família chegam do iCloud em um minuto.",
     "Fotos das receitas",
     "As fotos das receitas iniciais vêm do Wikimedia Commons, com licenças livres. Obrigado aos autores!",
+    "Seção",
+    "Vídeos",
+    "A loja está indisponível",
+    "Tentar de novo",
+    "Nada por aqui ainda",
+    "Nas suas receitas",
+    "Salvando…",
+    "Pegar",
+    "Ainda não há vídeos",
+    "Da loja: %@ (@%@)",
 ]
 
 SEED = [

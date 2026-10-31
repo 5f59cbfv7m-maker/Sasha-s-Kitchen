@@ -52,7 +52,8 @@ struct RootView: View {
         }
     }
 
-    static let showsStore = false
+    /// Магазин виден, только когда задан адрес сервера (`StoreAPI`).
+    static var showsStore: Bool { StoreAPI.isConfigured }
 
     /// Меняется, когда у остатка меняется срок или он кончается, — тогда
     /// уведомления о сроках планируются заново.
@@ -83,13 +84,11 @@ struct RootView: View {
                 Tab(TabID.plan.title, systemImage: TabID.plan.symbol, value: .plan) {
                     MealPlanView()
                 }
-                // Заглушка: к бэкенду магазина приложение намеренно не ходит,
-                // пока магазин не достроен. См. Sources/Store/ и server/.
-                // В App Store вкладка «Скоро» не показывается: недоделанные функции
-                // ревью отклоняет (Guideline 2.1). Магазин готов — `showsStore = true`.
+                // Без адреса сервера вкладки нет совсем: пустой или «скоро»
+                // магазин ревью отклоняет (Guideline 2.1). См. Sources/Store/ и server/.
                 if Self.showsStore {
                     Tab(TabID.store.title, systemImage: TabID.store.symbol, value: .store) {
-                        StoreComingSoonView()
+                        StoreView()
                     }
                 }
                 Tab(TabID.log.title, systemImage: TabID.log.symbol, value: .log) {
