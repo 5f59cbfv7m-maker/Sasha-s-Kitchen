@@ -81,7 +81,7 @@ def write(name, data, res=RES):
     print(f"{path.relative_to(ROOT)}: {len(data['strings'])} строк × {len(LANGS)} языков")
 
 write("Localizable.xcstrings", catalog("UI", ru.KEYS), SHARED)
-write("Seed.xcstrings", catalog("SEED", ru.SEED_KEYS, manual=True))
+write("Seed.xcstrings", catalog("SEED", ru.SEED_KEYS, manual=True), SHARED)
 write("Data.xcstrings", catalog("DATA", ru.DATA_KEYS, manual=True), SHARED)
 for mod in langs.values():
     mod.PLIST.setdefault("CFBundleName", mod.PLIST["CFBundleDisplayName"])

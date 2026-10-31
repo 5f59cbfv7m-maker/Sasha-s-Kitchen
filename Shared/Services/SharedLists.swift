@@ -142,6 +142,8 @@ final class SharedLists {
     @ObservationIgnored private var context: ModelContext?
     @ObservationIgnored private var claims: [String: SharedListPlan.Claim] = [:]
     @ObservationIgnored private var states = States()
+    /// Имена владельцев для демо-списка на скриншотах — у него нет CKShare.
+    @ObservationIgnored private var demoNames: [String: String] = [:]
 
     private struct States: Codable {
         var privateDatabase: CKSyncEngine.State.Serialization?
@@ -297,6 +299,17 @@ final class SharedLists {
         persist()
     }
 
+    /// Чужой список без iCloud — только для скриншотов App Store (`-storeDemo`).
+    func showDemo(owner name: String, items demo: [(title: String, amount: Double, unit: String, isBought: Bool)]) {
+        let owner = "demo"
+        demoNames[owner] = name
+        for item in demo {
+            let purchase = Purchase(zoneOwner: owner, key: SharedListPlan.key(for: item.title), title: item.title,
+                                    amount: item.amount, unit: item.unit, isBought: item.isBought)
+            items[purchase.id] = purchase
+        }
+    }
+
     /// Гость вышел из списка или его исключили.
     func leave(_ owner: String) { drop(owner: owner) }
 
@@ -320,6 +333,7 @@ final class SharedLists {
     }
 
     private func name(of owner: String) -> String {
+        if let name = demoNames[owner] { return name }
         if let components = shares[owner]?.owner.userIdentity.nameComponents {
             let name = PersonNameComponentsFormatter.localizedString(from: components, style: .short)
             if !name.isEmpty { return name }

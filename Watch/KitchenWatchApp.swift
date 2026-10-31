@@ -9,10 +9,19 @@ import WatchKit
 @main
 struct KitchenWatchApp: App {
     @WKApplicationDelegateAdaptor private var appDelegate: WatchAppDelegate
-    let container = KitchenStore.makeContainer()
+    let container: ModelContainer
 
     init() {
-        SharedLists.shared.start(context: container.mainContext)
+        // Те же ключи запуска, что в приложении: `-resetData YES -storeDemo YES`
+        // раскладывают кухню для скриншотов в отдельной базе без iCloud.
+        let isTestRun = UserDefaults.standard.bool(forKey: "resetData")
+        container = KitchenStore.makeContainer(isTestRun: isTestRun)
+        if isTestRun {
+            SeedLoader.reset(container.mainContext)
+            if StoreDemo.isOn { StoreDemo.apply(to: container.mainContext) }
+        } else {
+            SharedLists.shared.start(context: container.mainContext)
+        }
     }
 
     var body: some Scene {

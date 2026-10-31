@@ -8,11 +8,14 @@ struct WatchListView: View {
     @Query(sort: \ShoppingItem.createdAt) private var listed: [ShoppingItem]
 
     private var lists: SharedLists { .shared }
+    /// `-sharedFirst YES` — общие списки сверху: второй скриншот для App Store.
+    private let sharedFirst = UserDefaults.standard.bool(forKey: "sharedFirst")
     private var entries: [Kitchen.ShoppingEntry] { Kitchen.shoppingEntries(from: stock) }
 
     var body: some View {
         NavigationStack {
             List {
+                if sharedFirst { guestSections }
                 if !listed.isEmpty {
                     Section("Мой список") {
                         ForEach(listed) { item in
@@ -43,19 +46,7 @@ struct WatchListView: View {
                         }
                     }
                 }
-                ForEach(lists.guestLists) { list in
-                    Section("Общий список: \(list.name)") {
-                        ForEach(list.items) { purchase in
-                            Button {
-                                lists.toggle(purchase)
-                                tap(!purchase.isBought)
-                            } label: {
-                                row(purchase.title, detail: purchase.detail, isBought: purchase.isBought)
-                            }
-                            .disabled(purchase.applied)
-                        }
-                    }
-                }
+                if !sharedFirst { guestSections }
             }
             .overlay {
                 if listed.isEmpty && entries.isEmpty && lists.guestLists.isEmpty {
@@ -63,6 +54,22 @@ struct WatchListView: View {
                 }
             }
             .navigationTitle("Для покупки")
+        }
+    }
+
+    private var guestSections: some View {
+        ForEach(lists.guestLists) { list in
+            Section("Общий список: \(list.name)") {
+                ForEach(list.items) { purchase in
+                    Button {
+                        lists.toggle(purchase)
+                        tap(!purchase.isBought)
+                    } label: {
+                        row(purchase.title, detail: purchase.detail, isBought: purchase.isBought)
+                    }
+                    .disabled(purchase.applied)
+                }
+            }
         }
     }
 

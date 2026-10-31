@@ -30,6 +30,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Камера нужна, чтобы сканировать штрихкоды продуктов и добавлять их в холодильник без ручного ввода.</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2026 Kirill Rychkov</string>
 	<key>NSRemindersFullAccessUsageDescription</key>
 	<string>Доступ к Напоминаниям нужен, чтобы складывать список покупок в список «Купить» с настоящими чекбоксами.</string>
 	<key>UIApplicationSceneManifest</key>

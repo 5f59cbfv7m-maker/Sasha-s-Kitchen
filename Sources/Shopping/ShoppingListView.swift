@@ -50,6 +50,9 @@ struct ShoppingListView: View {
                             }
                     }
                 }
+                // Общие списки — сразу за своим: их, как и свой, ведут люди, а
+                // ниже — то, что приложение собрало само.
+                ForEach(lists.guestLists) { guestSection($0) }
                 if !out.isEmpty {
                     Section("Закончилось") {
                         ForEach(out) { row($0) }
@@ -60,7 +63,6 @@ struct ShoppingListView: View {
                         ForEach(low) { row($0) }
                     }
                 }
-                ForEach(lists.guestLists) { guestSection($0) }
                 if isEmpty && lists.guestLists.isEmpty {
                     EmptyStateView(symbol: "checkmark.circle",
                                    title: "Покупать нечего",

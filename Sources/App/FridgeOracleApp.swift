@@ -15,6 +15,7 @@ struct FridgeOracleApp: App {
         container = KitchenStore.makeContainer(isTestRun: isTestRun)
         if isTestRun {
             SeedLoader.reset(container.mainContext)
+            if StoreDemo.isOn { StoreDemo.apply(to: container.mainContext) }
         } else {
             SharedLists.shared.start(context: container.mainContext)
         }
@@ -45,6 +46,13 @@ final class SceneDelegate: NSObject, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         if let metadata = connectionOptions.cloudKitShareMetadata { SharedLists.accept(metadata) }
+        // `-windowSize 1440x900` — окно ровно под скриншот App Store для Mac.
+        if let size = UserDefaults.standard.string(forKey: "windowSize")?.split(separator: "x").compactMap({ Double($0) }),
+           size.count == 2, let windowScene = scene as? UIWindowScene {
+            let frame = CGSize(width: size[0], height: size[1])
+            windowScene.sizeRestrictions?.minimumSize = frame
+            windowScene.sizeRestrictions?.maximumSize = frame
+        }
     }
 
     func windowScene(_ windowScene: UIWindowScene,
