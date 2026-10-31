@@ -86,6 +86,11 @@ func (r *Repo) targetExists(ctx context.Context, targetType, targetID string) (b
 		// ratings is keyed by (user_id, recipe_id) and has no id of its own, so
 		// a rating is reported by the id of the recipe it sits on.
 		q = `SELECT EXISTS (SELECT 1 FROM ratings WHERE recipe_id = $1::uuid)`
+	case "post":
+		// Shorts and articles: Guideline 1.2 wants every kind of UGC reportable.
+		q = `SELECT EXISTS (SELECT 1 FROM posts WHERE id = $1::uuid AND deleted_at IS NULL)`
+	case "comment":
+		q = `SELECT EXISTS (SELECT 1 FROM comments WHERE id = $1::uuid AND status <> 'removed')`
 	default:
 		return false, nil
 	}

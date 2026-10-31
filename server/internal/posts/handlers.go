@@ -31,6 +31,58 @@ func NewAPI(repo *Repo, viewer ViewerFunc) *API {
 func (a *API) Routes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /v1/posts/{id}", a.handleGet)
 	mux.HandleFunc("GET /v1/shorts", a.handleShorts)
+	mux.HandleFunc("PUT /v1/posts/{id}/like", a.handleLike(true))
+	mux.HandleFunc("DELETE /v1/posts/{id}/like", a.handleLike(false))
+	mux.HandleFunc("POST /v1/posts/{id}/view", a.handleView)
+}
+
+type likeResponse struct {
+	LikeCount int64 `json:"like_count"`
+	Liked     bool  `json:"liked"`
+}
+
+func (a *API) handleLike(like bool) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		viewer := a.viewer(r)
+		if viewer == "" {
+			httpx.Respond(w, r, httpx.Unauthorized("Нужен вход в аккаунт"))
+			return
+		}
+		id := r.PathValue("id")
+		if _, err := uuid.Parse(id); err != nil {
+			httpx.Respond(w, r, httpx.NotFound("Публикация не найдена"))
+			return
+		}
+		count, err := a.repo.SetLike(r.Context(), id, viewer, like)
+		if errors.Is(err, ErrNotFound) {
+			httpx.Respond(w, r, httpx.NotFound("Публикация не найдена"))
+			return
+		}
+		if err != nil {
+			httpx.Respond(w, r, err)
+			return
+		}
+		httpx.JSON(w, http.StatusOK, likeResponse{LikeCount: count, Liked: like})
+	}
+}
+
+// handleView counts a watched short or a read article. Anonymous viewers
+// count too; the per-IP rate limit is what keeps this honest.
+func (a *API) handleView(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	if _, err := uuid.Parse(id); err != nil {
+		httpx.Respond(w, r, httpx.NotFound("Публикация не найдена"))
+		return
+	}
+	if err := a.repo.CountView(r.Context(), id, a.viewer(r)); err != nil {
+		if errors.Is(err, ErrNotFound) {
+			httpx.Respond(w, r, httpx.NotFound("Публикация не найдена"))
+			return
+		}
+		httpx.Respond(w, r, err)
+		return
+	}
+	httpx.NoContent(w)
 }
 
 func (a *API) handleGet(w http.ResponseWriter, r *http.Request) {

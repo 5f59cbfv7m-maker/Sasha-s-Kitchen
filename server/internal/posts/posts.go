@@ -54,16 +54,19 @@ type Author struct {
 
 // Card is one post in a listing: enough to render a tile, never the body.
 type Card struct {
-	ID           string        `json:"id"`
-	Kind         string        `json:"kind"`
-	Slug         string        `json:"slug,omitempty"`
-	Title        string        `json:"title"`
-	Excerpt      string        `json:"excerpt,omitempty"`
-	PublishedAt  time.Time     `json:"published_at"`
-	LikeCount    int64         `json:"like_count"`
-	CommentCount int64         `json:"comment_count"`
-	Author       Author        `json:"author"`
-	Media        *search.Media `json:"media,omitempty"`
+	ID           string    `json:"id"`
+	Kind         string    `json:"kind"`
+	Slug         string    `json:"slug,omitempty"`
+	Title        string    `json:"title"`
+	Excerpt      string    `json:"excerpt,omitempty"`
+	PublishedAt  time.Time `json:"published_at"`
+	LikeCount    int64     `json:"like_count"`
+	CommentCount int64     `json:"comment_count"`
+	ViewCount    int64     `json:"view_count"`
+	// Liked is whether the signed-in viewer liked it; always false for anonymous.
+	Liked  bool          `json:"liked,omitempty"`
+	Author Author        `json:"author"`
+	Media  *search.Media `json:"media,omitempty"`
 }
 
 // Page is one keyset page of post cards.
@@ -108,7 +111,7 @@ func NewRepo(pool *pgxpool.Pool, s *search.Repo, media search.MediaURLResolver) 
 // below must match it exactly.
 const cardColumns = `
         p.id::text, p.kind, coalesce(p.slug,''), p.title, coalesce(p.excerpt,''),
-        p.published_at, p.like_count, p.comment_count,
+        p.published_at, p.like_count, p.comment_count, p.view_count,
         u.id::text, u.handle::text, u.display_name,
         u.verified_at IS NOT NULL, av.storage_key,
         cm.kind, cm.storage_key, cm.poster_key, cm.hls_key, cm.blurhash, cm.width, cm.height`
@@ -205,6 +208,11 @@ func (r *Repo) List(ctx context.Context, o ListOptions, viewerID string) (Page, 
 		page.Items = page.Items[:o.Limit]
 		scores = scores[:o.Limit]
 		page.HasMore = true
+	}
+	if err := r.markLiked(ctx, page.Items, viewerID); err != nil {
+		return Page{}, err
+	}
+	if page.HasMore {
 		last := page.Items[len(page.Items)-1]
 		c := paging.Cursor{Sort: o.Sort, ID: last.ID}
 		if o.Sort == SortTop {
@@ -259,7 +267,95 @@ func (r *Repo) Get(ctx context.Context, postID, viewerID string) (*Detail, error
 	if err != nil {
 		return nil, err
 	}
-	return &Detail{Card: c, Blocks: rendered}, nil
+	cards := []Card{c}
+	if err := r.markLiked(ctx, cards, viewerID); err != nil {
+		return nil, err
+	}
+	return &Detail{Card: cards[0], Blocks: rendered}, nil
+}
+
+// markLiked fills Card.Liked with one query for the whole page rather than an
+// EXISTS per row in the listing SQL, whose bind order is already intricate.
+func (r *Repo) markLiked(ctx context.Context, cards []Card, viewerID string) error {
+	if viewerID == "" || len(cards) == 0 {
+		return nil
+	}
+	ids := make([]string, len(cards))
+	for i, c := range cards {
+		ids[i] = c.ID
+	}
+	rows, err := r.pool.Query(ctx, `
+		SELECT post_id::text FROM post_likes
+		 WHERE user_id = $1::uuid AND post_id = ANY($2::uuid[])`, viewerID, ids)
+	if err != nil {
+		return fmt.Errorf("posts: liked: %w", err)
+	}
+	defer rows.Close()
+	liked := map[string]bool{}
+	for rows.Next() {
+		var id string
+		if err := rows.Scan(&id); err != nil {
+			return fmt.Errorf("posts: liked scan: %w", err)
+		}
+		liked[id] = true
+	}
+	for i := range cards {
+		cards[i].Liked = liked[cards[i].ID]
+	}
+	return rows.Err()
+}
+
+// visibleSQL is the visibility rule a viewer must pass to like or count a
+// post: published, live author, and no block in either direction.
+const visibleSQL = `
+	SELECT 1 FROM posts p JOIN users u ON u.id = p.author_id
+	 WHERE p.id = $1::uuid AND p.status = 'published' AND p.deleted_at IS NULL
+	   AND u.status = 'active'
+	   AND ($2 = '' OR NOT EXISTS (
+	        SELECT 1 FROM user_blocks b
+	         WHERE (b.blocker_id = nullif($2,'')::uuid AND b.blocked_id = p.author_id)
+	            OR (b.blocked_id = nullif($2,'')::uuid AND b.blocker_id = p.author_id)))`
+
+// SetLike likes or unlikes a post for viewerID and returns the new count.
+// Repeating either is a no-op, so a client retry cannot double-count.
+func (r *Repo) SetLike(ctx context.Context, postID, viewerID string, like bool) (int64, error) {
+	var count int64
+	var sql string
+	if like {
+		sql = `
+		WITH ok AS (` + visibleSQL + `),
+		     ins AS (INSERT INTO post_likes (post_id, user_id)
+		             SELECT $1::uuid, $2::uuid FROM ok
+		             ON CONFLICT DO NOTHING RETURNING 1)
+		SELECT like_count + (SELECT count(*) FROM ins) FROM posts WHERE id = $1::uuid AND EXISTS (SELECT 1 FROM ok)`
+	} else {
+		sql = `
+		WITH ok AS (` + visibleSQL + `),
+		     del AS (DELETE FROM post_likes WHERE post_id = $1::uuid AND user_id = $2::uuid RETURNING 1)
+		SELECT greatest(like_count - (SELECT count(*) FROM del), 0) FROM posts WHERE id = $1::uuid AND EXISTS (SELECT 1 FROM ok)`
+	}
+	err := r.pool.QueryRow(ctx, sql, postID, viewerID).Scan(&count)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return 0, ErrNotFound
+	}
+	if err != nil {
+		return 0, fmt.Errorf("posts: like: %w", err)
+	}
+	return count, nil
+}
+
+// CountView adds one view to a visible post.
+func (r *Repo) CountView(ctx context.Context, postID, viewerID string) error {
+	tag, err := r.pool.Exec(ctx, `
+		UPDATE posts SET view_count = view_count + 1
+		 WHERE id = $1::uuid AND EXISTS (`+visibleSQL+`)`, postID, viewerID)
+	if err != nil {
+		return fmt.Errorf("posts: view: %w", err)
+	}
+	if tag.RowsAffected() == 0 {
+		return ErrNotFound
+	}
+	return nil
 }
 
 // ResolveArticle turns an author id and slug into a post id.
@@ -335,7 +431,7 @@ func scanCardWithBody(row rowScanner, media search.MediaURLResolver, body *[]byt
 
 	dest := []any{
 		&c.ID, &c.Kind, &c.Slug, &c.Title, &excerpt,
-		&c.PublishedAt, &c.LikeCount, &c.CommentCount,
+		&c.PublishedAt, &c.LikeCount, &c.CommentCount, &c.ViewCount,
 		&c.Author.ID, &c.Author.Handle, &c.Author.Name,
 		&c.Author.Verified, &avatarKey,
 		&mediaKind, &storageKey, &posterKey, &hlsKey, &blurhash, &width, &height,

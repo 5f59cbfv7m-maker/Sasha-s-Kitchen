@@ -35,7 +35,7 @@ func newRig(t *testing.T) *rig {
 	pool := testPool(t)
 	ctx := context.Background()
 
-	if _, err := pool.Exec(ctx, `TRUNCATE users, recipes, reports, user_blocks CASCADE`); err != nil {
+	if _, err := pool.Exec(ctx, `TRUNCATE users, recipes, posts, reports, user_blocks CASCADE`); err != nil {
 		t.Fatalf("truncate: %v", err)
 	}
 
@@ -206,5 +206,34 @@ func TestReportValidation(t *testing.T) {
 				t.Errorf("422 carries no per-field messages: %s", rec.Body.String())
 			}
 		})
+	}
+}
+
+// Shorts and comments are user content too, and Guideline 1.2 wants all of it
+// reportable. The schema allowed both since 0009; the handler did not.
+func TestReportPostsAndComments(t *testing.T) {
+	r := newRig(t)
+	ctx := context.Background()
+	var post, comment uuid.UUID
+	if err := r.pool.QueryRow(ctx, `
+		INSERT INTO posts (author_id, kind, title, slug, status, published_at)
+		VALUES ($1, 'article', 'Статья', 'post-one', 'published', now()) RETURNING id`, r.other).Scan(&post); err != nil {
+		t.Fatalf("create post: %v", err)
+	}
+	if err := r.pool.QueryRow(ctx, `
+		INSERT INTO comments (author_id, post_id, body) VALUES ($1, $2, 'Комментарий') RETURNING id`,
+		r.other, post).Scan(&comment); err != nil {
+		t.Fatalf("create comment: %v", err)
+	}
+	h := r.handler(r.viewer, true)
+	for kind, id := range map[string]uuid.UUID{"post": post, "comment": comment} {
+		body := fmt.Sprintf(`{"target_type":%q,"target_id":%q,"reason":"offensive"}`, kind, id)
+		if rec := do(t, h, "POST", "/v1/reports", body); rec.Code != http.StatusCreated {
+			t.Errorf("report %s = %d: %s", kind, rec.Code, rec.Body.String())
+		}
+	}
+	body := fmt.Sprintf(`{"target_type":"post","target_id":%q,"reason":"spam"}`, uuid.New())
+	if rec := do(t, h, "POST", "/v1/reports", body); rec.Code != http.StatusNotFound {
+		t.Errorf("report of a missing post = %d, want 404", rec.Code)
 	}
 }

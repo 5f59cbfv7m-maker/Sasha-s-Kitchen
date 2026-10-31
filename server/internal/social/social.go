@@ -58,7 +58,7 @@ var reportReasons = map[string]bool{
 }
 
 // reportTargets mirrors the reports.target_type CHECK constraint.
-var reportTargets = map[string]bool{"recipe": true, "user": true, "rating": true}
+var reportTargets = map[string]bool{"recipe": true, "user": true, "rating": true, "post": true, "comment": true}
 
 const maxReportDetails = 2000
 
@@ -88,7 +88,7 @@ func (a *API) handleReport(w http.ResponseWriter, r *http.Request) {
 
 	problems := map[string]string{}
 	if !reportTargets[req.TargetType] {
-		problems["target_type"] = "Допустимые значения: recipe, user, rating"
+		problems["target_type"] = "Допустимые значения: recipe, user, rating, post, comment"
 	}
 	if _, err := uuid.Parse(req.TargetID); err != nil {
 		problems["target_id"] = "Некорректный идентификатор"
