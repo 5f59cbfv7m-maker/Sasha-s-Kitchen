@@ -10,8 +10,11 @@ final class PlannedMeal {
     var servings: Int = 2
     var isCooked: Bool = false
     var createdAt: Date = Date.now
+    /// Ключ записи в семейной кухне (см. `Product.uid`).
+    var uid: String = ""
 
     init(day: Date, recipe: Recipe, servings: Int) {
+        self.uid = UUID().uuidString
         self.day = Calendar.current.startOfDay(for: day)
         self.recipe = recipe
         self.servings = max(1, servings)

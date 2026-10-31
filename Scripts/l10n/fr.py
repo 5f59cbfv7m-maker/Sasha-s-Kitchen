@@ -310,6 +310,18 @@ UI = [
     "Enregistrer dans Santé",
     "Santé",
     "Après « Cuisiné », les calories, protéines, lipides et glucides d’une portion sont enregistrés dans Santé. L’app écrit seulement et ne lit rien.",
+    "Cuisine familiale",
+    "Cuisine ouverte",
+    "Ma cuisine",
+    "Cuisine : %@",
+    "Qui est dans la cuisine",
+    "Accès",
+    "Inviter dans la cuisine",
+    "Invitez vos proches via iCloud : ils accèdent à votre cuisine — le frigo seul ou tout — et ce qu’ils modifient apparaît chez vous. La personne invitée choisit ici quelle cuisine ouvrir.",
+    "Frigo seulement",
+    "Toute la cuisine",
+    "La cuisine se charge",
+    "Les produits et recettes de la cuisine familiale arriveront d’iCloud dans une minute.",
 ]
 
 SEED = [

@@ -310,6 +310,18 @@ UI = [
     "Registrar en Salud",
     "Salud",
     "Tras «Cocinado», las calorías, proteínas, grasas y carbohidratos de una ración se registran en Salud. La app solo escribe y no lee nada.",
+    "Cocina familiar",
+    "Cocina abierta",
+    "Mi cocina",
+    "Cocina: %@",
+    "Quién está en la cocina",
+    "Acceso",
+    "Invitar a la cocina",
+    "Invita a tu familia por iCloud: tendrán tu cocina —solo la nevera o todo— y lo que cambien aparecerá en la tuya. La persona invitada elige aquí qué cocina abrir.",
+    "Solo la nevera",
+    "Toda la cocina",
+    "La cocina se está cargando",
+    "Los productos y recetas de la cocina familiar llegarán de iCloud en un minuto.",
 ]
 
 SEED = [

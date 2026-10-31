@@ -24,9 +24,24 @@ struct FridgeOracleApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView()
+            KitchenRootView()
         }
-        .modelContainer(container)
+    }
+}
+
+/// Какая кухня открыта: своя или семейная, в которую пригласили. Чужая
+/// кухня — своя база, и все экраны просто работают с ней.
+struct KitchenRootView: View {
+    @AppStorage(FamilyKitchen.activeKey) private var active = ""
+
+    var body: some View {
+        let kitchen = FamilyKitchen.shared
+        let family = kitchen.joined[active]
+        RootView(familyAccess: family?.access)
+            .modelContainer(family == nil ? KitchenStore.shared : kitchen.container(for: active))
+            .id(family == nil ? "" : active)
+            // Любое сохранение — повод отправить изменения семейной кухни.
+            .onReceive(NotificationCenter.default.publisher(for: ModelContext.didSave)) { _ in kitchen.reconcile() }
     }
 }
 

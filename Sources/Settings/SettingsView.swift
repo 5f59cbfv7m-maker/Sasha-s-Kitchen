@@ -1,4 +1,5 @@
 import AVFoundation
+import CloudKit
 import EventKit
 import SwiftData
 import SwiftUI
@@ -18,6 +19,11 @@ struct SettingsView: View {
     @AppStorage(HealthLog.enabledKey) private var healthEnabled = false
     #endif
     @AppStorage(SeedSet.key) private var starterSet = SeedSet.current.rawValue
+    @AppStorage(FamilyKitchen.activeKey) private var activeKitchen = ""
+    @State private var inviteAccess = KitchenAccess.everything
+    @State private var managingKitchen: CKShare?
+    private var kitchen: FamilyKitchen { .shared }
+    private var isFamilyOpen: Bool { kitchen.joined[activeKitchen] != nil }
     @State private var notificationsDenied = false
 
     @State private var cameraStatus = CameraPermission.statusText
@@ -114,6 +120,10 @@ struct SettingsView: View {
                     Text("Кнопка «В Напоминания» на вкладке «Для покупки» создаёт список «\(RemindersService.listName)» с настоящими чекбоксами.")
                 }
 
+                familySection
+
+                // Чужую кухню сбросить нельзя: удалилось бы у её владельца.
+                if !isFamilyOpen {
                 Section {
                     LabeledContent("Продуктов в каталоге", value: "\(products.count)")
                     LabeledContent("Рецептов", value: "\(recipes.count)")
@@ -130,6 +140,7 @@ struct SettingsView: View {
                     Text("Данные")
                 } footer: {
                     Text("Сброс удалит все остатки, свои рецепты, список покупок и журнал — на всех ваших устройствах, — а затем разложит заново стартовый набор продуктов и рецептов.")
+                }
                 }
 
                 Section {
@@ -156,6 +167,13 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Настройки")
+            .sheet(item: $managingKitchen) { share in
+                CloudSharingView(share: share, title: String(localized: "Семейная кухня")) {
+                    let owner = share.recordID.zoneID.ownerName
+                    if owner == CKCurrentUserDefaultName { kitchen.stopSharing() } else { kitchen.leave(owner) }
+                }
+                .ignoresSafeArea()
+            }
             .alert("Сбросить данные?", isPresented: $isResetting) {
                 Button("Отмена", role: .cancel) {}
                 Button("Сбросить", role: .destructive) {
@@ -169,6 +187,57 @@ struct SettingsView: View {
                 cameraStatus = CameraPermission.statusText
                 remindersStatus = Self.remindersText()
             }
+        }
+    }
+
+    /// Своя кухня — пригласить или посмотреть, кто в ней; чужие — выбрать,
+    /// какая открыта.
+    @ViewBuilder
+    private var familySection: some View {
+        if SharedLists.shared.isAvailable || !kitchen.joined.isEmpty {
+            Section {
+                if !kitchen.joined.isEmpty {
+                    Picker("Открыта кухня", selection: $activeKitchen) {
+                        Text("Моя кухня").tag("")
+                        ForEach(kitchen.joined.values.sorted { $0.name < $1.name }) { family in
+                            Text("Кухня: \(family.name)").tag(family.owner)
+                        }
+                    }
+                }
+                if isFamilyOpen, let share = kitchen.guestShares[activeKitchen] {
+                    Button {
+                        managingKitchen = share
+                    } label: {
+                        Label("Кто в кухне", systemImage: "person.2")
+                    }
+                } else if let share = kitchen.ownShare {
+                    LabeledContent("Доступ", value: title(kitchen.ownAccess))
+                    Button {
+                        managingKitchen = share
+                    } label: {
+                        Label("Кто в кухне", systemImage: "person.2")
+                    }
+                } else if SharedLists.shared.isAvailable {
+                    Picker("Доступ", selection: $inviteAccess) {
+                        ForEach(KitchenAccess.allCases, id: \.self) { Text(title($0)).tag($0) }
+                    }
+                    ShareLink(item: KitchenInvite(access: inviteAccess),
+                              preview: SharePreview("Семейная кухня", image: Image(systemName: "refrigerator"))) {
+                        Label("Пригласить в кухню", systemImage: "person.badge.plus")
+                    }
+                }
+            } header: {
+                Text("Семейная кухня")
+            } footer: {
+                Text("Пригласите близких через iCloud: им откроется ваша кухня — только холодильник или всё сразу, — и всё, что они поменяют, появится у вас. Приглашённый выбирает здесь, какую кухню открыть.")
+            }
+        }
+    }
+
+    private func title(_ access: KitchenAccess) -> String {
+        switch access {
+        case .fridge: String(localized: "Только холодильник")
+        case .everything: String(localized: "Вся кухня")
         }
     }
 

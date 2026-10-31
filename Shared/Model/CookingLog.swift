@@ -15,9 +15,12 @@ final class CookingLog {
     var protein: Double = 0
     var fat: Double = 0
     var carbs: Double = 0
+    /// Ключ записи в семейной кухне (см. `Product.uid`).
+    var uid: String = ""
 
     init(recipe: Recipe?, recipeName: String, servings: Int,
          actualAmountsUsed: [String: Double], nutrition: Nutrition, date: Date = .now) {
+        self.uid = UUID().uuidString
         self.recipe = recipe
         self.recipeName = recipeName
         self.servings = servings

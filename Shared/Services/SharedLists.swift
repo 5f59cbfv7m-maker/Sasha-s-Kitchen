@@ -136,9 +136,9 @@ final class SharedLists {
     /// Запущен ли обмен: нужен вход в iCloud.
     private(set) var isAvailable = false
 
-    @ObservationIgnored private var container: CKContainer?
-    @ObservationIgnored private var privateEngine: CKSyncEngine?
-    @ObservationIgnored private var sharedEngine: CKSyncEngine?
+    @ObservationIgnored private(set) var container: CKContainer?
+    @ObservationIgnored private(set) var privateEngine: CKSyncEngine?
+    @ObservationIgnored private(set) var sharedEngine: CKSyncEngine?
     @ObservationIgnored private var context: ModelContext?
     @ObservationIgnored private var claims: [String: SharedListPlan.Claim] = [:]
     @ObservationIgnored private var states = States()
@@ -168,6 +168,7 @@ final class SharedLists {
                                            stateSerialization: states.privateDatabase, delegate: self))
         sharedEngine = CKSyncEngine(.init(database: container.sharedCloudDatabase,
                                           stateSerialization: states.sharedDatabase, delegate: self))
+        FamilyKitchen.shared.start(context: context)
         isAvailable = true
     }
 
@@ -422,17 +423,31 @@ final class SharedLists {
             items = [:]
             shares = [:]
             claims = [:]
+            FamilyKitchen.shared.reset()
             persist()
 
         case .fetchedDatabaseChanges(let changes):
             for deletion in changes.deletions where deletion.zoneID.zoneName == Self.zoneName {
                 drop(owner: deletion.zoneID.ownerName)
             }
+            for deletion in changes.deletions where deletion.zoneID.zoneName == FamilyKitchen.zoneName {
+                FamilyKitchen.shared.zoneDeleted(owner: deletion.zoneID.ownerName)
+            }
 
         case .fetchedRecordZoneChanges(let changes):
-            for modification in changes.modifications { receive(modification.record) }
+            // Зона `Kitchen` — семейная кухня, у неё свой разбор.
+            let kitchen = FamilyKitchen.shared
+            for modification in changes.modifications {
+                if modification.record.recordID.zoneID.zoneName == FamilyKitchen.zoneName {
+                    kitchen.receive(modification.record)
+                } else {
+                    receive(modification.record)
+                }
+            }
             for deletion in changes.deletions {
-                if deletion.recordType == CKRecord.SystemType.share {
+                if deletion.recordID.zoneID.zoneName == FamilyKitchen.zoneName {
+                    kitchen.deleted(deletion.recordID, type: deletion.recordType)
+                } else if deletion.recordType == CKRecord.SystemType.share {
                     let owner = deletion.recordID.zoneID.ownerName
                     // Владелец закрыл доступ с другого устройства — зона тоже не нужна.
                     if owner == CKCurrentUserDefaultName { stopSharing() } else { drop(owner: owner) }
@@ -440,11 +455,16 @@ final class SharedLists {
                     items[Self.id(of: deletion.recordID)] = nil
                 }
             }
+            kitchen.flush()
             reconcile()
             persist()
 
         case .sentRecordZoneChanges(let sent):
             for record in sent.savedRecords {
+                if record.recordID.zoneID.zoneName == FamilyKitchen.zoneName {
+                    FamilyKitchen.shared.saved(record)
+                    continue
+                }
                 receive(record)
                 let id = Self.id(of: record.recordID)
                 if let claim = claims.removeValue(forKey: id), let purchase = items[id], let context {
@@ -452,7 +472,11 @@ final class SharedLists {
                 }
             }
             for failure in sent.failedRecordSaves {
-                handleFailure(failure.record, failure.error, engine: engine)
+                if failure.record.recordID.zoneID.zoneName == FamilyKitchen.zoneName {
+                    FamilyKitchen.shared.failed(failure.record, failure.error, engine: engine)
+                } else {
+                    handleFailure(failure.record, failure.error, engine: engine)
+                }
             }
             reconcile()
             persist()
@@ -506,6 +530,12 @@ final class SharedLists {
         var delete: [CKRecord.ID] = []
         for change in engine.state.pendingRecordZoneChanges where context.options.scope.contains(change) {
             switch change {
+            case .saveRecord(let recordID) where recordID.zoneID.zoneName == FamilyKitchen.zoneName:
+                if let record = FamilyKitchen.shared.record(for: recordID) {
+                    save.append(record)
+                } else {
+                    engine.state.remove(pendingRecordZoneChanges: [change])
+                }
             case .saveRecord(let recordID):
                 if let purchase = items[Self.id(of: recordID)] {
                     save.append(record(for: purchase))
@@ -566,7 +596,8 @@ extension SharedLists: CKSyncEngineDelegate {
                                              syncEngine: CKSyncEngine) async -> CKSyncEngine.FetchChangesOptions {
         guard syncEngine.database.databaseScope == .private else { return context.options }
         var options = context.options
-        options.scope = .zoneIDs([CKRecordZone.ID(zoneName: SharedLists.zoneName)])
+        options.scope = .zoneIDs([CKRecordZone.ID(zoneName: SharedLists.zoneName),
+                                  CKRecordZone.ID(zoneName: FamilyKitchen.zoneName)])
         return options
     }
 }
