@@ -6,6 +6,7 @@
 #
 #   Scripts/install-device.sh                 # первый подключённый iPad
 #   Scripts/install-device.sh <UDID>
+#   SK_STORE_URL=http://Mac-mini.local:8080 Scripts/install-device.sh   # с магазином
 set -euo pipefail
 cd "${0:A:h}/.."
 export DEVELOPER_DIR=${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}
@@ -17,6 +18,7 @@ DERIVED=${TMPDIR:-/tmp}/kitchen-device
 xcodebuild -project FridgeOracle.xcodeproj -scheme FridgeOracle -configuration Debug \
   -destination "id=$DEVICE" -derivedDataPath "$DERIVED" -allowProvisioningUpdates \
   DEVELOPMENT_TEAM=$TEAM CODE_SIGN_ENTITLEMENTS=Config/PersonalTeam.entitlements SK_CLOUDKIT=NO \
+  SK_STORE_URL=${SK_STORE_URL:-} \
   build | grep -E "error:|BUILD" || true
 xcrun devicectl device install app --device "$DEVICE" "$DERIVED/Build/Products/Debug-iphoneos/FridgeOracle.app"
 xcrun devicectl device process launch --device "$DEVICE" com.kirillrychkov.FridgeOracle
