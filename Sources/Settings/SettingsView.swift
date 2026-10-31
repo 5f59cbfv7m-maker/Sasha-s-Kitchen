@@ -153,6 +153,7 @@ struct SettingsView: View {
 
                 Section {
                     LabeledContent("Версия", value: Self.version)
+                    NavigationLink("Фото рецептов") { PhotoCreditsView() }
                     #if !targetEnvironment(macCatalyst)
                     if let url = URL(string: UIApplication.openSettingsURLString) {
                         Link(destination: url) {

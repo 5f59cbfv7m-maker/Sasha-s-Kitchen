@@ -55,6 +55,7 @@ Mac-сборка без подписи (проверить, что компил�
 | `Sources/Resources/*.xcstrings`, `Shared/Resources/*.xcstrings` | **Генерируются** `Scripts/l10n/build_catalogs.py`, не править руками |
 | `Scripts/l10n/` | Переводы: `ru.py` задаёт ключи и их порядок, `<язык>.py` — переводы в том же порядке |
 | `Shared/Seed/` | `SeedData.swift` **генерируется** скриптом, не править руками |
+| `Sources/Resources/RecipePhotos/` | Фото стартовых рецептов (HEIC) и их авторы — временные, с Wikimedia Commons, см. `docs/recipe-photos.md` |
 | `Sources/Fridge|Shopping|Recipes|Settings/` | Экраны |
 | `Tests/` | Swift Testing: расчёты и работа с базой в памяти |
 | `UITests/` | XCUITest: сквозной сценарий готовки |

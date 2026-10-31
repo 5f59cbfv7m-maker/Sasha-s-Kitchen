@@ -1,0 +1,786 @@
+[
+ {
+  "key": "Омлет классический",
+  "title": "FoodOmelete.jpg",
+  "author": "Renee Comet (photographer)",
+  "license": "Public Domain",
+  "licenseURL": "https://commons.wikimedia.org/wiki/File:FoodOmelete.jpg",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:FoodOmelete.jpg"
+ },
+ {
+  "key": "Гречка с курицей",
+  "title": "Kasza gryczana 01.jpg",
+  "author": "Agnieszka Kwiecień (Nova)",
+  "license": "CC BY 2.5",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.5",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Kasza_gryczana_01.jpg"
+ },
+ {
+  "key": "Куриный суп с рисом",
+  "title": "Rice soup with tomato, chicken, sausage, and vegetables - Massachusetts.jpg",
+  "author": "Daderot",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Rice_soup_with_tomato,_chicken,_sausage,_and_vegetables_-_Massachusetts.jpg"
+ },
+ {
+  "key": "Паста с чесноком и маслом (Aglio e Olio)",
+  "title": "Spaghettini Aglio e Olio (4015077875).jpg",
+  "author": "Kari Sullivan from Austin, TX",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Spaghettini_Aglio_e_Olio_(4015077875).jpg"
+ },
+ {
+  "key": "Овощной салат",
+  "title": "Mixed Green Salad (15977106804).jpg",
+  "author": "Prayitno",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Mixed_Green_Salad_(15977106804).jpg"
+ },
+ {
+  "key": "Жареная картошка с луком",
+  "title": "Bratkartoffeln 1024 768.jpg",
+  "author": "Eckhard Polesny ( ? Metzecki at de.wikipedia)",
+  "license": "Public Domain",
+  "licenseURL": "https://commons.wikimedia.org/wiki/File:Bratkartoffeln_1024_768.jpg",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Bratkartoffeln_1024_768.jpg"
+ },
+ {
+  "key": "Творожная запеканка",
+  "title": "Baked cheesecake with raspberries and blueberries.jpg",
+  "author": "zingyyellow",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Baked_cheesecake_with_raspberries_and_blueberries.jpg"
+ },
+ {
+  "key": "Бутерброд с сыром",
+  "title": "Cheese sandwich (Rotterdam).jpg",
+  "author": "Kjetil Ree",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Cheese_sandwich_(Rotterdam).jpg"
+ },
+ {
+  "key": "Свинина жареная с луком",
+  "title": "Pork tenderloin with onion sauce.jpg",
+  "author": "chispita_666 from Seattle, USA",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Pork_tenderloin_with_onion_sauce.jpg"
+ },
+ {
+  "key": "Говяжьи котлеты",
+  "title": "Kotleta.JPG",
+  "author": "Digr",
+  "license": "Public Domain",
+  "licenseURL": "https://commons.wikimedia.org/wiki/File:Kotleta.JPG",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Kotleta.JPG"
+ },
+ {
+  "key": "Салат из капусты",
+  "title": "Salad of cabbage, carrots, basil, and mint with crispy rice and peanuts - Pasadena, CA.jpg",
+  "author": "Daderot",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Salad_of_cabbage,_carrots,_basil,_and_mint_with_crispy_rice_and_peanuts_-_Pasadena,_CA.jpg"
+ },
+ {
+  "key": "Рис с овощами",
+  "title": "Vegetable rice image.jpg",
+  "author": "safaritravelplus",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Vegetable_rice_image.jpg"
+ },
+ {
+  "key": "Яичница с помидорами",
+  "title": "Bacon and egg.jpg",
+  "author": "Pannet",
+  "license": "CC BY 4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/4.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Bacon_and_egg.jpg"
+ },
+ {
+  "key": "Куриные наггетсы (простые, без панировки)",
+  "title": "Impossible chicken nuggets 2.jpg",
+  "author": "Mx. Granger",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Impossible_chicken_nuggets_2.jpg"
+ },
+ {
+  "key": "Салат с сыром и огурцами",
+  "title": "Tomato Salad (7846872334).jpg",
+  "author": "Ralph Daily from Birmingham, United States",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Tomato_Salad_(7846872334).jpg"
+ },
+ {
+  "key": "Макароны по-флотски",
+  "title": "Fried beef and tomatoes on Japanese wheat noodles - Massachusetts.jpg",
+  "author": "Daderot",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Fried_beef_and_tomatoes_on_Japanese_wheat_noodles_-_Massachusetts.jpg"
+ },
+ {
+  "key": "Гренки с чесноком",
+  "title": "Garlic Bread (3008052276).jpg",
+  "author": "David Pursehouse from Kawasaki, Japan",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Garlic_Bread_(3008052276).jpg"
+ },
+ {
+  "key": "Овощное рагу",
+  "title": "Sataraš.JPG",
+  "author": "Maduixa at Serbian Wikipedia",
+  "license": "Public Domain",
+  "licenseURL": "https://commons.wikimedia.org/wiki/File:Satara%C5%A1.JPG",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Satara%C5%A1.JPG"
+ },
+ {
+  "key": "Куриная грудка гриль с лимоном",
+  "title": "Grilled chicken breast, Santo Domingo, La Palma.jpg",
+  "author": "Gerda Arendt",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Grilled_chicken_breast,_Santo_Domingo,_La_Palma.jpg"
+ },
+ {
+  "key": "Яблочные оладьи",
+  "title": "Pancakes on table.jpg",
+  "author": "Shisma",
+  "license": "CC BY 4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/4.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Pancakes_on_table.jpg"
+ },
+ {
+  "key": "Котлеты из свиного фарша",
+  "title": "Kotlety mielone - 15.10.2026.jpg",
+  "author": "Aw58",
+  "license": "CC BY 4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/4.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Kotlety_mielone_-_15.10.2026.jpg"
+ },
+ {
+  "key": "Домашние котлеты микс (свинина-говядина)",
+  "title": "Kotlety mielone - 13.05.2026.0.jpg",
+  "author": "Aw58",
+  "license": "CC BY 4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/4.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Kotlety_mielone_-_13.05.2026.0.jpg"
+ },
+ {
+  "key": "Сырная тарелка",
+  "title": "Family style cheese platter.jpg",
+  "author": "Kimberly Vardeman",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Family_style_cheese_platter.jpg"
+ },
+ {
+  "key": "Бутерброд со сливочным сыром и зеленью",
+  "title": "Cream cheese and olive sandwich on German three-grain bread - Massachusetts.jpg",
+  "author": "Daderot",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Cream_cheese_and_olive_sandwich_on_German_three-grain_bread_-_Massachusetts.jpg"
+ },
+ {
+  "key": "Горячий бутерброд с плавленым сыром",
+  "title": "Melted cheddar cheese on rye toast - Massachusetts.jpg",
+  "author": "Daderot",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Melted_cheddar_cheese_on_rye_toast_-_Massachusetts.jpg"
+ },
+ {
+  "key": "Стейк из говяжьей вырезки",
+  "title": "Filet mignon wrapped with bacon with assorted vegetables.jpg",
+  "author": "Naotake Murayama from San Francisco, CA, USA",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Filet_mignon_wrapped_with_bacon_with_assorted_vegetables.jpg"
+ },
+ {
+  "key": "Куриные бёдра запечённые с чесноком",
+  "title": "Muslo de \"pollo al ast\" con patatas fritas.jpg",
+  "author": "Juan Emilio Prades Bel",
+  "license": "CC BY 4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/4.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Muslo_de_%22pollo_al_ast%22_con_patatas_fritas.jpg"
+ },
+ {
+  "key": "Куриные окорочка жареные с луком",
+  "title": "Chicken leg quarter 20260412 145303.jpg",
+  "author": "Vauia Rex",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Chicken_leg_quarter_20260412_145303.jpg"
+ },
+ {
+  "key": "Куриная голень тушёная с овощами",
+  "title": "Barbecued chicken drumsticks-02.jpg",
+  "author": "Diana from Pennsylvania USA",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Barbecued_chicken_drumsticks-02.jpg"
+ },
+ {
+  "key": "Салат с айсбергом и курицей",
+  "title": "2014- Salad Time!.jpg",
+  "author": "Brandon Nguyen",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:2014-_Salad_Time!.jpg"
+ },
+ {
+  "key": "Форель, запечённая с лимоном",
+  "title": "Forellenfilet Salat Waldschänke Stadtsteinach.JPG",
+  "author": "Benreis",
+  "license": "CC BY 3.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/3.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Forellenfilet_Salat_Waldsch%C3%A4nke_Stadtsteinach.JPG"
+ },
+ {
+  "key": "Креветки жареные с чесноком",
+  "title": "Vietnam-Hawaii fusion food restaurant in Ebisu, garlic shrimps.jpg",
+  "author": "Syced",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Vietnam-Hawaii_fusion_food_restaurant_in_Ebisu,_garlic_shrimps.jpg"
+ },
+ {
+  "key": "Салат с креветками и айсбергом",
+  "title": "Caesar salad with shrimp - San Francisco.jpg",
+  "author": "Daderot",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Caesar_salad_with_shrimp_-_San_Francisco.jpg"
+ },
+ {
+  "key": "Паста с креветками в сливочном соусе",
+  "title": "Fiamma - Fettuccine with Alfredo Sauce.jpg",
+  "author": "Calgary Reviews",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Fiamma_-_Fettuccine_with_Alfredo_Sauce.jpg"
+ },
+ {
+  "key": "Индейка (филе) запечённая",
+  "title": "Turkey breast - December 2025 - Sarah Stierch.jpg",
+  "author": "Missvain",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Turkey_breast_-_December_2025_-_Sarah_Stierch.jpg"
+ },
+ {
+  "key": "Индейка (бедро), тушёная с овощами",
+  "title": "Turkish chicken stew.jpg",
+  "author": "ms.akr",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Turkish_chicken_stew.jpg"
+ },
+ {
+  "key": "Ролл-шаурма с индейкой в лаваше",
+  "title": "Handmade Chicken Shawarma Wrap - Lavash.jpg",
+  "author": "Andy Li",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Handmade_Chicken_Shawarma_Wrap_-_Lavash.jpg"
+ },
+ {
+  "key": "Сэндвич с индейкой и сыром на Бородинском",
+  "title": "Delicious sandwich (3295416015).jpg",
+  "author": "Neil Conway from Oakland, USA",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Delicious_sandwich_(3295416015).jpg"
+ },
+ {
+  "key": "Бутерброд с форелью и сливочным сыром",
+  "title": "Smoked salmon sourdough flatbread melt - Taylors 2025-05-04.jpg",
+  "author": "Andy Li",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Smoked_salmon_sourdough_flatbread_melt_-_Taylors_2025-05-04.jpg"
+ },
+ {
+  "key": "Форель с рисом и овощами",
+  "title": "Grilled Teriyaki Salmon (10900376705).jpg",
+  "author": "Prayitno",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Grilled_Teriyaki_Salmon_(10900376705).jpg"
+ },
+ {
+  "key": "Яичница с беконом",
+  "title": "Bacon and eggs 001.jpg",
+  "author": "Ocdp",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Bacon_and_eggs_001.jpg"
+ },
+ {
+  "key": "Панкейки",
+  "title": "Slicing Pancakes with Fork 374819.jpg",
+  "author": "Shared Food",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Slicing_Pancakes_with_Fork_374819.jpg"
+ },
+ {
+  "key": "Овсянка с бананом",
+  "title": "Banana oatmeal 2.jpg",
+  "author": "Shisma",
+  "license": "CC BY 4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/4.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Banana_oatmeal_2.jpg"
+ },
+ {
+  "key": "Тост с авокадо и яйцом",
+  "title": "Smashed avocado & poached eggs - M&S Café 2023-12-28.jpg",
+  "author": "Andy Li",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Smashed_avocado_%26_poached_eggs_-_M%26S_Caf%C3%A9_2023-12-28.jpg"
+ },
+ {
+  "key": "Салат «Цезарь» с курицей",
+  "title": "Chicken Caesar salad - Auckland, New Zealand.jpg",
+  "author": "Daderot",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Chicken_Caesar_salad_-_Auckland,_New_Zealand.jpg"
+ },
+ {
+  "key": "Спагетти болоньезе",
+  "title": "Lutong Bahay - Bolognese Spaghetti.jpg",
+  "author": "Dan Brian Gerona from Cebu City, Philippines",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Lutong_Bahay_-_Bolognese_Spaghetti.jpg"
+ },
+ {
+  "key": "Паста карбонара",
+  "title": "Carbonara of Italian Tomato Cafe (2).jpg",
+  "author": "毒島みるく",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Carbonara_of_Italian_Tomato_Cafe_(2).jpg"
+ },
+ {
+  "key": "Салат «Капрезе»",
+  "title": "Caprese salad in homemade.jpg",
+  "author": "spiralmushroom",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Caprese_salad_in_homemade.jpg"
+ },
+ {
+  "key": "Паста Альфредо с курицей",
+  "title": "Lori's Diner chicken fettucine alfredo.JPG",
+  "author": "BrokenSphere",
+  "license": "CC BY 3.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/3.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Lori%27s_Diner_chicken_fettucine_alfredo.JPG"
+ },
+ {
+  "key": "Лосось с брокколи",
+  "title": "Healthy Entree (8514368701).jpg",
+  "author": "Prayitno",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Healthy_Entree_(8514368701).jpg"
+ },
+ {
+  "key": "Бургер с говядиной",
+  "title": "Windows 7 Whopper - Burger King.jpg",
+  "author": "philippe.charles9 on Flickr",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Windows_7_Whopper_-_Burger_King.jpg"
+ },
+ {
+  "key": "Тако с говядиной",
+  "title": "Sonoritas DTLA Beef and chicken tacos (July 2022).jpg",
+  "author": "Benoît Prieur",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Sonoritas_DTLA_Beef_and_chicken_tacos_(July_2022).jpg"
+ },
+ {
+  "key": "Кесадилья с курицей",
+  "title": "Quesadilla - La Casa Restaurant - April 2023 - Sarah Stierch.jpg",
+  "author": "Missvain",
+  "license": "CC BY 4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/4.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Quesadilla_-_La_Casa_Restaurant_-_April_2023_-_Sarah_Stierch.jpg"
+ },
+ {
+  "key": "Греческий йогурт с черникой",
+  "title": "Blueberry Dessert (Unsplash).jpg",
+  "author": "Sylwia Bartyzel sylwiabartyzel",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Blueberry_Dessert_(Unsplash).jpg"
+ },
+ {
+  "key": "Ризотто с грибами",
+  "title": "Mushroom and Leek Risotto (49535206656).jpg",
+  "author": "spurekar",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Mushroom_and_Leek_Risotto_(49535206656).jpg"
+ },
+ {
+  "key": "Томатный суп",
+  "title": "Cream of Tomato Soup with Brie Toast.jpg",
+  "author": "Thriving Vegetarian",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Cream_of_Tomato_Soup_with_Brie_Toast.jpg"
+ },
+ {
+  "key": "Тост с арахисовой пастой и бананом",
+  "title": "Peanut ButterToast (32136852453).jpg",
+  "author": "NIAID",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Peanut_ButterToast_(32136852453).jpg"
+ },
+ {
+  "key": "Омлет со шпинатом и сыром",
+  "title": "Frittata2.jpg",
+  "author": "Dedda 71",
+  "license": "CC BY 3.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/3.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Frittata2.jpg"
+ },
+ {
+  "key": "Запечённая курица с картофелем",
+  "title": "Roasted chicken and potatoes.JPG",
+  "author": "Biso",
+  "license": "CC BY 3.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/3.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Roasted_chicken_and_potatoes.JPG"
+ },
+ {
+  "key": "Паста с креветками и чесноком",
+  "title": "Mary's Pizza Shack - December 2025 - Sarah Stierch 04.jpg",
+  "author": "Missvain",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Mary%27s_Pizza_Shack_-_December_2025_-_Sarah_Stierch_04.jpg"
+ },
+ {
+  "key": "Мисо-суп",
+  "title": "Miso Soup 001.jpg",
+  "author": "Ocdp",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Miso_Soup_001.jpg"
+ },
+ {
+  "key": "Онигири с лососем",
+  "title": "Salmon onigiri by yomi955.jpg",
+  "author": "yomi955",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Salmon_onigiri_by_yomi955.jpg"
+ },
+ {
+  "key": "Оякодон",
+  "title": "Oyakodon 003.jpg",
+  "author": "Ocdp",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Oyakodon_003.jpg"
+ },
+ {
+  "key": "Курица терияки",
+  "title": "Teriyaki Chicken (3284699052).jpg",
+  "author": "David Pursehouse from Kawasaki, Japan",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Teriyaki_Chicken_(3284699052).jpg"
+ },
+ {
+  "key": "Жареный рис с яйцом",
+  "title": "Kimchi fried rice 1.jpg",
+  "author": "Stacy Spensley",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Kimchi_fried_rice_1.jpg"
+ },
+ {
+  "key": "Рамен со свининой",
+  "title": "Shoyu Ramen @ Shichisai @ Tokyo Ramen Street (13165344585).jpg",
+  "author": "Guilhem Vellut from Annecy, France",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Shoyu_Ramen_@_Shichisai_@_Tokyo_Ramen_Street_(13165344585).jpg"
+ },
+ {
+  "key": "Удон с курицей",
+  "title": "Juicy Chicken Udon (dashi broth) - MOGUMOGU 2024-10-02.jpg",
+  "author": "Andy Li",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Juicy_Chicken_Udon_(dashi_broth)_-_MOGUMOGU_2024-10-02.jpg"
+ },
+ {
+  "key": "Гюдон",
+  "title": "Gyuu-don 001.jpg",
+  "author": "Ocdp",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Gyuu-don_001.jpg"
+ },
+ {
+  "key": "Кимчи-чиге",
+  "title": "Kimchi jjigae - San Francisco, CA.jpg",
+  "author": "Daderot",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Kimchi_jjigae_-_San_Francisco,_CA.jpg"
+ },
+ {
+  "key": "Пибимпап",
+  "title": "Dolsot-bibimbap.jpg",
+  "author": "Sous Chef",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Dolsot-bibimbap.jpg"
+ },
+ {
+  "key": "Пульгоги",
+  "title": "Bulgogi in Seoul.jpg",
+  "author": "Brücke-Osteuropa",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Bulgogi_in_Seoul.jpg"
+ },
+ {
+  "key": "Чапчхэ",
+  "title": "Japchae 3.jpg",
+  "author": "gamene",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Japchae_3.jpg"
+ },
+ {
+  "key": "Мапо тофу",
+  "title": "Mapo Tofu, Au Petit Grain de Sel, Paris 002.jpg",
+  "author": "Guilhem Vellut from Paris, France",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Mapo_Tofu,_Au_Petit_Grain_de_Sel,_Paris_002.jpg"
+ },
+ {
+  "key": "Курица гунбао",
+  "title": "Kung Pao chicken (western version) -1.jpg",
+  "author": "Alexander Marks (aomarks)",
+  "license": "Public Domain",
+  "licenseURL": "https://commons.wikimedia.org/wiki/File:Kung_Pao_chicken_(western_version)_-1.jpg",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Kung_Pao_chicken_(western_version)_-1.jpg"
+ },
+ {
+  "key": "Свинина в кисло-сладком соусе",
+  "title": "Cuisine of China 0007.JPG",
+  "author": "Brücke-Osteuropa",
+  "license": "Public Domain",
+  "licenseURL": "https://commons.wikimedia.org/wiki/File:Cuisine_of_China_0007.JPG",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Cuisine_of_China_0007.JPG"
+ },
+ {
+  "key": "Помидоры с яйцом",
+  "title": "トマトの卵炒め.jpg",
+  "author": "Suginami",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:%E3%83%88%E3%83%9E%E3%83%88%E3%81%AE%E5%8D%B5%E7%82%92%E3%82%81.jpg"
+ },
+ {
+  "key": "Соба с овощами",
+  "title": "Soba Noodle Bowl.jpg",
+  "author": "HarshLight",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Soba_Noodle_Bowl.jpg"
+ },
+ {
+  "key": "Тамагояки",
+  "title": "鳥焼き居酒屋 (39394233682).jpg",
+  "author": "極地狐",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:%E9%B3%A5%E7%84%BC%E3%81%8D%E5%B1%85%E9%85%92%E5%B1%8B_(39394233682).jpg"
+ },
+ {
+  "key": "Шпинат с кунжутом",
+  "title": "Spinach Goma-ae 001.jpg",
+  "author": "Ocdp",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Spinach_Goma-ae_001.jpg"
+ },
+ {
+  "key": "Салат из дайкона и пекинской капусты",
+  "title": "Kouhaku-namasu 001.jpg",
+  "author": "Ocdp",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Kouhaku-namasu_001.jpg"
+ },
+ {
+  "key": "Пад тай с креветками",
+  "title": "Pad Thai Noodles - Little Thai, Brighton 2024-03-21.jpg",
+  "author": "Andy Li",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Pad_Thai_Noodles_-_Little_Thai,_Brighton_2024-03-21.jpg"
+ },
+ {
+  "key": "Том ям с креветками",
+  "title": "Bangkok 9 - July 2024 - Sarah Stierch 05.jpg",
+  "author": "Missvain",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Bangkok_9_-_July_2024_-_Sarah_Stierch_05.jpg"
+ },
+ {
+  "key": "Том кха гай",
+  "title": "Soup Bowl (cropped).jpg",
+  "author": "THOR",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Soup_Bowl_(cropped).jpg"
+ },
+ {
+  "key": "Зелёное карри с курицей",
+  "title": "Green Curry, Kapunka Panoramas, Paris 002.jpg",
+  "author": "Guilhem Vellut from Paris, France",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Green_Curry,_Kapunka_Panoramas,_Paris_002.jpg"
+ },
+ {
+  "key": "Красное карри со свининой",
+  "title": "Red Curry, Saveurs d'Asie, 9 Rue de Vouillé, 75015 Paris, 5 November 2016 003.jpg",
+  "author": "Guilhem Vellut from Paris, France",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Red_Curry,_Saveurs_d%27Asie,_9_Rue_de_Vouill%C3%A9,_75015_Paris,_5_November_2016_003.jpg"
+ },
+ {
+  "key": "Кхао пхат с курицей",
+  "title": "Khao Phat Mu.jpg",
+  "author": "User:Mattes",
+  "license": "Public Domain",
+  "licenseURL": "https://commons.wikimedia.org/wiki/File:Khao_Phat_Mu.jpg",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Khao_Phat_Mu.jpg"
+ },
+ {
+  "key": "Пад кра пао со свининой",
+  "title": "Ka-phrao mu (basil fried pork) with rice & egg, Bangkok, 2019-03-31 (2).jpg",
+  "author": "Bitterschoko",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Ka-phrao_mu_(basil_fried_pork)_with_rice_%26_egg,_Bangkok,_2019-03-31_(2).jpg"
+ },
+ {
+  "key": "Сом там",
+  "title": "Som Tum ส้มตำไทย- mortar pounded green papaya salad with palm sugar, lime juice, bird eye chile, peanuts.jpg",
+  "author": "T.Tseng",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Som_Tum_%E0%B8%AA%E0%B9%89%E0%B8%A1%E0%B8%95%E0%B8%B3%E0%B9%84%E0%B8%97%E0%B8%A2-_mortar_pounded_green_papaya_salad_with_palm_sugar,_lime_juice,_bird_eye_chile,_peanuts.jpg"
+ },
+ {
+  "key": "Ларб из курицы",
+  "title": "Golden Cuisine cooked beef laab.jpg",
+  "author": "Sbrooks36",
+  "license": "CC BY 4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/4.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Golden_Cuisine_cooked_beef_laab.jpg"
+ },
+ {
+  "key": "Манго с клейким рисом",
+  "title": "Mango with glutinous rice.jpg",
+  "author": "Terence Ong",
+  "license": "CC BY 2.5",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.5",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Mango_with_glutinous_rice.jpg"
+ },
+ {
+  "key": "Пад си ю",
+  "title": "Phat si io IMG 0198.jpg",
+  "author": "Heiko S",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Phat_si_io_IMG_0198.jpg"
+ },
+ {
+  "key": "Кай джиао",
+  "title": "Khao khaichiao (omelette with rice), Bangkok, 2018-05-15.jpg",
+  "author": "Bitterschoko",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Khao_khaichiao_(omelette_with_rice),_Bangkok,_2018-05-15.jpg"
+ },
+ {
+  "key": "Сатай из курицы",
+  "title": "Chicken satay (NYC) May 2023.jpg",
+  "author": "Benoît Prieur",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Chicken_satay_(NYC)_May_2023.jpg"
+ },
+ {
+  "key": "Ям вун сен",
+  "title": "Street yam woon sen, although curiously served atop a bed of rice (4283636854).jpg",
+  "author": "eric molina from New York City, United States",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Street_yam_woon_sen,_although_curiously_served_atop_a_bed_of_rice_(4283636854).jpg"
+ },
+ {
+  "key": "Жареные овощи с устричным соусом",
+  "title": "Stir fried pea sprouts.jpg",
+  "author": "stu_spivack",
+  "license": "CC BY 2.0",
+  "licenseURL": "https://creativecommons.org/licenses/by/2.0",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Stir_fried_pea_sprouts.jpg"
+ },
+ {
+  "key": "Суп с рисовой лапшой и говядиной",
+  "title": "Pho Bo by Banh & Mee in Kirkgate Market.jpg",
+  "author": "Andy Li",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Pho_Bo_by_Banh_%26_Mee_in_Kirkgate_Market.jpg"
+ },
+ {
+  "key": "Курица с имбирём",
+  "title": "Chicken Ginger.JPG",
+  "author": "Miansari66",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Chicken_Ginger.JPG"
+ },
+ {
+  "key": "Тайский салат с огурцом",
+  "title": "Asian Cucumber Salad.jpg",
+  "author": "Thegreatmutata",
+  "license": "CC0 1.0",
+  "licenseURL": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "sourceURL": "https://commons.wikimedia.org/wiki/File:Asian_Cucumber_Salad.jpg"
+ }
+]

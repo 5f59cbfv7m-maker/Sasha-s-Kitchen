@@ -22,6 +22,23 @@ enum SyncCleanup {
             recipe.uid = UUID().uuidString
             changed = true
         }
+        // Фото стартовых рецептов появились в 1.1 — у загруженных раньше их нет.
+        // Один раз на устройство: рецепт узнаём по названию на языке устройства.
+        if !UserDefaults.standard.bool(forKey: "seedPhotosAdded") {
+            var keys: [String: String] = [:]
+            for key in SeedSet.allCases.flatMap({ $0.recipes.map(\.name) }) {
+                keys[key] = key
+                keys[Bundle.main.localizedString(forKey: key, value: key, table: "Seed")] = key
+            }
+            for recipe in recipes where !recipe.isCustom && recipe.photoData == nil {
+                if let key = keys[recipe.name], let photo = SeedPhotos.data(for: key) {
+                    recipe.photoData = photo
+                    changed = true
+                }
+            }
+            UserDefaults.standard.set(true, forKey: "seedPhotosAdded")
+        }
+
         // С семейной кухней uid нужен всем записям.
         for item in (try? context.fetch(FetchDescriptor<StockItem>())) ?? [] where item.uid.isEmpty {
             item.uid = UUID().uuidString; changed = true

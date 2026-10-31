@@ -322,6 +322,8 @@ UI = [
     "Toda la cocina",
     "La cocina se está cargando",
     "Los productos y recetas de la cocina familiar llegarán de iCloud en un minuto.",
+    "Fotos de recetas",
+    "Las fotos de las recetas iniciales son de Wikimedia Commons, con licencias libres. ¡Gracias a sus autores!",
 ]
 
 SEED = [

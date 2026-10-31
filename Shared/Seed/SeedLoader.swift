@@ -68,7 +68,8 @@ enum SeedLoader {
         for seed in set.recipes {
             let recipe = Recipe(name: name(seed.name),
                                 cookingTimeMinutes: seed.cookingTimeMinutes,
-                                baseServings: seed.baseServings)
+                                baseServings: seed.baseServings,
+                                photoData: SeedPhotos.data(for: seed.name))
             context.insert(recipe)
             for (index, item) in seed.ingredients.enumerated() {
                 guard let product = catalog[item.product] else {

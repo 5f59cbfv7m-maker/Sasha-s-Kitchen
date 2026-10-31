@@ -322,6 +322,8 @@ UI = [
     "Whole Kitchen",
     "The kitchen is loading",
     "The family kitchen’s products and recipes will arrive from iCloud in a minute.",
+    "Recipe Photos",
+    "Starter recipe photos come from Wikimedia Commons under free licenses. Thanks to the authors!",
 ]
 
 SEED = [
