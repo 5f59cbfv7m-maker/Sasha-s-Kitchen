@@ -145,7 +145,7 @@ UI = [
     "No hay recetas",
     "Recetas",
     "Recetas en tarjetas: vídeo o foto, descripción breve y autor.",  # 145
-    "El escáner está en las pestañas Nevera y Por comprar. El nombre y los valores nutricionales vienen de la base abierta Open Food Facts; allí solo se envía el código de barras.",
+    "El escáner está en las pestañas Nevera y Por comprar. El nombre y los nutrientes vienen de la base abierta Open Food Facts (© sus colaboradores, ODbL; fotos CC BY-SA) y, si el producto no está, el nombre viene de UPCitemdb. Solo se envía el código de barras.",
     "Al restablecer se borran todas las existencias, tus recetas, la lista de la compra y el diario —en todos tus dispositivos— y se vuelve a cargar el kit inicial de productos y recetas.",
     "Restablecer",
     "¿Restablecer los datos?",
@@ -216,13 +216,13 @@ UI = [
     "La base no tiene valores nutricionales.",
     "Apunta la cámara al código de barras del envase.",  # 215
     "Buscar",
-    "No se pudo conectar con Open Food Facts. Revisa tu conexión a Internet.",
+    "No se ha podido conectar con las bases de productos. Comprueba tu conexión.",
     "Rellenar el formulario",
     "Guardar en la nevera",
     "Reponer: %@",  # 220
-    "Los datos vienen de la base abierta Open Food Facts. Solo se envía el código de barras.",
+    "Los datos de los productos vienen de las bases abiertas Open Food Facts y UPCitemdb. Solo se envía el código de barras.",
     "Escanear otra vez",
-    "Este código no está en Open Food Facts.",
+    "Este código de barras no está en las bases abiertas.",
     "Números bajo el código de barras",
     "Código de barras",  # 225
     "Código de barras: %@",
@@ -265,6 +265,9 @@ UI = [
     "Por comprar: %@",
     "Nada caduca en los próximos días.",
     "Caduca pronto: %@",
+    "Fuente: %@",
+    "Añadir a Open Food Facts",
+    "Open Food Facts es una base abierta que completan los propios compradores. Añade el producto y todos lo encontrarán.",
 ]
 
 SEED = [

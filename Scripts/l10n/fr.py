@@ -145,7 +145,7 @@ UI = [
     "Aucune recette",
     "Recettes",
     "Des recettes en cartes : vidéo ou photo, courte description, auteur.",  # 145
-    "Le scanner se trouve dans les onglets Frigo et À acheter. Le nom et les valeurs nutritionnelles viennent de la base ouverte Open Food Facts ; seul le code-barres y est envoyé.",
+    "Le scanner se trouve dans les onglets Frigo et À acheter. Le nom et les valeurs nutritionnelles viennent de la base ouverte Open Food Facts (© ses contributeurs, ODbL ; photos CC BY-SA) et, si le produit n’y est pas, le nom vient d’UPCitemdb. Seul le code-barres est envoyé.",
     "La réinitialisation supprime tous les stocks, vos recettes, la liste de courses et le journal — sur tous vos appareils — puis recharge le kit de départ de produits et de recettes.",
     "Réinitialiser",
     "Réinitialiser les données ?",
@@ -216,13 +216,13 @@ UI = [
     "Pas de valeurs nutritionnelles dans la base.",
     "Visez le code-barres de l’emballage avec l’appareil photo.",  # 215
     "Chercher",
-    "Impossible de joindre Open Food Facts. Vérifiez votre connexion Internet.",
+    "Impossible de joindre les bases de produits. Vérifiez votre connexion.",
     "Remplir le formulaire",
     "Mettre au frigo",
     "Réapprovisionner : %@",  # 220
-    "Les informations viennent de la base ouverte Open Food Facts. Seul le code-barres est envoyé.",
+    "Les informations viennent des bases ouvertes Open Food Facts et UPCitemdb. Seul le code-barres est envoyé.",
     "Scanner à nouveau",
-    "Ce code-barres n’est pas dans Open Food Facts.",
+    "Ce code-barres ne figure pas dans les bases ouvertes.",
     "Chiffres sous le code-barres",
     "Code-barres",  # 225
     "Code-barres : %@",
@@ -265,6 +265,9 @@ UI = [
     "À acheter : %@",
     "Rien ne périme dans les prochains jours.",
     "Périme bientôt : %@",
+    "Source : %@",
+    "Ajouter à Open Food Facts",
+    "Open Food Facts est une base ouverte alimentée par les consommateurs. Ajoutez le produit et tout le monde le trouvera.",
 ]
 
 SEED = [

@@ -170,7 +170,7 @@ tsp/tbsp/cups/qt) — слой показа и ввода: `Fmt.amount` пере
 
 **Сканер.** `DataScannerViewController` (VisionKit) на Mac Catalyst недоступен
 и в симуляторе не поддерживается — там `ScanSheet` показывает только ввод цифр.
-Проверять камеру — только на устройстве. Open Food Facts получает лишь штрихкод,
+Проверять камеру — только на устройстве. Поиск: Open Food Facts API v3 с `product_type=all` (сам переадресует в Beauty/Pet/Products Facts), потом UPCitemdb (без ключа, 100 запросов в день с IP, только название). Японские/корейские базы требуют ключа разработчика, USDA запрещает вшивать ключ — не подключены. Open Food Facts получает лишь штрихкод,
 и `FoodFacts.normalized` пропускает в адрес запроса только 8–14 цифр.
 
 **`ImageRenderer` не рендерит `List` и `NavigationStack`** — отдаёт жёлтую

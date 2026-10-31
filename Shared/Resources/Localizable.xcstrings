@@ -767,6 +767,70 @@
         }
       }
     },
+    "Open Food Facts — открытая база, которую пополняют сами покупатели. Добавьте продукт — и он найдётся у всех.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Facts ist eine offene Datenbank, die Käufer selbst füllen. Füge das Produkt hinzu – dann finden es alle."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Facts is an open database filled in by shoppers themselves. Add the product and everyone will find it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Facts es una base abierta que completan los propios compradores. Añade el producto y todos lo encontrarán."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Facts est une base ouverte alimentée par les consommateurs. Ajoutez le produit et tout le monde le trouvera."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Facts è un database aperto compilato dagli stessi acquirenti. Aggiungi il prodotto e lo troveranno tutti."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Factsは買い物をする人たち自身がつくるオープンデータベースです。商品を追加すれば、みんなが見つけられるようになります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Facts는 소비자가 직접 채우는 공개 데이터베이스입니다. 제품을 추가하면 모두가 찾을 수 있습니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Open Food Facts é uma base aberta preenchida pelos próprios compradores. Adicione o produto e todos vão encontrá-lo."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Facts เป็นฐานข้อมูลเปิดที่ผู้ซื้อช่วยกันเติม เพิ่มสินค้านี้แล้วทุกคนจะค้นหาเจอ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Facts 是由消费者自己补充的开放数据库。添加这个商品，大家就都能找到它。"
+          }
+        }
+      }
+    },
     "iCloud": {
       "localizations": {
         "de": {
@@ -2907,6 +2971,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "添加"
+          }
+        }
+      }
+    },
+    "Добавить в Open Food Facts": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu Open Food Facts hinzufügen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add to Open Food Facts"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir a Open Food Facts"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter à Open Food Facts"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiungi a Open Food Facts"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Factsに追加"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Food Facts에 추가"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar ao Open Food Facts"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เพิ่มลงใน Open Food Facts"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加到 Open Food Facts"
           }
         }
       }
@@ -5627,6 +5755,70 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "Источник: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quelle: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source: %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fuente: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source : %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fonte: %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出典：%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "출처: %@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fonte: %@"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แหล่งข้อมูล: %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "来源：%@"
           }
         }
       }
@@ -8447,66 +8639,66 @@
         }
       }
     },
-    "Не удалось связаться с Open Food Facts. Проверьте интернет.": {
+    "Не удалось связаться с базами продуктов. Проверьте интернет.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open Food Facts ist nicht erreichbar. Prüfe die Internetverbindung."
+            "value": "Die Produktdatenbanken sind nicht erreichbar. Prüfe die Internetverbindung."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Couldn’t reach Open Food Facts. Check your internet connection."
+            "value": "Couldn’t reach the product databases. Check your internet connection."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "No se pudo conectar con Open Food Facts. Revisa tu conexión a Internet."
+            "value": "No se ha podido conectar con las bases de productos. Comprueba tu conexión."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Impossible de joindre Open Food Facts. Vérifiez votre connexion Internet."
+            "value": "Impossible de joindre les bases de produits. Vérifiez votre connexion."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Impossibile raggiungere Open Food Facts. Controlla la connessione."
+            "value": "Impossibile raggiungere i database dei prodotti. Controlla la connessione."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open Food Factsに接続できませんでした。インターネット接続を確認してください。"
+            "value": "商品データベースに接続できませんでした。インターネット接続を確認してください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open Food Facts에 연결할 수 없습니다. 인터넷 연결을 확인하세요."
+            "value": "제품 데이터베이스에 연결할 수 없습니다. 인터넷 연결을 확인하세요."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Não foi possível acessar o Open Food Facts. Verifique a internet."
+            "value": "Não foi possível acessar as bases de produtos. Verifique a internet."
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "เชื่อมต่อ Open Food Facts ไม่ได้ ตรวจสอบอินเทอร์เน็ต"
+            "value": "เชื่อมต่อฐานข้อมูลสินค้าไม่ได้ โปรดตรวจสอบอินเทอร์เน็ต"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "无法连接 Open Food Facts。请检查网络。"
+            "value": "无法连接商品数据库，请检查网络。"
           }
         }
       }
@@ -12287,66 +12479,66 @@
         }
       }
     },
-    "Сведения о продуктах — из открытой базы Open Food Facts. Отправляется только сам штрихкод.": {
+    "Сведения о продуктах — из открытых баз Open Food Facts и UPCitemdb. Отправляется только сам штрихкод.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Produktdaten kommen aus der offenen Datenbank Open Food Facts. Gesendet wird nur der Barcode."
+            "value": "Produktangaben stammen aus den offenen Datenbanken Open Food Facts und UPCitemdb. Gesendet wird nur der Barcode selbst."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Product details come from the open Open Food Facts database. Only the barcode itself is sent."
+            "value": "Product details come from the open Open Food Facts and UPCitemdb databases. Only the barcode itself is sent."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Los datos vienen de la base abierta Open Food Facts. Solo se envía el código de barras."
+            "value": "Los datos de los productos vienen de las bases abiertas Open Food Facts y UPCitemdb. Solo se envía el código de barras."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les informations viennent de la base ouverte Open Food Facts. Seul le code-barres est envoyé."
+            "value": "Les informations viennent des bases ouvertes Open Food Facts et UPCitemdb. Seul le code-barres est envoyé."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "I dati arrivano dal database aperto Open Food Facts. Viene inviato solo il codice a barre."
+            "value": "Le informazioni sui prodotti vengono dai database aperti Open Food Facts e UPCitemdb. Viene inviato solo il codice a barre."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "食品の情報はオープンデータベースOpen Food Factsから取得します。送信するのはバーコードだけです。"
+            "value": "商品情報はオープンデータベースのOpen Food FactsとUPCitemdbから取得します。送信されるのはバーコードだけです。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "식품 정보는 공개 데이터베이스 Open Food Facts에서 가져옵니다. 바코드만 전송됩니다."
+            "value": "제품 정보는 공개 데이터베이스 Open Food Facts와 UPCitemdb에서 가져옵니다. 바코드만 전송됩니다."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Os dados vêm da base aberta Open Food Facts. Só o código de barras é enviado."
+            "value": "Os dados dos produtos vêm das bases abertas Open Food Facts e UPCitemdb. Só o código de barras é enviado."
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "ข้อมูลสินค้ามาจากฐานข้อมูลเปิด Open Food Facts โดยส่งไปแค่บาร์โค้ด"
+            "value": "ข้อมูลสินค้ามาจากฐานข้อมูลเปิด Open Food Facts และ UPCitemdb ส่งไปเฉพาะบาร์โค้ดเท่านั้น"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "食材信息来自开放数据库 Open Food Facts。只会发送条形码本身。"
+            "value": "商品信息来自开放数据库 Open Food Facts 和 UPCitemdb，只会发送条形码本身。"
           }
         }
       }
@@ -12607,66 +12799,66 @@
         }
       }
     },
-    "Сканер — на вкладках «Холодильник» и «Для покупки». Название и КБЖУ приходят из открытой базы Open Food Facts; туда уходит только сам штрихкод.": {
+    "Сканер — на вкладках «Холодильник» и «Для покупки». Название и КБЖУ приходят из открытой базы Open Food Facts (© её участники, ODbL; фото — CC BY-SA), а если там продукта нет — название из UPCitemdb. Туда уходит только сам штрихкод.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Der Scanner ist in den Tabs „Kühlschrank“ und „Einkaufen“. Name und Nährwerte kommen aus der offenen Datenbank Open Food Facts; dorthin geht nur der Barcode selbst."
+            "value": "Der Scanner ist in den Tabs „Kühlschrank“ und „Einkaufen“. Name und Nährwerte kommen aus der offenen Datenbank Open Food Facts (© ihre Mitwirkenden, ODbL; Fotos CC BY-SA), und fehlt ein Produkt dort, der Name aus UPCitemdb. Gesendet wird nur der Barcode."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The scanner is on the Fridge and To Buy tabs. Names and nutrition come from the open Open Food Facts database; only the barcode itself is sent there."
+            "value": "The scanner is on the Fridge and To Buy tabs. Name and nutrition come from the open Open Food Facts database (© its contributors, ODbL; photos CC BY-SA), and if a product isn’t there, the name comes from UPCitemdb. Only the barcode itself is sent."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "El escáner está en las pestañas Nevera y Por comprar. El nombre y los valores nutricionales vienen de la base abierta Open Food Facts; allí solo se envía el código de barras."
+            "value": "El escáner está en las pestañas Nevera y Por comprar. El nombre y los nutrientes vienen de la base abierta Open Food Facts (© sus colaboradores, ODbL; fotos CC BY-SA) y, si el producto no está, el nombre viene de UPCitemdb. Solo se envía el código de barras."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Le scanner se trouve dans les onglets Frigo et À acheter. Le nom et les valeurs nutritionnelles viennent de la base ouverte Open Food Facts ; seul le code-barres y est envoyé."
+            "value": "Le scanner se trouve dans les onglets Frigo et À acheter. Le nom et les valeurs nutritionnelles viennent de la base ouverte Open Food Facts (© ses contributeurs, ODbL ; photos CC BY-SA) et, si le produit n’y est pas, le nom vient d’UPCitemdb. Seul le code-barres est envoyé."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lo scanner si trova nelle schede Frigo e Da comprare. Nome e valori nutrizionali arrivano dal database aperto Open Food Facts; lì viene inviato solo il codice a barre."
+            "value": "Lo scanner è nelle schede Frigo e Da comprare. Nome e valori nutrizionali vengono dal database aperto Open Food Facts (© i suoi contributori, ODbL; foto CC BY-SA) e, se il prodotto non c’è, il nome viene da UPCitemdb. Viene inviato solo il codice a barre."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "スキャナは「冷蔵庫」と「買い物」タブにあります。名前と栄養価はオープンデータベースOpen Food Factsから取得し、送信するのはバーコードだけです。"
+            "value": "スキャナは「冷蔵庫」と「買い物」タブにあります。商品名と栄養素はオープンデータベースOpen Food Facts（© 投稿者、ODbL、写真はCC BY-SA）から、見つからない場合は商品名をUPCitemdbから取得します。送信されるのはバーコードだけです。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "스캐너는 ‘냉장고’와 ‘살 것’ 탭에 있습니다. 이름과 영양 성분은 공개 데이터베이스 Open Food Facts에서 가져오며, 바코드만 전송됩니다."
+            "value": "스캐너는 ‘냉장고’와 ‘살 것’ 탭에 있습니다. 이름과 영양 성분은 공개 데이터베이스 Open Food Facts(© 기여자들, ODbL, 사진 CC BY-SA)에서, 없으면 이름을 UPCitemdb에서 가져옵니다. 바코드만 전송됩니다."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "O leitor fica nas abas Geladeira e Para comprar. Nome e valores nutricionais vêm da base aberta Open Food Facts; só o código de barras é enviado para lá."
+            "value": "O leitor fica nas abas Geladeira e Para comprar. O nome e os nutrientes vêm da base aberta Open Food Facts (© seus colaboradores, ODbL; fotos CC BY-SA) e, se o produto não estiver lá, o nome vem do UPCitemdb. Só o código de barras é enviado."
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "ตัวสแกนอยู่ในแท็บ “ตู้เย็น” และ “ต้องซื้อ” ชื่อและโภชนาการมาจากฐานข้อมูลเปิด Open Food Facts โดยส่งไปแค่บาร์โค้ดเท่านั้น"
+            "value": "เครื่องสแกนอยู่ในแท็บ “ตู้เย็น” และ “ต้องซื้อ” ชื่อและโภชนาการมาจากฐานข้อมูลเปิด Open Food Facts (© ผู้ร่วมให้ข้อมูล, ODbL; รูปภาพ CC BY-SA) ถ้าไม่พบ จะใช้ชื่อจาก UPCitemdb ส่งไปเฉพาะบาร์โค้ดเท่านั้น"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "扫描器在“冰箱”和“待购买”标签页。名称和营养成分来自开放数据库 Open Food Facts，只会发送条形码本身。"
+            "value": "扫描器在“冰箱”和“待购买”标签页。名称和营养数据来自开放数据库 Open Food Facts（© 其贡献者，ODbL；图片 CC BY-SA），找不到时名称来自 UPCitemdb。只会发送条形码本身。"
           }
         }
       }
@@ -13951,66 +14143,66 @@
         }
       }
     },
-    "Такого штрихкода нет в базе Open Food Facts.": {
+    "Такого штрихкода нет в открытых базах.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dieser Barcode ist nicht in Open Food Facts."
+            "value": "Dieser Barcode ist in den offenen Datenbanken nicht vorhanden."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This barcode isn’t in the Open Food Facts database."
+            "value": "This barcode isn’t in the open databases."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Este código no está en Open Food Facts."
+            "value": "Este código de barras no está en las bases abiertas."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ce code-barres n’est pas dans Open Food Facts."
+            "value": "Ce code-barres ne figure pas dans les bases ouvertes."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Questo codice non è in Open Food Facts."
+            "value": "Questo codice a barre non è nei database aperti."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "このバーコードはOpen Food Factsにありません。"
+            "value": "このバーコードはオープンデータベースにありません。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "이 바코드는 Open Food Facts에 없습니다."
+            "value": "이 바코드는 공개 데이터베이스에 없습니다."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Este código não está no Open Food Facts."
+            "value": "Este código de barras não está nas bases abertas."
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "ไม่มีบาร์โค้ดนี้ใน Open Food Facts"
+            "value": "ไม่พบบาร์โค้ดนี้ในฐานข้อมูลเปิด"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open Food Facts 中没有这个条形码。"
+            "value": "开放数据库中没有这个条形码。"
           }
         }
       }

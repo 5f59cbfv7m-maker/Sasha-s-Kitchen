@@ -145,7 +145,7 @@ UI = [
     "Sem receitas",
     "Receitas",
     "Receitas em cartões: vídeo ou foto, descrição curta, autor.",  # 145
-    "O leitor fica nas abas Geladeira e Para comprar. Nome e valores nutricionais vêm da base aberta Open Food Facts; só o código de barras é enviado para lá.",
+    "O leitor fica nas abas Geladeira e Para comprar. O nome e os nutrientes vêm da base aberta Open Food Facts (© seus colaboradores, ODbL; fotos CC BY-SA) e, se o produto não estiver lá, o nome vem do UPCitemdb. Só o código de barras é enviado.",
     "Redefinir apaga todo o estoque, suas receitas, a lista de compras e o diário — em todos os seus aparelhos — e depois recarrega o kit inicial de produtos e receitas.",
     "Redefinir",
     "Redefinir os dados?",
@@ -216,13 +216,13 @@ UI = [
     "A base não tem valores nutricionais.",
     "Aponte a câmera para o código de barras da embalagem.",  # 215
     "Buscar",
-    "Não foi possível acessar o Open Food Facts. Verifique a internet.",
+    "Não foi possível acessar as bases de produtos. Verifique a internet.",
     "Preencher o formulário",
     "Guardar na geladeira",
     "Repor: %@",  # 220
-    "Os dados vêm da base aberta Open Food Facts. Só o código de barras é enviado.",
+    "Os dados dos produtos vêm das bases abertas Open Food Facts e UPCitemdb. Só o código de barras é enviado.",
     "Ler outro",
-    "Este código não está no Open Food Facts.",
+    "Este código de barras não está nas bases abertas.",
     "Números abaixo do código de barras",
     "Código de barras",  # 225
     "Código de barras: %@",
@@ -265,6 +265,9 @@ UI = [
     "Comprar: %@",
     "Nada vence nos próximos dias.",
     "Vence logo: %@",
+    "Fonte: %@",
+    "Adicionar ao Open Food Facts",
+    "O Open Food Facts é uma base aberta preenchida pelos próprios compradores. Adicione o produto e todos vão encontrá-lo.",
 ]
 
 SEED = [

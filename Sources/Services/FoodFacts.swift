@@ -1,7 +1,13 @@
 import Foundation
 
-/// Сведения о продукте по штрихкоду из открытой базы Open Food Facts
-/// (без ключа и регистрации). Наружу уходит только сам штрихкод.
+/// Сведения о продукте по штрихкоду из открытых баз без ключа и регистрации:
+/// сначала Open Food Facts (еда, а заодно косметика, корм и прочее из
+/// родственных баз), если там нет — UPCitemdb (названия любых товаров, без
+/// КБЖУ). Наружу уходит только сам штрихкод.
+///
+/// Японские (Yahoo! Shopping) и корейские (MFDS) базы требуют ключа на
+/// разработчика — подключать, когда ключи будут; в России, Китае и Таиланде
+/// открытых баз, кроме Open Food Facts, нет.
 nonisolated enum FoodFacts {
 
     struct Info: Sendable, Equatable {
@@ -12,6 +18,12 @@ nonisolated enum FoodFacts {
         var imageURL: URL?
         /// КБЖУ на 100 г; nil, если база их не знает.
         var per100: Nutrition?
+        var source: Source = .openFoodFacts
+    }
+
+    enum Source: String, Sendable {
+        case openFoodFacts = "Open Food Facts"
+        case upcItemDB = "UPCitemdb"
     }
 
     enum LookupError: LocalizedError {
@@ -20,8 +32,8 @@ nonisolated enum FoodFacts {
         var errorDescription: String? {
             switch self {
             case .badBarcode: String(localized: "Это не похоже на штрихкод: нужны 8–14 цифр.")
-            case .notFound: String(localized: "Такого штрихкода нет в базе Open Food Facts.")
-            case .network: String(localized: "Не удалось связаться с Open Food Facts. Проверьте интернет.")
+            case .notFound: String(localized: "Такого штрихкода нет в открытых базах.")
+            case .network: String(localized: "Не удалось связаться с базами продуктов. Проверьте интернет.")
             }
         }
     }
@@ -37,25 +49,54 @@ nonisolated enum FoodFacts {
     static func lookup(_ raw: String, language: String = Locale.current.language.languageCode?.identifier ?? "en")
         async throws -> Info {
         guard let code = normalized(raw) else { throw LookupError.badBarcode }
+        var reached = false
+        // v3 с product_type=all сам переадресует в Open Beauty/Pet Food/Products Facts.
         let fields = "product_name,product_name_\(language),brands,quantity,image_front_small_url,nutriments"
-        let url = URL(string: "https://world.openfoodfacts.org/api/v2/product/\(code).json?fields=\(fields)")!
-        var request = URLRequest(url: url, timeoutInterval: 15)
-        // Open Food Facts просит представляться.
-        request.setValue("SashasKitchen/1.1 (iOS; github.com/5f59cbfv7m-maker/Sasha-s-Kitchen)",
-                         forHTTPHeaderField: "User-Agent")
-        let data: Data
-        do {
-            (data, _) = try await URLSession.shared.data(for: request)
-        } catch {
-            throw LookupError.network
+        if let data = await get("https://world.openfoodfacts.org/api/v3/product/\(code)?product_type=all&lc=\(language)&fields=\(fields)") {
+            reached = true
+            if let info = parse(data, barcode: code, language: language) { return info }
         }
-        guard let info = parse(data, barcode: code, language: language) else { throw LookupError.notFound }
-        return info
+        if let data = await get("https://api.upcitemdb.com/prod/trial/lookup?upc=\(code)") {
+            reached = true
+            if let info = parseUPCitemdb(data, barcode: code) { return info }
+        }
+        throw reached ? LookupError.notFound : LookupError.network
+    }
+
+    /// Ответ сервера или nil, если до него не достучаться. 404 и 429 (лимит
+    /// бесплатных запросов) — тоже ответ: «здесь не нашли».
+    private static func get(_ address: String) async -> Data? {
+        guard let url = URL(string: address) else { return nil }
+        var request = URLRequest(url: url, timeoutInterval: 15)
+        // Open Food Facts просит представляться: имя, версия, контакт.
+        request.setValue("SashasKitchen/1.1 (support@keelspan.app)", forHTTPHeaderField: "User-Agent")
+        return try? await URLSession.shared.data(for: request).0
+    }
+
+    /// UPCitemdb: название и картинка любого товара, без КБЖУ.
+    static func parseUPCitemdb(_ data: Data, barcode: String) -> Info? {
+        guard let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let item = (root["items"] as? [[String: Any]])?.first,
+              let title = (item["title"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty
+        else { return nil }
+        func text(_ key: String) -> String? {
+            (item[key] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty
+        }
+        return Info(barcode: barcode, name: title, brand: text("brand"), quantity: text("size"),
+                    imageURL: (item["images"] as? [String])?.first.flatMap(URL.init(string:)),
+                    per100: nil, source: .upcItemDB)
+    }
+
+    /// Страница продукта в Open Food Facts: если его там нет, сайт предложит
+    /// добавить — тогда он найдётся у всех.
+    static func contributeURL(for barcode: String) -> URL? {
+        URL(string: "https://world.openfoodfacts.org/product/\(barcode)")
     }
 
     static func parse(_ data: Data, barcode: String, language: String) -> Info? {
         guard let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              (root["status"] as? Int) == 1,
+              // v3 — "success", старый v2 — 1.
+              (root["status"] as? String) == "success" || (root["status"] as? Int) == 1,
               let product = root["product"] as? [String: Any] else { return nil }
 
         func text(_ key: String) -> String? {

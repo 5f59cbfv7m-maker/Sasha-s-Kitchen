@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import FridgeOracle
 
-@Suite("Сканер: Open Food Facts")
+@Suite("Сканер: Open Food Facts и UPCitemdb")
 struct FoodFactsTests {
 
     @Test("В адрес запроса попадают только 8–14 цифр")
@@ -41,5 +41,30 @@ struct FoodFactsTests {
                                                 barcode: "1", language: "en"))
         #expect(bare.per100 == nil)
         #expect(bare.brand == nil)
+    }
+
+    @Test("Ответ API v3 Open Food Facts разбирается так же")
+    func parseV3() throws {
+        let json = """
+        {"status": "success", "result": {"id": "product_found"}, "product": {"product_name": "Nutella", "brands": "Nutella, Ferrero",
+          "nutriments": {"energy-kcal_100g": 539, "proteins_100g": 6.3, "fat_100g": 30.9, "carbohydrates_100g": 57.5}}}
+        """
+        let info = try #require(FoodFacts.parse(Data(json.utf8), barcode: "3017620422003", language: "ru"))
+        #expect(info.name == "Nutella" && info.brand == "Nutella" && info.source == .openFoodFacts)
+        #expect(FoodFacts.parse(Data(#"{"status": "failure", "result": {"id": "product_not_found"}}"#.utf8),
+                                barcode: "1", language: "en") == nil)
+    }
+
+    @Test("UPCitemdb: название, бренд, размер и картинка, без КБЖУ")
+    func parseUPCitemdb() throws {
+        let json = """
+        {"code": "OK", "total": 1, "items": [{"ean": "0885909950805", "title": " Apple iPhone 6 ", "brand": "Apple",
+          "size": "64 GB", "images": ["https://example.com/a.jpg"]}]}
+        """
+        let info = try #require(FoodFacts.parseUPCitemdb(Data(json.utf8), barcode: "885909950805"))
+        #expect(info.name == "Apple iPhone 6" && info.brand == "Apple" && info.quantity == "64 GB")
+        #expect(info.per100 == nil && info.source == .upcItemDB && info.imageURL != nil)
+        #expect(FoodFacts.parseUPCitemdb(Data(#"{"code": "OK", "total": 0, "items": []}"#.utf8), barcode: "1") == nil)
+        #expect(FoodFacts.parseUPCitemdb(Data(#"{"code": "TOO_FAST"}"#.utf8), barcode: "1") == nil)
     }
 }
