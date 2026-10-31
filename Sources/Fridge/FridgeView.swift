@@ -240,7 +240,19 @@ struct FridgeView: View {
 
     /// Первый запуск: база пуста. С iCloud данные с других устройств придут
     /// сами, поэтому стартовый набор — по кнопке, а не молча.
+    @ViewBuilder
     private var firstLaunch: some View {
+        // Семейная кухня приходит из iCloud владельца — стартовый набор в неё
+        // не грузим, он ушёл бы владельцу.
+        if FamilyKitchen.shared.joined[UserDefaults.standard.string(forKey: FamilyKitchen.activeKey) ?? ""] != nil {
+            EmptyStateView(symbol: "icloud.and.arrow.down", title: "Кухня загружается",
+                           message: "Продукты и рецепты семейной кухни придут из iCloud через минуту.")
+        } else {
+            starterSetOffer
+        }
+    }
+
+    private var starterSetOffer: some View {
         VStack(spacing: 18) {
             EmptyStateView(
                 symbol: "refrigerator",

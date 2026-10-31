@@ -11,9 +11,12 @@ final class StockItem {
     var initialAmount: Double = 0
     var purchaseDate: Date = Date.now
     var expiryDate: Date?
+    /// Ключ записи в семейной кухне (см. `Product.uid`).
+    var uid: String = ""
 
     init(product: Product, currentAmount: Double, initialAmount: Double? = nil,
          purchaseDate: Date = .now, expiryDate: Date? = nil) {
+        self.uid = UUID().uuidString
         self.product = product
         self.currentAmount = currentAmount
         self.initialAmount = max(initialAmount ?? currentAmount, currentAmount)

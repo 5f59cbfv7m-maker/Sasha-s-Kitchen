@@ -3,6 +3,9 @@ import SwiftUI
 import WidgetKit
 
 struct RootView: View {
+    /// Открыта чужая семейная кухня — с каким доступом; nil — своя.
+    var familyAccess: KitchenAccess?
+
     @Environment(\.modelContext) private var context
     @Query private var stock: [StockItem]
     @Query(filter: #Predicate<ShoppingItem> { !$0.isBought }) private var listed: [ShoppingItem]
@@ -68,27 +71,30 @@ struct RootView: View {
             Tab(TabID.fridge.title, systemImage: TabID.fridge.symbol, value: .fridge) {
                 FridgeView()
             }
-            Tab(TabID.shopping.title, systemImage: TabID.shopping.symbol, value: .shopping) {
-                ShoppingListView()
-            }
-            .badge(shoppingCount)
-            Tab(TabID.recipes.title, systemImage: TabID.recipes.symbol, value: .recipes) {
-                RecipesView()
-            }
-            Tab(TabID.plan.title, systemImage: TabID.plan.symbol, value: .plan) {
-                MealPlanView()
-            }
-            // Заглушка: к бэкенду магазина приложение намеренно не ходит,
-            // пока магазин не достроен. См. Sources/Store/ и server/.
-            // В App Store вкладка «Скоро» не показывается: недоделанные функции
-            // ревью отклоняет (Guideline 2.1). Магазин готов — `showsStore = true`.
-            if Self.showsStore {
-                Tab(TabID.store.title, systemImage: TabID.store.symbol, value: .store) {
-                    StoreComingSoonView()
+            // В семейной кухне с доступом «только холодильник» — только он.
+            if familyAccess != .fridge {
+                Tab(TabID.shopping.title, systemImage: TabID.shopping.symbol, value: .shopping) {
+                    ShoppingListView()
                 }
-            }
-            Tab(TabID.log.title, systemImage: TabID.log.symbol, value: .log) {
-                CookingLogView()
+                .badge(shoppingCount)
+                Tab(TabID.recipes.title, systemImage: TabID.recipes.symbol, value: .recipes) {
+                    RecipesView()
+                }
+                Tab(TabID.plan.title, systemImage: TabID.plan.symbol, value: .plan) {
+                    MealPlanView()
+                }
+                // Заглушка: к бэкенду магазина приложение намеренно не ходит,
+                // пока магазин не достроен. См. Sources/Store/ и server/.
+                // В App Store вкладка «Скоро» не показывается: недоделанные функции
+                // ревью отклоняет (Guideline 2.1). Магазин готов — `showsStore = true`.
+                if Self.showsStore {
+                    Tab(TabID.store.title, systemImage: TabID.store.symbol, value: .store) {
+                        StoreComingSoonView()
+                    }
+                }
+                Tab(TabID.log.title, systemImage: TabID.log.symbol, value: .log) {
+                    CookingLogView()
+                }
             }
             Tab(TabID.settings.title, systemImage: TabID.settings.symbol, value: .settings) {
                 SettingsView()

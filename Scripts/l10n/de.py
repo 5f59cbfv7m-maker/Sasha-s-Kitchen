@@ -310,6 +310,18 @@ UI = [
     "In Health speichern",
     "Health",
     "Nach „Gekocht“ werden Kalorien, Eiweiß, Fett und Kohlenhydrate einer Portion in Health gespeichert. Die App schreibt nur und liest nichts.",
+    "Familienküche",
+    "Geöffnete Küche",
+    "Meine Küche",
+    "Küche: %@",
+    "Wer in der Küche ist",
+    "Zugriff",
+    "In die Küche einladen",
+    "Lade deine Familie über iCloud ein: Sie bekommt deine Küche – nur den Kühlschrank oder alles – und was sie ändert, erscheint bei dir. Die eingeladene Person wählt hier, welche Küche geöffnet ist.",
+    "Nur Kühlschrank",
+    "Ganze Küche",
+    "Die Küche wird geladen",
+    "Produkte und Rezepte der Familienküche kommen in einer Minute aus iCloud.",
 ]
 
 SEED = [

@@ -310,6 +310,18 @@ UI = [
     "Log to Health",
     "Health",
     "After Cooked, the calories, protein, fat and carbs of one serving are logged to Health. The app only writes and never reads anything.",
+    "Family Kitchen",
+    "Open Kitchen",
+    "My Kitchen",
+    "Kitchen: %@",
+    "Who’s in the Kitchen",
+    "Access",
+    "Invite to Kitchen",
+    "Invite your family through iCloud: they get your kitchen — just the fridge or everything — and whatever they change shows up for you. The invited person picks here which kitchen to open.",
+    "Fridge Only",
+    "Whole Kitchen",
+    "The kitchen is loading",
+    "The family kitchen’s products and recipes will arrive from iCloud in a minute.",
 ]
 
 SEED = [

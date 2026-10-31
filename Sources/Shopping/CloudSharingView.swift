@@ -6,6 +6,9 @@ import UIKit
 /// людей или закрывает доступ, гость — выходит из списка.
 struct CloudSharingView: UIViewControllerRepresentable {
     let share: CKShare
+    /// Для семейной кухни — своё название и своё «закрыть доступ».
+    var title = String(localized: "Список покупок")
+    var onStop: (() -> Void)?
 
     func makeUIViewController(context: Context) -> UICloudSharingController {
         let controller = UICloudSharingController(share: share,
@@ -17,22 +20,29 @@ struct CloudSharingView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ controller: UICloudSharingController, context: Context) {}
 
-    func makeCoordinator() -> Coordinator { Coordinator(owner: share.recordID.zoneID.ownerName) }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(owner: share.recordID.zoneID.ownerName, title: title, onStop: onStop)
+    }
 
     final class Coordinator: NSObject, UICloudSharingControllerDelegate {
         let owner: String
+        let title: String
+        let onStop: (() -> Void)?
 
-        init(owner: String) { self.owner = owner }
-
-        func itemTitle(for csc: UICloudSharingController) -> String? {
-            String(localized: "Список покупок")
+        init(owner: String, title: String, onStop: (() -> Void)?) {
+            self.owner = owner
+            self.title = title
+            self.onStop = onStop
         }
+
+        func itemTitle(for csc: UICloudSharingController) -> String? { title }
 
         func cloudSharingController(_ csc: UICloudSharingController, failedToSaveShareWithError error: Error) {
             print("Не удалось сохранить доступ к списку: \(error)")
         }
 
         func cloudSharingControllerDidStopSharing(_ csc: UICloudSharingController) {
+            if let onStop { return onStop() }
             if owner == CKCurrentUserDefaultName {
                 SharedLists.shared.stopSharing()
             } else {

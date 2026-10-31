@@ -13,8 +13,11 @@ final class ShoppingItem {
     var product: Product?
     var isBought: Bool = false
     var createdAt: Date = Date.now
+    /// Ключ записи в семейной кухне (см. `Product.uid`).
+    var uid: String = ""
 
     init(name: String, amount: Double = 0, product: Product? = nil) {
+        self.uid = UUID().uuidString
         self.name = name
         self.amount = amount
         self.product = product

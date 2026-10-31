@@ -22,6 +22,22 @@ enum SyncCleanup {
             recipe.uid = UUID().uuidString
             changed = true
         }
+        // С семейной кухней uid нужен всем записям.
+        for item in (try? context.fetch(FetchDescriptor<StockItem>())) ?? [] where item.uid.isEmpty {
+            item.uid = UUID().uuidString; changed = true
+        }
+        for item in (try? context.fetch(FetchDescriptor<RecipeIngredient>())) ?? [] where item.uid.isEmpty {
+            item.uid = UUID().uuidString; changed = true
+        }
+        for item in (try? context.fetch(FetchDescriptor<ShoppingItem>())) ?? [] where item.uid.isEmpty {
+            item.uid = UUID().uuidString; changed = true
+        }
+        for item in (try? context.fetch(FetchDescriptor<CookingLog>())) ?? [] where item.uid.isEmpty {
+            item.uid = UUID().uuidString; changed = true
+        }
+        for item in (try? context.fetch(FetchDescriptor<PlannedMeal>())) ?? [] where item.uid.isEmpty {
+            item.uid = UUID().uuidString; changed = true
+        }
 
         for group in Dictionary(grouping: products, by: \.name).values where group.count > 1 {
             let sorted = group.sorted { $0.uid < $1.uid }

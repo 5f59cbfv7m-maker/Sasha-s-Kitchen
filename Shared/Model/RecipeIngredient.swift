@@ -8,8 +8,11 @@ final class RecipeIngredient {
     var amountPerBaseServing: Double = 0
     var order: Int = 0
     var recipe: Recipe?
+    /// Ключ записи в семейной кухне (см. `Product.uid`).
+    var uid: String = ""
 
     init(product: Product, amountPerBaseServing: Double, order: Int = 0) {
+        self.uid = UUID().uuidString
         self.product = product
         self.amountPerBaseServing = amountPerBaseServing
         self.order = order
