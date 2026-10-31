@@ -5663,6 +5663,70 @@
         }
       }
     },
+    "Записывать в «Здоровье»": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Health speichern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log to Health"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registrar en Salud"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer dans Santé"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registra in Salute"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ヘルスケアに記録"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "건강에 기록"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registrar no Saúde"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "บันทึกลงแอปสุขภาพ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "记录到“健康”"
+          }
+        }
+      }
+    },
     "Запросить доступ к Напоминаниям": {
       "localizations": {
         "de": {
@@ -6043,6 +6107,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "这里将出现其他人的菜谱——带照片、视频和食材，一键即可收藏。"
+          }
+        }
+      }
+    },
+    "Здоровье": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Health"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Health"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salud"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Santé"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salute"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ヘルスケア"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "건강"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saúde"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "สุขภาพ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "健康"
           }
         }
       }
@@ -8891,6 +9019,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "这个页面上没有找到菜谱。试试菜谱本身的链接，或者拍下页面。"
+          }
+        }
+      }
+    },
+    "Наведите камеру на дату «годен до» на упаковке.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Richte die Kamera auf das Haltbarkeitsdatum auf der Verpackung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Point the camera at the expiry date on the package."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apunta la cámara a la fecha de caducidad del envase."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visez la date de péremption sur l’emballage."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inquadra la data di scadenza sulla confezione."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パッケージの賞味期限にカメラを向けてください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "포장지의 유통기한에 카메라를 맞추세요."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aponte a câmera para a data de validade na embalagem."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เล็งกล้องไปที่วันหมดอายุบนบรรจุภัณฑ์"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将相机对准包装上的保质期。"
           }
         }
       }
@@ -12671,6 +12863,70 @@
         }
       }
     },
+    "После «Приготовил» в «Здоровье» записываются калории, белки, жиры и углеводы одной порции. Приложение только записывает и ничего не читает.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach „Gekocht“ werden Kalorien, Eiweiß, Fett und Kohlenhydrate einer Portion in Health gespeichert. Die App schreibt nur und liest nichts."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After Cooked, the calories, protein, fat and carbs of one serving are logged to Health. The app only writes and never reads anything."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tras «Cocinado», las calorías, proteínas, grasas y carbohidratos de una ración se registran en Salud. La app solo escribe y no lee nada."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Après « Cuisiné », les calories, protéines, lipides et glucides d’une portion sont enregistrés dans Santé. L’app écrit seulement et ne lit rien."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dopo «Cucinato», calorie, proteine, grassi e carboidrati di una porzione vengono registrati in Salute. L’app scrive soltanto e non legge nulla."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「作った」のあと、1人分のカロリー、たんぱく質、脂質、炭水化物をヘルスケアに記録します。アプリは書き込むだけで、何も読み取りません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "‘만들었음’ 후 1인분의 칼로리, 단백질, 지방, 탄수화물이 건강 앱에 기록됩니다. 앱은 기록만 하고 아무것도 읽지 않습니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Depois de “Cozinhei”, as calorias, proteínas, gorduras e carboidratos de uma porção são registrados no Saúde. O app só grava e não lê nada."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "หลังกด “ทำแล้ว” จะบันทึกแคลอรี โปรตีน ไขมัน และคาร์บของหนึ่งที่ลงในแอปสุขภาพ แอปเขียนข้อมูลเท่านั้นและไม่อ่านอะไรเลย"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点“做好了”后，一份的热量、蛋白质、脂肪和碳水会记录到“健康”。应用只写入，不读取任何数据。"
+          }
+        }
+      }
+    },
     "Поход в магазин": {
       "localizations": {
         "de": {
@@ -14715,6 +14971,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "扫描器在“冰箱”和“待购买”标签页。名称和营养数据来自开放数据库 Open Food Facts（© 其贡献者，ODbL；图片 CC BY-SA），找不到时名称来自 UPCitemdb。只会发送条形码本身。"
+          }
+        }
+      }
+    },
+    "Сканировать дату с упаковки": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datum auf der Verpackung scannen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan the Date on the Package"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escanear la fecha del envase"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scanner la date sur l’emballage"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scansiona la data sulla confezione"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "パッケージの日付をスキャン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "포장지의 날짜 스캔"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ler a data na embalagem"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "สแกนวันที่บนบรรจุภัณฑ์"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扫描包装上的日期"
           }
         }
       }

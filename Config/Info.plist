@@ -30,6 +30,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Камера нужна, чтобы сканировать штрихкоды продуктов и фотографировать страницы с рецептами.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>После «Приготовил» в «Здоровье» записываются калории, белки, жиры и углеводы одной порции.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2026 Kirill Rychkov</string>
 	<key>NSRemindersFullAccessUsageDescription</key>

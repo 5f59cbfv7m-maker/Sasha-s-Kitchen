@@ -214,6 +214,77 @@
         }
       }
     },
+    "NSHealthUpdateUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach „Gekocht“ werden Kalorien, Eiweiß, Fett und Kohlenhydrate einer Portion in Health gespeichert."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After Cooked, the calories, protein, fat and carbs of one serving are logged to Health."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tras «Cocinado», las calorías, proteínas, grasas y carbohidratos de una ración se registran en Salud."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Après « Cuisiné », les calories, protéines, lipides et glucides d’une portion sont enregistrés dans Santé."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dopo «Cucinato», calorie, proteine, grassi e carboidrati di una porzione vengono registrati in Salute."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「作った」のあと、1人分のカロリー、たんぱく質、脂質、炭水化物をヘルスケアに記録します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "‘만들었음’ 후 1인분의 칼로리, 단백질, 지방, 탄수화물이 건강 앱에 기록됩니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Depois de “Cozinhei”, as calorias, proteínas, gorduras e carboidratos de uma porção são registrados no Saúde."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "После «Приготовил» в «Здоровье» записываются калории, белки, жиры и углеводы одной порции."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "หลังกด “ทำแล้ว” จะบันทึกแคลอรี โปรตีน ไขมัน และคาร์บของหนึ่งที่ลงในแอปสุขภาพ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点“做好了”后，一份的热量、蛋白质、脂肪和碳水会记录到“健康”。"
+          }
+        }
+      }
+    },
     "NSRemindersFullAccessUsageDescription": {
       "extractionState": "manual",
       "localizations": {

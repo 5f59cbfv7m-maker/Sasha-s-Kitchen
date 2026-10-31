@@ -305,6 +305,11 @@ UI = [
     "Rezept wird gelesen …",
     "Rezept importieren",
     "Per Link oder Foto importieren",
+    "Richte die Kamera auf das Haltbarkeitsdatum auf der Verpackung.",
+    "Datum auf der Verpackung scannen",
+    "In Health speichern",
+    "Health",
+    "Nach „Gekocht“ werden Kalorien, Eiweiß, Fett und Kohlenhydrate einer Portion in Health gespeichert. Die App schreibt nur und liest nichts.",
 ]
 
 SEED = [
@@ -461,4 +466,5 @@ PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
     "NSCameraUsageDescription": "Mit der Kamera scannst du Barcodes von Produkten und fotografierst Rezeptseiten.",
     "NSRemindersFullAccessUsageDescription": "Mit Zugriff auf Erinnerungen legt die App deine Einkaufsliste als Liste „Einkaufen“ mit echten Häkchen an.",
+    "NSHealthUpdateUsageDescription": "Nach „Gekocht“ werden Kalorien, Eiweiß, Fett und Kohlenhydrate einer Portion in Health gespeichert.",
 }

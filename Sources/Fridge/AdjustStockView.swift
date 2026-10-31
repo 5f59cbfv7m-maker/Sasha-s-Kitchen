@@ -10,6 +10,7 @@ struct AdjustStockView: View {
     @State private var amount: Double = 0
     @State private var expiryEnabled = false
     @State private var expiry = Date.now
+    @State private var isScanningDate = false
 
     private var unit: String { item.unit }
 
@@ -42,6 +43,15 @@ struct AdjustStockView: View {
                     Toggle("Указать срок", isOn: $expiryEnabled.animation())
                     if expiryEnabled {
                         DatePicker("Годен до", selection: $expiry, displayedComponents: .date)
+                        #if !targetEnvironment(macCatalyst)
+                        if DateScanSheet.isSupported {
+                            Button {
+                                isScanningDate = true
+                            } label: {
+                                Label("Сканировать дату с упаковки", systemImage: "text.viewfinder")
+                            }
+                        }
+                        #endif
                     }
                 }
 
@@ -63,6 +73,9 @@ struct AdjustStockView: View {
                 }
             }
         }
+        #if !targetEnvironment(macCatalyst)
+        .sheet(isPresented: $isScanningDate) { DateScanSheet { expiry = $0 } }
+        #endif
         .onAppear {
             amount = item.currentAmount
             expiryEnabled = item.expiryDate != nil

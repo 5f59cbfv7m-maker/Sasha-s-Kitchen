@@ -305,6 +305,11 @@ UI = [
     "正在读取菜谱…",
     "导入菜谱",
     "通过链接或照片导入",
+    "将相机对准包装上的保质期。",
+    "扫描包装上的日期",
+    "记录到“健康”",
+    "健康",
+    "点“做好了”后，一份的热量、蛋白质、脂肪和碳水会记录到“健康”。应用只写入，不读取任何数据。",
 ]
 
 SEED = [
@@ -460,4 +465,5 @@ PLIST = {
     "CFBundleDisplayName": "Sasha’s Kitchen",
     "NSCameraUsageDescription": "相机用于扫描商品条形码和拍摄菜谱页面。",
     "NSRemindersFullAccessUsageDescription": "允许访问提醒事项后，应用会把购物清单放进带真正勾选框的“购物”列表。",
+    "NSHealthUpdateUsageDescription": "点“做好了”后，一份的热量、蛋白质、脂肪和碳水会记录到“健康”。",
 }

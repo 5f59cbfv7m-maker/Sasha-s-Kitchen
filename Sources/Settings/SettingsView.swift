@@ -14,6 +14,9 @@ struct SettingsView: View {
     @AppStorage(ExpiryReminders.enabledKey) private var expiryEnabled = false
     @AppStorage(ExpiryReminders.timeKey) private var expiryMinutes = 600
     @AppStorage(UnitSystem.key) private var unitSystem = UnitSystem.automatic.rawValue
+    #if canImport(HealthKit) && !targetEnvironment(macCatalyst)
+    @AppStorage(HealthLog.enabledKey) private var healthEnabled = false
+    #endif
     @AppStorage(SeedSet.key) private var starterSet = SeedSet.current.rawValue
     @State private var notificationsDenied = false
 
@@ -47,6 +50,22 @@ struct SettingsView: View {
                 } footer: {
                     Text("Продукты хранятся в граммах и миллилитрах; от выбора зависит только то, как количества показываются и вводятся. КБЖУ — всегда на 100 г.")
                 }
+
+                #if canImport(HealthKit) && !targetEnvironment(macCatalyst)
+                if HealthLog.isAvailable {
+                    Section {
+                        Toggle("Записывать в «Здоровье»", isOn: Binding {
+                            healthEnabled
+                        } set: { isOn in
+                            if isOn { Task { _ = await HealthLog.enable() } } else { healthEnabled = false }
+                        })
+                    } header: {
+                        Text("Здоровье")
+                    } footer: {
+                        Text("После «Приготовил» в «Здоровье» записываются калории, белки, жиры и углеводы одной порции. Приложение только записывает и ничего не читает.")
+                    }
+                }
+                #endif
 
                 Section {
                     Toggle("Напоминать о сроках годности", isOn: expiryToggle)

@@ -46,7 +46,7 @@ Mac-сборка без подписи (проверить, что компил�
 | `Shared/Support/` | `Nutrition`, форматирование чисел, цвета категорий — чистые типы без SwiftData |
 | `Shared/Resources/` | `Localizable` и `Data` — каталоги строк, нужные и часам |
 | `Sources/` | Только приложение для iPhone, iPad и Mac: экраны, сканер, стартовые данные |
-| `Sources/Services/` | `SyncCleanup` (дубликаты после iCloud), `FoodFacts` (штрихкоды), `ExpiryReminders` (уведомления о сроках), Напоминания, звук |
+| `Sources/Services/` | `SyncCleanup` (дубликаты после iCloud), `FoodFacts` (штрихкоды), `ExpiryReminders` (уведомления о сроках), `RecipeImport` (рецепт по ссылке и с фото), `HealthLog` (КБЖУ порции в «Здоровье»), Напоминания, звук |
 | `Shared/Intents/` | Siri и Команды (App Intents): вписать покупку, что купить, что испортится, «купил» по имени |
 | `Watch/` | Приложение для часов: список покупок с отметкой «купил» |
 | `Widgets/` | Расширение iOS: виджеты «Список покупок» (с галочками) и «Сроки годности», Live Activity «Поход в магазин» |
