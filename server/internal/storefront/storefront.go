@@ -14,6 +14,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
 
+	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/bundle"
 	"github.com/5f59cbfv7m-maker/sashas-kitchen-store/internal/search"
 )
 
@@ -49,11 +50,8 @@ type Detail struct {
 	CanImport   bool               `json:"can_import"`
 }
 
-// Step is one instruction in the detail view.
-type Step struct {
-	Order int    `json:"order"`
-	Text  string `json:"text"`
-}
+// Step is one instruction in the detail view — the same shape the bundle carries.
+type Step = bundle.Step
 
 // DetailIngredient is a display row, already scaled to base servings.
 type DetailIngredient struct {
@@ -219,7 +217,7 @@ func (r *Repo) Detail(ctx context.Context, idOrSlug, viewerID string) (*Detail, 
 	d.CanImport = !d.Locked
 
 	if !d.Locked {
-		d.Steps = decodeSteps(stepsRaw)
+		d.Steps = bundle.DecodeSteps(stepsRaw)
 		if d.Ingredients, err = r.ingredients(ctx, d.Card.ID); err != nil {
 			return nil, err
 		}
@@ -292,33 +290,4 @@ func (r *Repo) gallery(ctx context.Context, recipeID string) ([]search.Media, er
 		out = append(out, m)
 	}
 	return out, rows.Err()
-}
-
-func decodeSteps(raw []byte) []Step {
-	var objects []struct {
-		Order int    `json:"order"`
-		Text  string `json:"text"`
-	}
-	if len(raw) == 0 {
-		return []Step{}
-	}
-	if err := unmarshal(raw, &objects); err == nil {
-		out := make([]Step, 0, len(objects))
-		for i, o := range objects {
-			if o.Order == 0 {
-				o.Order = i
-			}
-			out = append(out, Step{Order: o.Order, Text: o.Text})
-		}
-		return out
-	}
-	var plain []string
-	if err := unmarshal(raw, &plain); err == nil {
-		out := make([]Step, 0, len(plain))
-		for i, s := range plain {
-			out = append(out, Step{Order: i, Text: s})
-		}
-		return out
-	}
-	return []Step{}
 }
