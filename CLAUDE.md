@@ -315,9 +315,14 @@ xcrun simctl launch <udid> com.kirillrychkov.FridgeOracle -startTab recipes
 
 Клиент — `Sources/Store/`: `StoreAPI` (контракт — `server/docs/API.md`),
 `StoreView` (полки, карточка с «Забрать себе», лента роликов на HLS),
-`StoreImport` (bundle → свои рецепты). Пока без входа в аккаунт: лайки,
-комментарии, жалобы и публикация — следующий шаг (нужен Sign in with Apple —
-личная команда его не умеет).
+`StoreImport` (bundle → свои рецепты), `StoreAccount` (Sign in with Apple,
+токены в Связке ключей, обновление по 401, удаление аккаунта — Guideline
+5.1.1(v)), `StoreSocial` (комментарии, жалобы и блокировка — Guideline 1.2).
+Лайки — в ленте роликов. Публикация своих рецептов и роликов — ещё нет.
+
+- Личная команда не умеет Sign in with Apple: в DEBUG есть вход по паролю
+  (экран аккаунта, «Для проверки») и `-storeLogin handle:password` — нужен
+  сервер с `/auth/register`.
 
 - **Ключ продукта — как на сервере** (`StoreImport.key` = `sk_normalize_key`:
   ё→е, регистр, пробелы). Тест повторяет кейсы `TestNormalizeKeyMatchesSQL`.
