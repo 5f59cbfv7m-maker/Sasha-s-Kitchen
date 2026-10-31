@@ -268,6 +268,15 @@ UI = [
     "Fuente: %@",
     "Añadir a Open Food Facts",
     "Open Food Facts es una base abierta que completan los propios compradores. Añade el producto y todos lo encontrarán.",
+    "De compras",
+    "Me voy de compras",
+    "Terminar la compra",
+    "Quedan: %lld",
+    "Por comprar: %lld",
+    "Caduca pronto",
+    "Qué comprar: márcalo en el propio widget.",
+    "Lo que caduca en los próximos días.",
+    "Qué comprar, en la esfera del reloj.",
 ]
 
 SEED = [

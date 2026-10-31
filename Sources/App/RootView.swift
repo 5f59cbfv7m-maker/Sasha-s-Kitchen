@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import WidgetKit
 
 struct RootView: View {
     @Environment(\.modelContext) private var context
@@ -94,6 +95,13 @@ struct RootView: View {
         .task(id: products.count + recipes.count) { SyncCleanup.run(in: context) }
         .modifier(SharedListSync())
         .task(id: expirySignature) { await ExpiryReminders.reschedule(in: context) }
+        // Виджеты и «Поход в магазин» показывают то же, что вкладка «Для покупки».
+        .task(id: expirySignature + listed.map { "\($0.name)|\($0.isBought)" }) {
+            WidgetCenter.shared.reloadAllTimelines()
+            #if os(iOS) && !targetEnvironment(macCatalyst)
+            await ShoppingTrip.update(in: context)
+            #endif
+        }
         .overlay {
             if showIntro {
                 IntroView { withAnimation(.easeOut(duration: 0.45)) { showIntro = false } }

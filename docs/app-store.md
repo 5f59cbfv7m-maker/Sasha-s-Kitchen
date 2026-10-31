@@ -16,6 +16,8 @@
 - [ ] developer.apple.com → Identifiers: у `com.kirillrychkov.FridgeOracle` и
       `com.kirillrychkov.FridgeOracle.watchkitapp` включены iCloud (CloudKit) и
       Push Notifications, контейнер `iCloud.com.kirillrychkov.FridgeOracle`.
+      С версии 1.1 у них и у виджетов (`….widgets`,
+      `….watchkitapp.widgets`) — App Groups `group.com.kirillrychkov.FridgeOracle`.
       Xcode с автоматической подписью сделает это сам при первой сборке на
       устройство.
 - [ ] Один раз запустить сборку с подписью `J656PYWTCP` на iPhone и iPad с

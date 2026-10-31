@@ -268,6 +268,15 @@ UI = [
     "Source: %@",
     "Add to Open Food Facts",
     "Open Food Facts is an open database filled in by shoppers themselves. Add the product and everyone will find it.",
+    "Shopping Trip",
+    "Going Shopping",
+    "End Shopping Trip",
+    "Left: %lld",
+    "To buy: %lld",
+    "Expiring Soon",
+    "What to buy — tick items right on the widget.",
+    "What will expire in the next few days.",
+    "What to buy — on your watch face.",
 ]
 
 SEED = [

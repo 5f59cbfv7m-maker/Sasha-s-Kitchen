@@ -268,6 +268,15 @@ UI = [
     "Quelle: %@",
     "Zu Open Food Facts hinzufügen",
     "Open Food Facts ist eine offene Datenbank, die Käufer selbst füllen. Füge das Produkt hinzu – dann finden es alle.",
+    "Einkauf",
+    "Ich gehe einkaufen",
+    "Einkauf beenden",
+    "Noch: %lld",
+    "Einkaufen: %lld",
+    "Läuft bald ab",
+    "Was du kaufen musst – direkt im Widget abhaken.",
+    "Was in den nächsten Tagen abläuft.",
+    "Was du kaufen musst – auf dem Zifferblatt.",
 ]
 
 SEED = [

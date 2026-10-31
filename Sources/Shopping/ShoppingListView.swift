@@ -17,6 +17,7 @@ struct ShoppingListView: View {
     @State private var alert: AlertPayload?
     @State private var managing: CKShare?
     @State private var guestDrafts: [String: String] = [:]
+    @State private var isOnTrip = false
     @FocusState private var isAddFocused: Bool
 
     private struct AlertPayload: Identifiable {
@@ -71,6 +72,13 @@ struct ShoppingListView: View {
                 }
             }
             .navigationTitle("Для покупки")
+            #if os(iOS) && !targetEnvironment(macCatalyst)
+            .onAppear {
+                // `-startTrip YES` — для скриншотов и проверки на симуляторе.
+                if UserDefaults.standard.bool(forKey: "startTrip") { ShoppingTrip.start(in: context) }
+                isOnTrip = ShoppingTrip.isActive
+            }
+            #endif
             .sheet(isPresented: $isScanning) { ScanSheet() }
             .sheet(item: $managing) { CloudSharingView(share: $0).ignoresSafeArea() }
             .toolbar {
@@ -91,6 +99,24 @@ struct ShoppingListView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
+                        #if os(iOS) && !targetEnvironment(macCatalyst)
+                        // Список на экране блокировки, пока ходите по магазину.
+                        if isOnTrip {
+                            Button {
+                                Task { await ShoppingTrip.end(); isOnTrip = false }
+                            } label: {
+                                Label("Закончить поход", systemImage: "cart.badge.minus")
+                            }
+                        } else {
+                            Button {
+                                ShoppingTrip.start(in: context)
+                                isOnTrip = ShoppingTrip.isActive
+                            } label: {
+                                Label("Иду в магазин", systemImage: "figure.walk")
+                            }
+                            .disabled(isEmpty)
+                        }
+                        #endif
                         Button {
                             Kitchen.buyAll(entries, in: context)
                             Feedback.shared.play(.added)
