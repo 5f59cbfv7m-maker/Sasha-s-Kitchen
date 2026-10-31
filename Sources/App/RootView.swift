@@ -46,6 +46,8 @@ struct RootView: View {
         }
     }
 
+    static let showsStore = false
+
     private var shoppingCount: Int {
         Kitchen.shoppingEntries(from: stock).count + listed.count + SharedLists.shared.guestCount
     }
@@ -66,8 +68,12 @@ struct RootView: View {
             }
             // Заглушка: к бэкенду магазина приложение намеренно не ходит,
             // пока магазин не достроен. См. Sources/Store/ и server/.
-            Tab(TabID.store.title, systemImage: TabID.store.symbol, value: .store) {
-                StoreComingSoonView()
+            // В App Store вкладка «Скоро» не показывается: недоделанные функции
+            // ревью отклоняет (Guideline 2.1). Магазин готов — `showsStore = true`.
+            if Self.showsStore {
+                Tab(TabID.store.title, systemImage: TabID.store.symbol, value: .store) {
+                    StoreComingSoonView()
+                }
             }
             Tab(TabID.log.title, systemImage: TabID.log.symbol, value: .log) {
                 CookingLogView()

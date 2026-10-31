@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Turn starter-data.md into Sources/Seed/SeedData.swift.
+"""Turn starter-data.md into Shared/Seed/SeedData.swift.
 
 The markdown is the source of truth for the 49 products and 40 recipes. Re-run
 this after editing it; never hand-edit the generated Swift.
@@ -195,7 +195,7 @@ def main():
     w("}")
     w("")
 
-    target = Path(__file__).resolve().parent.parent / "Sources/Seed/SeedData.swift"
+    target = Path(__file__).resolve().parent.parent / "Shared/Seed/SeedData.swift"
     target.write_text("\n".join(out), encoding="utf-8")
     print("%s: %d продуктов, %d рецептов, %d строк ингредиентов"
           % (target.name, len(products), len(recipes),

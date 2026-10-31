@@ -51,7 +51,7 @@ Mac-сборка без подписи (проверить, что компил�
 | `Sources/Scanner/` | `ScanSheet`: камера VisionKit или ввод цифр → карточка продукта |
 | `Sources/Resources/*.xcstrings`, `Shared/Resources/*.xcstrings` | **Генерируются** `Scripts/l10n/build_catalogs.py`, не править руками |
 | `Scripts/l10n/` | Переводы: `ru.py` задаёт ключи и их порядок, `<язык>.py` — переводы в том же порядке |
-| `Sources/Seed/` | `SeedData.swift` **генерируется** скриптом, не править руками |
+| `Shared/Seed/` | `SeedData.swift` **генерируется** скриптом, не править руками |
 | `Sources/Fridge|Shopping|Recipes|Settings/` | Экраны |
 | `Tests/` | Swift Testing: расчёты и работа с базой в памяти |
 | `UITests/` | XCUITest: сквозной сценарий готовки |
@@ -228,7 +228,22 @@ UI-тесты собираются с `SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolat
 xcrun simctl launch <udid> com.kirillrychkov.FridgeOracle -startTab recipes
 ```
 
+Для скриншотов App Store (`Scripts/store-screenshots.sh`, см. `docs/store/README.md`):
+`-storeDemo YES` вместе с `-resetData YES` добавляет свои позиции в список,
+общий список от «Маши» и записи в журнале (`Shared/Seed/StoreDemo.swift`);
+`-openRecipe <имя из стартового набора>` сразу открывает рецепт;
+`-windowSize 1440x900` фиксирует окно Mac; на часах `-sharedFirst YES` ставит
+общие списки наверх. Часы понимают `-resetData` и `-storeDemo` так же —
+поэтому стартовые данные лежат в `Shared/`.
+
 Нужны для скриншотов и UI-тестов; в обычной работе ключи никем не выставляются.
+
+## Выпуск
+
+Чеклист — `docs/app-store.md`, тексты на 11 языках — `docs/store-listing.md`
+(лимиты проверяет `Scripts/check-store-listing.py`), скриншоты — `docs/store/`.
+Вкладка «Магазин» в выпуске скрыта (`RootView.showsStore = false`): заглушку
+«Скоро» ревью отклоняет. Код магазина и `server/` не тронуты.
 
 ## Расхождение с исходными данными
 

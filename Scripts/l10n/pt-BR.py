@@ -233,6 +233,7 @@ UI = [
     "Enviar como texto",
     "Adicionar a esta lista",
     "Dono da lista",
+    "Ana",
 ]
 
 SEED = [

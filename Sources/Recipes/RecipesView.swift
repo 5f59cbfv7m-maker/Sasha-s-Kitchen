@@ -11,6 +11,8 @@ struct RecipesView: View {
     @State private var onlyAvailable = false
     @State private var scope: Scope = .all
     @State private var isCreating = false
+    /// `-openRecipe <имя из стартового набора>` открывает рецепт сразу — для скриншотов.
+    @State private var opened: Recipe?
 
     enum Scope: String, CaseIterable, Identifiable {
         case all, custom
@@ -85,6 +87,12 @@ struct RecipesView: View {
                 }
             }
             .sheet(isPresented: $isCreating) { RecipeEditorView() }
+            .navigationDestination(item: $opened) { RecipeDetailView(recipe: $0) }
+            .task {
+                guard opened == nil, let key = UserDefaults.standard.string(forKey: "openRecipe") else { return }
+                let name = Bundle.main.localizedString(forKey: key, value: key, table: "Seed")
+                opened = recipes.first { $0.name == name }
+            }
         }
     }
 

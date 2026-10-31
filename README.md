@@ -112,7 +112,7 @@ xcodebuild -project FridgeOracle.xcodeproj -scheme FridgeOracle \
 | `Shared/Support/` | Расчёт КБЖУ и форматирование — чистые типы без SwiftData |
 | `Sources/` | Экраны iPhone, iPad и Mac, сканер, Напоминания, звук |
 | `Watch/` | Приложение для Apple Watch |
-| `Sources/Seed/` | Стартовые данные, **генерируются** из `starter-data.md` |
+| `Shared/Seed/` | Стартовые данные, **генерируются** из `starter-data.md` |
 | `Tests/`, `UITests/` | Swift Testing и XCUITest |
 | `Design/` | Исходная иллюстрация для иконки |
 
