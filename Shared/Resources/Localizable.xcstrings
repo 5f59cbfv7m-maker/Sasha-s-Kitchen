@@ -3039,66 +3039,66 @@
         }
       }
     },
-    "Добавьте первый продукт кнопкой «плюс» или начните со стартового набора: 49 продуктов и 40 рецептов.": {
+    "Добавьте первый продукт кнопкой «плюс» или начните со стартового набора продуктов и рецептов.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Füge dein erstes Produkt mit der Plus-Taste hinzu oder beginne mit dem Startset: 49 Produkte und 40 Rezepte."
+            "value": "Füge dein erstes Produkt mit dem Plus-Button hinzu oder beginne mit dem Startset aus Produkten und Rezepten."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Add your first product with the “plus” button or start with the starter set: 49 products and 40 recipes."
+            "value": "Add your first product with the “plus” button or start with the starter set of products and recipes."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Añade tu primer producto con el botón «más» o empieza con el kit inicial: 49 productos y 40 recetas."
+            "value": "Añade tu primer producto con el botón «más» o empieza con el kit inicial de productos y recetas."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ajoutez votre premier produit avec le bouton « plus » ou commencez avec le kit de départ : 49 produits et 40 recettes."
+            "value": "Ajoutez votre premier produit avec le bouton « plus » ou commencez par le kit de départ de produits et de recettes."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aggiungi il primo prodotto con il pulsante «più» o parti dal kit iniziale: 49 prodotti e 40 ricette."
+            "value": "Aggiungi il primo prodotto con il pulsante «più» o inizia dal kit iniziale di prodotti e ricette."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "「＋」ボタンで最初の食品を追加するか、スターターセット（食品49品とレシピ40品）から始めましょう。"
+            "value": "「＋」ボタンで最初の食材を追加するか、食材とレシピのスターターセットから始めましょう。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "‘+’ 버튼으로 첫 식품을 추가하거나 스타터 세트(식품 49개, 레시피 40개)로 시작하세요."
+            "value": "‘+’ 버튼으로 첫 재료를 추가하거나 재료와 레시피가 담긴 스타터 세트로 시작하세요."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Adicione o primeiro produto com o botão “mais” ou comece pelo kit inicial: 49 produtos e 40 receitas."
+            "value": "Adicione o primeiro produto com o botão “mais” ou comece pelo kit inicial de produtos e receitas."
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "เพิ่มสินค้าแรกด้วยปุ่ม “+” หรือเริ่มจากชุดเริ่มต้น: สินค้า 49 รายการและสูตร 40 สูตร"
+            "value": "เพิ่มวัตถุดิบแรกด้วยปุ่ม “บวก” หรือเริ่มจากชุดเริ่มต้นที่มีวัตถุดิบและสูตรอาหาร"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "用“+”按钮添加第一种食材，或从入门套装开始：49 种食材和 40 道菜谱。"
+            "value": "用“加号”按钮添加第一样食材，或者从包含食材和菜谱的入门套装开始。"
           }
         }
       }
@@ -3355,6 +3355,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "已允许访问"
+          }
+        }
+      }
+    },
+    "Европа и Америка": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Europa & Amerika"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Europe & Americas"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Europa y América"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Europe et Amériques"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Europa e Americhe"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ヨーロッパ・アメリカ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "유럽·아메리카"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Europa e Américas"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ยุโรปและอเมริกา"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "欧洲和美洲"
           }
         }
       }
@@ -11391,66 +11455,130 @@
         }
       }
     },
-    "Сброс удалит все остатки, свои рецепты, список покупок и журнал — на всех ваших устройствах, — а затем разложит заново стартовые 49 продуктов и 40 рецептов.": {
+    "Россия и СНГ": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Das Zurücksetzen löscht den ganzen Vorrat, deine Rezepte, die Einkaufsliste und das Protokoll – auf all deinen Geräten – und lädt dann die 49 Startprodukte und 40 Rezepte neu."
+            "value": "Russland & GUS"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Resetting deletes all stock, your recipes, the shopping list and the log — on all your devices — and then reloads the 49 starter products and 40 recipes."
+            "value": "Russia & CIS"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restablecer borra todo el stock, tus recetas, la lista de la compra y el diario —en todos tus dispositivos— y vuelve a cargar los 49 productos y 40 recetas iniciales."
+            "value": "Rusia y CEI"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "La réinitialisation supprime tout le stock, vos recettes, la liste de courses et le journal — sur tous vos appareils — puis recharge les 49 produits et 40 recettes de départ."
+            "value": "Russie et CEI"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Il ripristino elimina tutta la scorta, le tue ricette, la lista della spesa e il diario, su tutti i tuoi dispositivi, e poi ricarica i 49 prodotti e le 40 ricette iniziali."
+            "value": "Russia e CSI"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "リセットすると、在庫、自分のレシピ、買い物リスト、記録がすべてのデバイスから削除され、スターターの食品49品とレシピ40品が読み込み直されます。"
+            "value": "ロシア・CIS"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "재설정하면 모든 기기에서 재고, 내 레시피, 장보기 목록, 기록이 삭제되고 스타터 식품 49개와 레시피 40개가 다시 불러와집니다."
+            "value": "러시아·CIS"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Redefinir apaga todo o estoque, suas receitas, a lista de compras e o diário — em todos os seus dispositivos — e recarrega os 49 produtos e 40 receitas iniciais."
+            "value": "Rússia e CEI"
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "การรีเซ็ตจะลบสต็อกทั้งหมด สูตรของคุณ รายการซื้อ และบันทึก — ในทุกอุปกรณ์ของคุณ — แล้วโหลดสินค้า 49 รายการและสูตร 40 สูตรเริ่มต้นใหม่"
+            "value": "รัสเซียและ CIS"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "重置会在你所有的设备上删除全部库存、你的菜谱、购物清单和记录，然后重新载入 49 种初始食材和 40 道菜谱。"
+            "value": "俄罗斯和独联体"
+          }
+        }
+      }
+    },
+    "Сброс удалит все остатки, свои рецепты, список покупок и журнал — на всех ваших устройствах, — а затем разложит заново стартовый набор продуктов и рецептов.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Zurücksetzen löscht alle Bestände, eigenen Rezepte, die Einkaufsliste und das Protokoll – auf all deinen Geräten – und lädt dann das Startset aus Produkten und Rezepten neu."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resetting deletes all stock, your recipes, the shopping list and the log — on all your devices — and then reloads the starter set of products and recipes."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Al restablecer se borran todas las existencias, tus recetas, la lista de la compra y el diario —en todos tus dispositivos— y se vuelve a cargar el kit inicial de productos y recetas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La réinitialisation supprime tous les stocks, vos recettes, la liste de courses et le journal — sur tous vos appareils — puis recharge le kit de départ de produits et de recettes."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il ripristino elimina tutte le scorte, le tue ricette, la lista della spesa e il diario — su tutti i tuoi dispositivi — e poi ricarica il kit iniziale di prodotti e ricette."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "リセットすると、すべての在庫、自分のレシピ、買い物リスト、記録が（すべてのデバイスで）削除され、食材とレシピのスターターセットが読み込み直されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "초기화하면 모든 재고, 내 레시피, 장보기 목록, 기록이 모든 기기에서 삭제되고 재료와 레시피 스타터 세트를 다시 불러옵니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redefinir apaga todo o estoque, suas receitas, a lista de compras e o diário — em todos os seus aparelhos — e depois recarrega o kit inicial de produtos e receitas."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "การรีเซ็ตจะลบสต็อกทั้งหมด สูตรของคุณ รายการซื้อของ และบันทึก ในทุกอุปกรณ์ จากนั้นโหลดชุดเริ่มต้นของวัตถุดิบและสูตรอาหารใหม่"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置会在你的所有设备上删除全部库存、自己的菜谱、购物清单和记录，然后重新载入包含食材和菜谱的入门套装。"
           }
         }
       }
@@ -12991,6 +13119,70 @@
         }
       }
     },
+    "Стартовый набор": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Startset"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starter Set"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kit inicial"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kit de départ"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kit iniziale"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スターターセット"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스타터 세트"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kit inicial"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ชุดเริ่มต้น"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "入门套装"
+          }
+        }
+      }
+    },
     "Считать «на исходе» ниже": {
       "localizations": {
         "de": {
@@ -13051,6 +13243,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "低于此量视为“快用完了”"
+          }
+        }
+      }
+    },
+    "Таиланд": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thailand"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thailand"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tailandia"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thaïlande"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thailandia"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "タイ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "태국"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tailândia"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ไทย"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "泰国"
           }
         }
       }
@@ -14843,6 +15099,70 @@
           "stringUnit": {
             "state": "translated",
             "value": "应用语言"
+          }
+        }
+      }
+    },
+    "Япония, Корея, Китай": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Japan, Korea, China"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Japan, Korea, China"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Japón, Corea, China"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Japon, Corée, Chine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giappone, Corea, Cina"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日本・韓国・中国"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "일본·한국·중국"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Japão, Coreia, China"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ญี่ปุ่น เกาหลี จีน"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日本、韩国、中国"
           }
         }
       }

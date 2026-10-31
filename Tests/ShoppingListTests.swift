@@ -66,7 +66,7 @@ struct ShoppingListTests {
     func syncCleanupMergesDuplicates() throws {
         let context = try makeContext(seeded: true)
         // Второе устройство тоже загрузило стартовый набор.
-        SeedLoader.load(into: context, localized: false)
+        SeedLoader.load(into: context, localized: false, set: .russia)
         try context.save()
         #expect(try context.fetchCount(FetchDescriptor<Product>()) == 98)
 

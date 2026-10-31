@@ -234,6 +234,10 @@ struct FridgeView: View {
         Binding { deleting != nil } set: { if !$0 { deleting = nil } }
     }
 
+    private var starterSet: Binding<SeedSet> {
+        Binding { SeedSet.current } set: { UserDefaults.standard.set($0.rawValue, forKey: SeedSet.key) }
+    }
+
     /// Первый запуск: база пуста. С iCloud данные с других устройств придут
     /// сами, поэтому стартовый набор — по кнопке, а не молча.
     private var firstLaunch: some View {
@@ -241,7 +245,12 @@ struct FridgeView: View {
             EmptyStateView(
                 symbol: "refrigerator",
                 title: "Холодильник пуст",
-                message: "Добавьте первый продукт кнопкой «плюс» или начните со стартового набора: 49 продуктов и 40 рецептов.")
+                message: "Добавьте первый продукт кнопкой «плюс» или начните со стартового набора продуктов и рецептов.")
+            // Набор — по региону устройства, но его можно сменить прямо здесь.
+            Picker("Стартовый набор", selection: starterSet) {
+                ForEach(SeedSet.allCases, id: \.self) { Text($0.title).tag($0) }
+            }
+            .pickerStyle(.menu)
             Button {
                 SeedLoader.loadIfNeeded(into: context)
                 Feedback.shared.play(.cooked)

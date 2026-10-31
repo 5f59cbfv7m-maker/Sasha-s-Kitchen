@@ -33,7 +33,8 @@ WATCH_SHOTS=(
   "list|"
   "shared|-sharedFirst YES"
 )
-COMMON=(-resetData YES -storeDemo YES -skipIntro YES -AppleLanguages "($LANGUAGE)" -AppleLocale $LOCALE)
+# Демо-кухня собрана из российского набора — на всех языках одна и та же.
+COMMON=(-resetData YES -storeDemo YES -starterSet russia -skipIntro YES -AppleLanguages "($LANGUAGE)" -AppleLocale $LOCALE)
 
 # Пробел в имени рецепта не переживает разбор аргументов — внутри SHOTS он «_».
 shot_args() { reply=(${(z)${1#*|}}); reply=("${(@)reply//_/ }"); }
