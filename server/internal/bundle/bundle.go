@@ -96,6 +96,9 @@ type Recipe struct {
 	Diets           []string `json:"diets"`
 	Author          Author   `json:"author"`
 	PublishedAt     string   `json:"published_at,omitempty"`
+	// PhotoURL is the recipe's hero picture on the CDN (a video's poster frame
+	// when the hero is a video), so an imported recipe keeps its photo.
+	PhotoURL string `json:"photo_url,omitempty"`
 }
 
 // Bundle is the whole payload.
@@ -107,10 +110,16 @@ type Bundle struct {
 	NutritionPerServing Nutrition    `json:"nutrition_per_serving"`
 }
 
-// Repo builds bundles.
-type Repo struct{ pool *pgxpool.Pool }
+// URLResolver turns a storage key into a public CDN address.
+type URLResolver interface{ PublicURL(key string) string }
 
-func NewRepo(pool *pgxpool.Pool) *Repo { return &Repo{pool: pool} }
+// Repo builds bundles.
+type Repo struct {
+	pool  *pgxpool.Pool
+	media URLResolver
+}
+
+func NewRepo(pool *pgxpool.Pool, media URLResolver) *Repo { return &Repo{pool: pool, media: media} }
 
 // Build assembles the bundle for a published recipe.
 //
@@ -128,6 +137,7 @@ func (r *Repo) Build(ctx context.Context, recipeID, viewerID string) (*Bundle, e
 		publishedAt pgtype.Timestamptz
 		stepsRaw    []byte
 		accessTier  string
+		heroKey     pgtype.Text
 		owned       bool
 	)
 
@@ -136,7 +146,7 @@ func (r *Repo) Build(ctx context.Context, recipeID, viewerID string) (*Bundle, e
 		       r.cook_time_minutes, r.prep_time_minutes, r.base_servings, r.difficulty,
 		       c.slug, cu.slug, r.diet_slugs, r.published_at, r.access_tier,
 		       r.kcal_per_serving, r.protein_per_serving, r.fat_per_serving, r.carbs_per_serving,
-		       u.handle, u.display_name,
+		       u.handle, u.display_name, hero.key,
 		       ($2 <> '' AND EXISTS (
 		            SELECT 1 FROM recipe_imports ri
 		             WHERE ri.recipe_id = r.id AND ri.user_id = $2::uuid)) AS owned
@@ -144,6 +154,13 @@ func (r *Repo) Build(ctx context.Context, recipeID, viewerID string) (*Bundle, e
 		  JOIN users u ON u.id = r.author_id
 		  LEFT JOIN categories c ON c.id = r.category_id
 		  LEFT JOIN cuisines cu ON cu.id = r.cuisine_id
+		  -- Same choice of hero as the storefront card (search.heroJoin).
+		  LEFT JOIN LATERAL (
+		        SELECT CASE WHEN m.kind = 'video' THEN m.poster_key ELSE m.storage_key END AS key
+		          FROM recipe_media rm JOIN media_assets m ON m.id = rm.media_id
+		         WHERE rm.recipe_id = r.id AND m.status = 'ready'
+		         ORDER BY (rm.role = 'hero') DESC, rm.position ASC, m.id ASC
+		         LIMIT 1) hero ON true
 		 WHERE r.id = $1::uuid
 		   AND r.status = 'published'
 		   AND r.deleted_at IS NULL
@@ -153,7 +170,7 @@ func (r *Repo) Build(ctx context.Context, recipeID, viewerID string) (*Bundle, e
 		&b.Recipe.Difficulty, &category, &cuisine, &b.Recipe.Diets, &publishedAt, &accessTier,
 		&b.NutritionPerServing.Kcal, &b.NutritionPerServing.Protein,
 		&b.NutritionPerServing.Fat, &b.NutritionPerServing.Carbs,
-		&b.Recipe.Author.Handle, &b.Recipe.Author.Name, &owned)
+		&b.Recipe.Author.Handle, &b.Recipe.Author.Name, &heroKey, &owned)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return nil, ErrNotFound
 	}
@@ -180,6 +197,9 @@ func (r *Repo) Build(ctx context.Context, recipeID, viewerID string) (*Bundle, e
 		b.Recipe.Diets = []string{}
 	}
 	b.Recipe.Steps = decodeSteps(stepsRaw)
+	if heroKey.Valid && heroKey.String != "" && r.media != nil {
+		b.Recipe.PhotoURL = r.media.PublicURL(heroKey.String)
+	}
 
 	rows, err := r.pool.Query(ctx, `
 		SELECT product_key, product_name, category, unit, grams_per_unit,

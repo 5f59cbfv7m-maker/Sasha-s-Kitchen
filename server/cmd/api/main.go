@@ -88,7 +88,7 @@ func run() error {
 
 	searchRepo := search.NewRepo(pool, mediaURLs)
 	storeRepo := storefront.NewRepo(pool, searchRepo, mediaURLs)
-	bundleRepo := bundle.NewRepo(pool)
+	bundleRepo := bundle.NewRepo(pool, mediaURLs)
 
 	authRepo := auth.NewRepo(pool)
 	authSvc := auth.NewService(authRepo, cfg.Auth, auth.ServiceOptions{})
