@@ -251,6 +251,20 @@ UI = [
     "Europe et Amériques",
     "Japon, Corée, Chine",
     "Thaïlande",
+    "Ajoute un produit à la liste de courses de Sasha’s Kitchen.",
+    "Ajouter à la liste de courses",
+    "Énumère tout ce qui est sur la liste de courses.",
+    "Énumère les produits qui périment dans les deux jours.",
+    "Marquer comme acheté",
+    "Ce qui périme",
+    "Quoi acheter",
+    "Ce qui périme bientôt",
+    "Que faut-il ajouter à la liste ?",
+    "Je n’ai pas compris quoi ajouter.",
+    "« %@ » ajouté à la liste de courses.",
+    "À acheter : %@",
+    "Rien ne périme dans les prochains jours.",
+    "Périme bientôt : %@",
 ]
 
 SEED = [

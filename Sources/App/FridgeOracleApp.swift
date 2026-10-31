@@ -12,7 +12,7 @@ struct FridgeOracleApp: App {
         // стартовые данные заново — UI-тестам нужен одинаковый холодильник
         // на каждом прогоне, а база переживает переустановку приложения.
         let isTestRun = UserDefaults.standard.bool(forKey: "resetData")
-        container = KitchenStore.makeContainer(isTestRun: isTestRun)
+        container = KitchenStore.shared
         if isTestRun {
             SeedLoader.reset(container.mainContext)
             if StoreDemo.isOn { StoreDemo.apply(to: container.mainContext) }

@@ -1,7 +1,12 @@
+import Foundation
 import SwiftData
 
 /// База приложения и часов: одна схема, один контейнер iCloud.
 enum KitchenStore {
+    /// Одна база на процесс: её берут и экраны, и Siri с Командами, которые
+    /// запускают приложение в фоне. `-resetData YES` — отдельная база без iCloud.
+    static let shared = makeContainer(isTestRun: UserDefaults.standard.bool(forKey: "resetData"))
+
     static let schema = Schema([Product.self, StockItem.self, Recipe.self,
                                 RecipeIngredient.self, CookingLog.self, ShoppingItem.self])
 

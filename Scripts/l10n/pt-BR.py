@@ -251,6 +251,20 @@ UI = [
     "Europa e Américas",
     "Japão, Coreia, China",
     "Tailândia",
+    "Adiciona um produto à lista de compras do Sasha’s Kitchen.",
+    "Adicionar à lista de compras",
+    "Diz tudo o que está na lista de compras agora.",
+    "Diz os produtos que vencem nos próximos dois dias.",
+    "Marcar como comprado",
+    "O que vence",
+    "O que comprar",
+    "O que vence logo",
+    "O que adiciono à lista?",
+    "Não entendi o que adicionar.",
+    "“%@” foi adicionado à lista de compras.",
+    "Comprar: %@",
+    "Nada vence nos próximos dias.",
+    "Vence logo: %@",
 ]
 
 SEED = [

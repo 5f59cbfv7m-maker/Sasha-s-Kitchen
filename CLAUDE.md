@@ -47,6 +47,7 @@ Mac-сборка без подписи (проверить, что компил�
 | `Shared/Resources/` | `Localizable` и `Data` — каталоги строк, нужные и часам |
 | `Sources/` | Только приложение для iPhone, iPad и Mac: экраны, сканер, стартовые данные |
 | `Sources/Services/` | `SyncCleanup` (дубликаты после iCloud), `FoodFacts` (штрихкоды), `ExpiryReminders` (уведомления о сроках), Напоминания, звук |
+| `Shared/Intents/` | Siri и Команды (App Intents): вписать покупку, что купить, что испортится, «купил» по имени |
 | `Watch/` | Приложение для часов: список покупок с отметкой «купил» |
 | `Sources/Scanner/` | `ScanSheet`: камера VisionKit или ввод цифр → карточка продукта |
 | `Sources/Resources/*.xcstrings`, `Shared/Resources/*.xcstrings` | **Генерируются** `Scripts/l10n/build_catalogs.py`, не править руками |
@@ -153,7 +154,7 @@ UI-тесты собираются с `SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolat
 (таблица `Seed`), дальше это обычные данные. Числа, даты и время — через
 `FormatStyle` с локалью устройства, без зашитого `ru_RU`. Строка, присвоенная
 `String`-переменной, сама не переводится: в коде для неё `String(localized:)`,
-а параметры вью — `LocalizedStringKey`. Новая строка → в `ru.KEYS` и на то же
+а параметры вью — `LocalizedStringKey`. Фразы Siri — отдельный каталог `AppShortcuts.xcstrings` из `Scripts/l10n/phrases.py` (в каждой фразе обязателен `${applicationName}`). Новая строка → в `ru.KEYS` и на то же
 место во все `<язык>.py`, затем `python3 Scripts/l10n/build_catalogs.py`;
 что забыто, покажет `xcodebuild -exportLocalizations`. В плюральных формах
 число обязано присутствовать — компилятор каталога иначе падает. Тесты грузят

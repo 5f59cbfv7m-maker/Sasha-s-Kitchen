@@ -251,6 +251,20 @@ UI = [
     "Europe & Americas",
     "Japan, Korea, China",
     "Thailand",
+    "Adds a product to the Sasha’s Kitchen shopping list.",
+    "Add to Shopping List",
+    "Lists everything on the shopping list right now.",
+    "Lists products that expire in the next two days.",
+    "Mark as Bought",
+    "What’s Expiring",
+    "What to Buy",
+    "What’s Expiring Soon",
+    "What should I add to the list?",
+    "I didn’t catch what to add.",
+    "Added “%@” to the shopping list.",
+    "To buy: %@",
+    "Nothing expires in the next few days.",
+    "Expiring soon: %@",
 ]
 
 SEED = [
