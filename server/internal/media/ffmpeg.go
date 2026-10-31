@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"image/jpeg"
+	"math"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -84,6 +85,14 @@ type ffprobeOutput struct {
 		CodecType string `json:"codec_type"`
 		Width     int    `json:"width"`
 		Height    int    `json:"height"`
+		// A phone stores a portrait clip as landscape frames plus a display
+		// rotation: in the display matrix (current ffmpeg) or a rotate tag.
+		SideData []struct {
+			Rotation float64 `json:"rotation"`
+		} `json:"side_data_list"`
+		Tags struct {
+			Rotate string `json:"rotate"`
+		} `json:"tags"`
 	} `json:"streams"`
 	Format struct {
 		Duration string `json:"duration"`
@@ -104,6 +113,17 @@ func parseFFProbe(data []byte) (probeResult, error) {
 		if s.CodecType == "video" {
 			res.Width = s.Width
 			res.Height = s.Height
+			rotation, _ := strconv.ParseFloat(s.Tags.Rotate, 64)
+			for _, d := range s.SideData {
+				if d.Rotation != 0 {
+					rotation = d.Rotation
+				}
+			}
+			// ffmpeg applies the rotation when it decodes, so what comes out —
+			// and what a client must lay out — is the displayed size.
+			if r := int(math.Abs(rotation)) % 180; r == 90 {
+				res.Width, res.Height = res.Height, res.Width
+			}
 			break
 		}
 	}
@@ -133,7 +153,9 @@ var standardRungs = []rung{
 	{Name: "1080p", Height: 1080, Bitrate: 5_000_000},
 }
 
-// pickRungs selects the rungs to encode for a source of the given height:
+// pickRungs selects the rungs to encode for a source whose SHORT side is
+// sourceHeight — "1080p" means 1080 px across the narrow side, so a vertical
+// short gets 1080×1920, not 608×1080. It picks
 // every standard rung that fits within the source, so the ladder is never
 // upscaled. A source shorter than the smallest standard rung still gets
 // exactly one rung, at the source's own height, rather than being upscaled
@@ -159,16 +181,30 @@ func pickRungs(sourceHeight int) []rung {
 }
 
 // buildHLSRungArgs is the argv to encode one rung of the HLS ladder into
-// outDir, scaling to r.Height while preserving aspect ratio (width computed
-// by ffmpeg via -2, always even). It never upscales because pickRungs never
-// selects a rung taller than the source.
-func buildHLSRungArgs(srcPath, outDir string, r rung, segmentSeconds int) []string {
+// outDir, scaling the short side to r.Height while preserving aspect ratio
+// (the other side via -2, always even). It never upscales because pickRungs
+// never selects a rung taller than the source's short side.
+//
+// The output is 8-bit 4:2:0 High profile whatever the source: an iPhone
+// records 10-bit HEVC, and libx264 would carry that over as High 10, which
+// Apple devices cannot decode in hardware — the short would not play. HLG,
+// the iPhone's HDR, is made to look right on SDR screens, so no tone mapping.
+// Keyframes are forced every segment so all rungs cut at the same instants:
+// without that a player cannot switch quality mid-stream and a short clip
+// comes out as one long segment.
+func buildHLSRungArgs(srcPath, outDir string, r rung, segmentSeconds int, portrait bool) []string {
+	scale := fmt.Sprintf("scale=-2:%d", r.Height)
+	if portrait {
+		scale = fmt.Sprintf("scale=%d:-2", r.Height)
+	}
 	return []string{
 		"-y",
 		"-i", srcPath,
-		"-vf", fmt.Sprintf("scale=-2:%d", r.Height),
+		"-vf", scale + ",format=yuv420p",
 		"-c:v", "h264",
+		"-profile:v", "high",
 		"-b:v", strconv.Itoa(r.Bitrate),
+		"-force_key_frames", fmt.Sprintf("expr:gte(t,n_forced*%d)", segmentSeconds),
 		"-c:a", "aac",
 		"-hls_time", strconv.Itoa(segmentSeconds),
 		"-hls_playlist_type", "vod",
@@ -209,16 +245,26 @@ func buildPhotoResizeArgs(srcPath, dstPath string, maxDim int) []string {
 func buildMasterManifest(rungs []rung, sourceWidth, sourceHeight int) string {
 	var b strings.Builder
 	b.WriteString("#EXTM3U\n#EXT-X-VERSION:3\n")
+	portrait := sourceHeight > sourceWidth
 	for _, r := range rungs {
-		width := r.Height
-		if sourceHeight > 0 {
-			width = int(float64(sourceWidth) * float64(r.Height) / float64(sourceHeight))
-			if width%2 != 0 {
-				width++ // ffmpeg's -2 scale always yields an even width
+		// r.Height is the short side; the long side follows the aspect ratio.
+		long, short, across := sourceWidth, sourceHeight, r.Height
+		if portrait {
+			long, short = sourceHeight, sourceWidth
+		}
+		other := r.Height
+		if short > 0 {
+			other = int(float64(long) * float64(across) / float64(short))
+			if other%2 != 0 {
+				other++ // ffmpeg's -2 scale always yields an even size
 			}
 		}
+		width, height := other, r.Height
+		if portrait {
+			width, height = r.Height, other
+		}
 		fmt.Fprintf(&b, "#EXT-X-STREAM-INF:BANDWIDTH=%d,RESOLUTION=%dx%d\n%s/playlist.m3u8\n",
-			r.Bitrate, width, r.Height, r.Name)
+			r.Bitrate, width, height, r.Name)
 	}
 	return b.String()
 }
@@ -302,9 +348,10 @@ func (t *FFmpegTranscoder) TranscodeVideo(ctx context.Context, srcPath string, a
 	if err != nil {
 		return TranscodeResult{}, err
 	}
-	rungs := pickRungs(info.Height)
+	portrait := info.Height > info.Width
+	rungs := pickRungs(min(info.Width, info.Height))
 	if len(rungs) == 0 {
-		return TranscodeResult{}, fmt.Errorf("media: could not determine an HLS ladder for source height %d", info.Height)
+		return TranscodeResult{}, fmt.Errorf("media: could not determine an HLS ladder for source %dx%d", info.Width, info.Height)
 	}
 
 	dir, err := os.MkdirTemp("", "media-video-*")
@@ -319,7 +366,7 @@ func (t *FFmpegTranscoder) TranscodeVideo(ctx context.Context, srcPath string, a
 		if err := os.MkdirAll(rungDir, 0o755); err != nil {
 			return TranscodeResult{}, fmt.Errorf("media: mkdir rung dir: %w", err)
 		}
-		cmd := exec.CommandContext(ctx, t.ffmpegBin(), buildHLSRungArgs(srcPath, rungDir, r, hlsSegmentSeconds)...)
+		cmd := exec.CommandContext(ctx, t.ffmpegBin(), buildHLSRungArgs(srcPath, rungDir, r, hlsSegmentSeconds, portrait)...)
 		if out, err := cmd.CombinedOutput(); err != nil {
 			return TranscodeResult{}, fmt.Errorf("media: ffmpeg encode rung %s: %w: %s", r.Name, err, out)
 		}
