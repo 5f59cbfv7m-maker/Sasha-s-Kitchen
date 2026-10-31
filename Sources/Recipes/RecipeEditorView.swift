@@ -79,15 +79,7 @@ struct RecipeEditorView: View {
                                 .frame(width: 24)
                             Text(draft.product.name)
                             Spacer()
-                            TextField("0", value: $draft.amount,
-                                      format: Fmt.amountStyle)
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                                .monospacedDigit()
-                                .frame(maxWidth: 80)
-                            Text(Fmt.unit(draft.product.unit))
-                                .foregroundStyle(.secondary)
-                                .frame(minWidth: 30, alignment: .leading)
+                            AmountField(amount: $draft.amount, unit: draft.product.unit, width: 80)
                         }
                     }
                     .onDelete { drafts.remove(atOffsets: $0) }

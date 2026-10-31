@@ -25,17 +25,54 @@ enum Fmt {
         localizedData(name)
     }
 
+    /// Граммы и миллилитры в американских единицах показываются в oz/lb и
+    /// tsp/tbsp/cups/qt — по величине. Хранится всё равно в метрических.
     nonisolated static func amount(_ value: Double, unit: String,
                                    locale: Locale = .autoupdatingCurrent) -> String {
-        "\(number(value, locale: locale)) \(self.unit(unit, locale: locale))"
+        if UnitSystem.usesUS(locale: locale) {
+            let style = Measurement<Dimension>.FormatStyle(width: .abbreviated, locale: locale, usage: .asProvided,
+                                                          numberFormatStyle: .number.precision(.fractionLength(0...1)).locale(locale))
+            switch unit {
+            case UnitCode.gram:
+                let grams = Measurement<Dimension>(value: value, unit: UnitMass.grams)
+                return grams.converted(to: value >= 453.592 ? UnitMass.pounds : UnitMass.ounces).formatted(style)
+            case UnitCode.milliliter:
+                let target: UnitVolume = value < 14.787 ? .teaspoons : value < 59.15 ? .tablespoons
+                    : value < 946.35 ? .cups : .quarts
+                // Сокращение чашки — невнятное «c», поэтому чашки пишем словом.
+                var volumeStyle = style
+                if target == .cups { volumeStyle.width = .wide }
+                return Measurement<Dimension>(value: value, unit: UnitVolume.milliliters).converted(to: target)
+                    .formatted(volumeStyle)
+            default:
+                break
+            }
+        }
+        return "\(number(value, locale: locale)) \(self.unit(unit, locale: locale))"
+    }
+
+    /// Единица, в которой количество вводится, и сколько в ней единиц базы:
+    /// в американских — унции и жидкие унции, иначе — сама единица продукта.
+    nonisolated static func inputUnit(_ code: String,
+                                      locale: Locale = .autoupdatingCurrent) -> (label: String, base: Double) {
+        guard UnitSystem.usesUS(locale: locale) else { return (unit(code, locale: locale), 1) }
+        let formatter = MeasurementFormatter()
+        formatter.locale = locale
+        formatter.unitStyle = .short
+        switch code {
+        case UnitCode.gram: return (formatter.string(from: UnitMass.ounces), 28.349523125)
+        case UnitCode.milliliter: return (formatter.string(from: UnitVolume.fluidOunces), 29.5735295625)
+        default: return (unit(code, locale: locale), 1)
+        }
     }
 
     nonisolated static func kcal(_ value: Double, locale: Locale = .autoupdatingCurrent) -> String {
         "\(integer(Int(value.rounded()), locale: locale)) \(localizedData("ккал", locale: locale))"
     }
 
+    /// Граммы КБЖУ — граммы и в американских единицах, как на этикетках в США.
     nonisolated static func grams(_ value: Double, locale: Locale = .autoupdatingCurrent) -> String {
-        amount(value, unit: UnitCode.gram, locale: locale)
+        "\(number(value, locale: locale)) \(unit(UnitCode.gram, locale: locale))"
     }
 
     /// Формат для `TextField(value:format:)`: десятичный разделитель — тот,
@@ -65,6 +102,21 @@ enum Fmt {
               let path = Bundle.main.path(forResource: code, ofType: "lproj"),
               let bundle = Bundle(path: path) else { return key }
         return bundle.localizedString(forKey: key, value: key, table: "Data")
+    }
+}
+
+/// Метрические или американские единицы — выбор в настройках, по умолчанию
+/// как в регионе устройства (американские — в США).
+nonisolated enum UnitSystem: String, CaseIterable {
+    case automatic, metric, us
+    static let key = "unitSystem"
+
+    static func usesUS(locale: Locale = .autoupdatingCurrent) -> Bool {
+        switch UnitSystem(rawValue: UserDefaults.standard.string(forKey: key) ?? "") ?? .automatic {
+        case .automatic: locale.measurementSystem == .us
+        case .metric: false
+        case .us: true
+        }
     }
 }
 

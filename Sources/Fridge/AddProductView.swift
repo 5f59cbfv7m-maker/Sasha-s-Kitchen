@@ -92,7 +92,7 @@ struct AddProductView: View {
 
                 Section("Единица измерения") {
                     Picker("Единица", selection: $unit) {
-                        ForEach(UnitCode.all, id: \.self) { Text(Fmt.unit($0)).tag($0) }
+                        ForEach(UnitCode.all, id: \.self) { Text(Fmt.inputUnit($0).label).tag($0) }
                     }
                     .pickerStyle(.segmented)
                     if unit == UnitCode.piece {
@@ -101,10 +101,10 @@ struct AddProductView: View {
                 }
 
                 Section("КБЖУ на 100 г") {
-                    numberField("Калорийность", value: $calories, unit: "ккал")
-                    numberField("Белки", value: $protein, unit: UnitCode.gram)
-                    numberField("Жиры", value: $fat, unit: UnitCode.gram)
-                    numberField("Углеводы", value: $carbs, unit: UnitCode.gram)
+                    numberField("Калорийность", value: $calories, unit: "ккал", converts: false)
+                    numberField("Белки", value: $protein, unit: UnitCode.gram, converts: false)
+                    numberField("Жиры", value: $fat, unit: UnitCode.gram, converts: false)
+                    numberField("Углеводы", value: $carbs, unit: UnitCode.gram, converts: false)
                 }
 
                 Section {
@@ -160,18 +160,11 @@ struct AddProductView: View {
     }
 
     private func numberField(_ title: LocalizedStringKey, value: Binding<Double>,
-                             unit: String) -> some View {
+                             unit: String, converts: Bool = true) -> some View {
         HStack {
             Text(title)
             Spacer()
-            TextField("0", value: value, format: Fmt.amountStyle)
-                .keyboardType(.decimalPad)
-                .multilineTextAlignment(.trailing)
-                .monospacedDigit()
-                .frame(maxWidth: 110)
-            Text(Fmt.unit(unit))
-                .foregroundStyle(.secondary)
-                .frame(minWidth: 40, alignment: .leading)
+            AmountField(amount: value, unit: unit, width: 110, converts: converts)
         }
     }
 

@@ -17,21 +17,14 @@ struct AdjustStockView: View {
         NavigationStack {
             Form {
                 Section("Остаток") {
-                    HStack {
-                        TextField("Количество", value: $amount,
-                                  format: Fmt.amountStyle)
-                            .keyboardType(.decimalPad)
-                            .multilineTextAlignment(.trailing)
-                            .monospacedDigit()
-                        Text(Fmt.unit(unit)).foregroundStyle(.secondary)
-                    }
+                    AmountField(amount: $amount, unit: unit, width: .infinity, placeholder: "Количество")
                     HStack(spacing: 8) {
                         ForEach(quickSteps, id: \.self) { step in
                             Button {
                                 amount += step
                                 Feedback.shared.play(.added)
                             } label: {
-                                Text(verbatim: "+\(Fmt.number(step))")
+                                Text(verbatim: "+" + Fmt.amount(step, unit: unit))
                             }
                             .buttonStyle(.bordered)
                         }
@@ -79,7 +72,10 @@ struct AdjustStockView: View {
 
     /// Шаги подгоняются под единицу: штуки прибавляем по одной, граммы — сотнями.
     private var quickSteps: [Double] {
-        unit == UnitCode.piece ? [1, 5, 10] : [50, 100, 500]
+        let input = Fmt.inputUnit(unit)
+        if unit == UnitCode.piece { return [1, 5, 10] }
+        // В американских единицах — круглые унции, а не 50 г = 1,8 oz.
+        return input.base == 1 ? [50, 100, 500] : [4, 8, 16].map { $0 * input.base }
     }
 
     private func save() {

@@ -241,6 +241,11 @@ UI = [
     "Dates de péremption",
     "Les notifications de Sasha’s Kitchen sont désactivées dans les réglages de l’appareil — autorisez-les là-bas.",
     "La veille de la date de péremption, une notification vous indique ce qui va se gâter et ce que vous pouvez en faire. À activer sur chaque appareil.",
+    "Unités",
+    "Comme le système",
+    "Métriques — g, ml",
+    "Américaines — oz, cups",
+    "Les produits sont enregistrés en grammes et millilitres ; ce choix ne change que l’affichage et la saisie des quantités. Les valeurs nutritionnelles restent pour 100 g.",
 ]
 
 SEED = [
